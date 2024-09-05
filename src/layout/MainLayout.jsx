@@ -9,7 +9,7 @@ const MainLayout = () => {
     <>
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="ml-0 lg:ml-[260px] h-screen pt-[80px] pl-4 transition-all bg-slate-100">
+      <div className="ml-0 lg:ml-[260px] h-screen pt-[80px] pl-4 pr-4 transition-all bg-slate-100">
         <Outlet />
       </div>
     </>

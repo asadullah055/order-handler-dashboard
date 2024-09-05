@@ -6,7 +6,7 @@ export const allNav = [
     id: 1,
     title: "Dashboard",
     icon: RxDashboard,
-    path: "/home",
+    path: "/",
   },
   {
     id: 2,
@@ -14,21 +14,16 @@ export const allNav = [
     icon: MdAdd,
     path: "/order",
   },
-  {
-    id: 3,
-    title: "Dashboard",
-    icon: AiFillDashboard,
-    path: "/add",
-  },
+ 
   {
     id: 4,
-    title: "Orders1",
+    title: "Orders",
     icon: AiOutlineShoppingCart,
     children: [
       {
         id: "4-1",
-        title: "Sub Order 1",
-        path: "/nai/sub1",
+        title: "All Orders",
+        path: "/all-orders",
       },
       {
         id: "4-2",
