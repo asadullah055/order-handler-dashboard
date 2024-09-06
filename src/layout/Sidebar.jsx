@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getNavs } from "../navigation";
 
@@ -8,7 +9,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [allNav, setAllNav] = useState([]);
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
-
+  const { orders } = useSelector((state) => state.order);
   useEffect(() => {
     const navs = getNavs();
     setAllNav(navs);
@@ -94,9 +95,16 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                               <GoDotFill />
                               <span>{child.title}</span>
                             </span>
-                            <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
-                              10
-                            </span>
+
+                            {nav.children && child.title === "All Orders" ? (
+                              <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
+                                {orders?.totalItem}
+                              </span>
+                            ) : (
+                              <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
+                                0
+                              </span>
+                            )}
                           </div>
                         </Link>
                       </li>
