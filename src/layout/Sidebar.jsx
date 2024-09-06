@@ -10,6 +10,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
   const { orders } = useSelector((state) => state.order);
+  const { allOrder } = useSelector((state) => state.filter);
+
   useEffect(() => {
     const navs = getNavs();
     setAllNav(navs);
@@ -98,7 +100,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
                             {nav.children && child.title === "All Orders" ? (
                               <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
-                                {orders?.totalItem}
+                                {allOrder}
                               </span>
                             ) : (
                               <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">

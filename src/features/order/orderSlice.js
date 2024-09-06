@@ -26,7 +26,7 @@ export const get_single_order = createAsyncThunk(
   async (orderNumber, { fulfillWithValue, rejectWithValue }) => {
     try {
       const order = await getSingleOrder(orderNumber);
-      console.log("data===", order);
+  
       return fulfillWithValue(order);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -38,7 +38,7 @@ export const get_all_order = createAsyncThunk(
   async ({ pageNo, perPage }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const order = await getAllOrder({ pageNo, perPage });
-      console.log("data===", order);
+  
       return fulfillWithValue(order);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -78,7 +78,12 @@ const orderSlice = createSlice({
         state.isError = true;
         state.isLoading = false;
         state.error = action.payload?.message;
-      });
+      })
+      .addCase(get_single_order.fulfilled, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.order = action.payload.order;
+      })
   },
 });
 export default orderSlice.reducer;

@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
 import { lazy } from "react";
-import SingleOrder from "../../pages/orders/SingleOrder";
+import DetailsOrder from "../../pages/orders/DetailsOrder";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
 
 const Dashboard = lazy(() => import("../../pages/Dashboard"));
@@ -23,7 +23,7 @@ export const allRoutes = [
   },
   {
     path: "/order/:orderNumber",
-    element: <SingleOrder />,
+    element: <DetailsOrder />,
   },
   {
     path: "/update/:orderNumber",

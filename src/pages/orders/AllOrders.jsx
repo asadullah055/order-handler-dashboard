@@ -18,7 +18,7 @@ const AllOrders = () => {
   }, []);
 
   return (
-    <div className="rounded-md lg:w-[90%] mx-auto bg-white border border-teal-500 ">
+    <div className="rounded-md lg:w-[90%] mx-auto bg-white border p-2 border-gray-200 ">
       <div className="relative overflow-x-auto">
         <table className="text-sm text-left font-poppin text-black  w-full">
           <thead className="text-sm uppercase border-b bg-gray-200">
@@ -94,13 +94,13 @@ const AllOrders = () => {
                     <div className="flex gap-2">
                       <Link
                         to={`/order/${order.orderNumber}`}
-                        className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg flex justify-center items-center"
+                        className="p-[6px] w-[30px] bg-teal-500 rounded hover:shadow-lg flex justify-center items-center"
                       >
                         <FaEye />
                       </Link>
                       <Link
                         to={`/update/${order.orderNumber}`}
-                        className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg flex justify-center items-center"
+                        className="p-[6px] w-[30px] bg-yellow-500 text-white rounded hover:shadow-lg flex justify-center items-center"
                       >
                         <FaRegEdit />
                       </Link>
