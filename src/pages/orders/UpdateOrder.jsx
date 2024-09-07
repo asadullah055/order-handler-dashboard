@@ -136,7 +136,7 @@ const UpdateOrder = () => {
                     name="claim"
                     value={formData.claim}
                     onChange={handleInputChange}
-                    className="w-[50%] focus:outline-slate-200 border rounded p-3"
+                    className="w-full focus:outline-slate-200 border rounded p-3"
                   >
                     <option value="">--select--</option>
                     <option value="Yes">Yes</option>
@@ -174,7 +174,7 @@ const UpdateOrder = () => {
                     name="approvedOrReject"
                     value={formData.approvedOrReject}
                     onChange={handleInputChange}
-                    className="w-[50%] focus:outline-slate-200 border rounded p-3"
+                    className="w-full  focus:outline-slate-200 border rounded p-3"
                   >
                     <option value="">--select--</option>
                     <option value="Approve">Approve</option>
