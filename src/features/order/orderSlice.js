@@ -1,10 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addOrder, getAllOrder, getSingleOrder } from "./orderApi";
+import {
+  addOrder,
+  getAllOrder,
+  getSingleOrder,
+  updateSingleOrder,
+} from "./orderApi";
 
 const initialState = {
   isError: false,
   orders: [],
-  order: '',
+  order: "",
   isLoading: false,
   error: "",
 };
@@ -26,7 +31,7 @@ export const get_single_order = createAsyncThunk(
   async (orderNumber, { fulfillWithValue, rejectWithValue }) => {
     try {
       const order = await getSingleOrder(orderNumber);
-  
+
       return fulfillWithValue(order);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -38,7 +43,19 @@ export const get_all_order = createAsyncThunk(
   async ({ pageNo, perPage }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const order = await getAllOrder({ pageNo, perPage });
-  
+
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const update_single_order = createAsyncThunk(
+  "order/update_single_order",
+  async ({ orderNumber, data }, { fulfillWithValue, rejectWithValue }) => {
+    
+    try {
+      const order = await updateSingleOrder({ orderNumber, data });
       return fulfillWithValue(order);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -83,7 +100,7 @@ const orderSlice = createSlice({
         state.isError = true;
         state.isLoading = false;
         state.order = action.payload.order;
-      })
+      });
   },
 });
 export default orderSlice.reducer;

@@ -65,9 +65,16 @@ const AllOrders = () => {
                   </td>
                   <td
                     scope="row"
-                    className="py-2 px-2 font-medium whitespace-nowrap"
+                    className="py-1 px-2 font-medium whitespace-nowrap"
                   >
-                    <span className="capitalize">{order.orderStatus}</span>
+                    <span
+                      className={`capitalize p-2 rounded-md ${
+                        order.orderStatus === "Delivery Failed" &&
+                        "bg-red-500 text-white"
+                      } `}
+                    >
+                      {order.orderStatus}
+                    </span>
                   </td>
                   <td
                     scope="row"

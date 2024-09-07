@@ -3,6 +3,7 @@
 import { lazy } from "react";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
+import UpdateBulkOrders from "./../../pages/orders/UpdateBulkOrders";
 
 const Dashboard = lazy(() => import("../../pages/Dashboard"));
 const Order = lazy(() => import("../../pages/Order"));
@@ -14,7 +15,7 @@ export const allRoutes = [
     element: <Dashboard />,
   },
   {
-    path: "/order",
+    path: "/add-order",
     element: <Order />,
   },
   {
@@ -28,5 +29,9 @@ export const allRoutes = [
   {
     path: "/update/:orderNumber",
     element: <UpdateOrder />,
+  },
+  {
+    path: "/update-orders",
+    element: <UpdateBulkOrders />,
   },
 ];

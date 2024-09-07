@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import UpdateTr from "../../components/table/UpdateTr";
-import { get_single_order } from "../../features/order/orderSlice";
+import {
+  get_single_order,
+  update_single_order,
+} from "../../features/order/orderSlice";
 
 const UpdateOrder = () => {
   const dispatch = useDispatch();
@@ -62,8 +65,7 @@ const UpdateOrder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(updateOrderInDB({ orderNumber, ...formData }));
-    console.log(orderNumber, formData);
+    dispatch(update_single_order({ orderNumber, data: formData }));
   };
 
   return (
@@ -101,14 +103,15 @@ const UpdateOrder = () => {
                     onChange={handleInputChange}
                     className="w-full p-3 focus:outline-slate-200 border rounded"
                   >
-                    <option value="">Select One</option>
-                    <option>Delivered</option>
-                    <option>Delivery Failed</option>
-                    <option>Return</option>
-                    <option>Not Drop</option>
-                    <option>Item Loss</option>
-                    <option>Scraped</option>
-                    <option>No Return Yet</option>
+                    {/* <option value="">--select--</option> */}
+                    <option value="transit">Transit</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Delivery Failed">Delivery Failed</option>
+                    <option value="Return">Return</option>
+                    <option value="Not Drop">Not Drop</option>
+                    <option value="Item Loss">Item Loss</option>
+                    <option value="Scraped">Scraped</option>
+                    <option value="No Return Yet">No Return Yet</option>
                   </select>
                 </td>
               </tr>

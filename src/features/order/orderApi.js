@@ -12,3 +12,7 @@ export const getSingleOrder = async (orderNumber) => {
   const response = await axiosInstance.get(`order/${orderNumber}`);
   return response.data;
 };
+export const updateSingleOrder = async ({orderNumber,data}) => {
+  const response = await axiosInstance.put(`update-single-order/${orderNumber}`, data);
+  return response.data;
+};

@@ -1,5 +1,6 @@
 import { AiFillDashboard, AiOutlineShoppingCart } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
+import { RiFileEditLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 
 export const allNav = [
@@ -13,7 +14,13 @@ export const allNav = [
     id: 2,
     title: "Add Orders",
     icon: MdAdd,
-    path: "/order",
+    path: "/add-order",
+  },
+  {
+    id: 3,
+    title: "Update Orders",
+    icon: RiFileEditLine ,
+    path: "/update-orders",
   },
  
   {
@@ -28,18 +35,18 @@ export const allNav = [
       },
       {
         id: "4-2",
-        title: "Sub Order 2",
-        path: "/nai/sub2",
+        title: "Delivery Failed",
+        path: "/",
       },
       {
         id: "4-5",
-        title: "Sub Order 1",
-        path: "/nai/sub5",
+        title: "Unsettled order",
+        path: "/",
       },
       {
         id: "4-3",
-        title: "Sub Order 2",
-        path: "/nai/sub",
+        title: "Return",
+        path: "/",
       },
     ],
   },

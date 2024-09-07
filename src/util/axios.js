@@ -1,7 +1,8 @@
 import axios from "axios";
-// http://localhost:4000
+const local= "http://localhost:4000"
+const production = "https://order-handler-dashboard-back.vercel.app/"
 const axiosInstance = axios.create({
-  baseURL: "https://order-handler-dashboard-back.vercel.app/",
+  baseURL: production,
   withCredentials: true,
 });
 
