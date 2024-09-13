@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import LoadingBtn from "../components/LoadingBtn";
-import { create_order } from "../features/order/orderSlice";
+import { create_order, messageClear } from "../features/order/orderSlice";
 
 const Order = () => {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { orders } = useSelector((state) => state.order);
+  const navigate = useNavigate();
+  const { successMessage, errorMessage, isLoading } = useSelector(
+    (state) => state.order
+  );
   const [date, setDate] = useState("");
 
   const [textareaValue, setTextareaValue] = useState("");
@@ -30,9 +34,22 @@ const Order = () => {
         date,
       }));
     dispatch(create_order(newOrders));
-    setTextareaValue("");
   };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      setTextareaValue("");
+      dispatch(messageClear());
+      setTimeout(() => {
+        navigate("/all-orders");
+      }, 500);
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
 
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
   return (
     <div className="flex justify-center mt-5">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
@@ -52,10 +69,10 @@ const Order = () => {
           onChange={(e) => setTextareaValue(e.target.value)}
         ></textarea>
         <button
-          disabled={loading}
+          disabled={isLoading}
           className="bg-[#00b795] font-poppin text-white font-medium px-3 py-2 rounded-md"
         >
-          {loading ? <LoadingBtn /> : "Submit"}
+          {isLoading ? <LoadingBtn /> : "Submit"}
         </button>
       </form>
     </div>

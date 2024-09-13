@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import LoadingBtn from "../../components/LoadingBtn";
 import UpdateTr from "../../components/table/UpdateTr";
 import {
   get_single_order,
+  messageClear,
   update_single_order,
 } from "../../features/order/orderSlice";
 
 const UpdateOrder = () => {
   const dispatch = useDispatch();
-  const { order } = useSelector((state) => state.order);
+  const navigate = useNavigate();
+  const { order, successMessage, errorMessage, isLoading } = useSelector(
+    (state) => state.order
+  );
   const { orderNumber } = useParams();
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toISOString().split("T")[0] : "";
@@ -67,6 +73,22 @@ const UpdateOrder = () => {
     e.preventDefault();
     dispatch(update_single_order({ orderNumber, data: formData }));
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+
+      dispatch(messageClear());
+      setTimeout(() => {
+        navigate("/all-orders");
+      }, 500);
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div className="rounded-md lg:w-[70%] md:w-[80%] mx-auto bg-white p-2">
@@ -227,15 +249,16 @@ const UpdateOrder = () => {
                   <div className="flex justify-between w-[90%] gap-4">
                     <button
                       type="button"
-                      className="p-2 bg-red-500 rounded-md w-1/2"
+                      className="p-2 bg-red-500 text-white rounded-md w-1/2"
                     >
                       Cancel
                     </button>
                     <button
+                      disabled={isLoading}
                       type="submit"
                       className="p-2 bg-emerald-500 text-white rounded-md w-1/2"
                     >
-                      Update
+                      {isLoading ? <LoadingBtn /> : "Update"}
                     </button>
                   </div>
                 </td>

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import { get_all_order } from "../../features/order/orderSlice";
 import { formatDate } from "../../util/dateFormater";
+import { getOrderStatusClass } from "../../util/statusColor";
 import { get_order_number } from "./../../features/filter/filterSlice";
 
 const AllOrders = () => {
@@ -44,11 +45,12 @@ const AllOrders = () => {
   useEffect(() => {
     dispatch(get_order_number());
   }, [dispatch]);
-  /*   const handleSearch = () => {
-    console.log(orderNumber);
-    dispatch(get_single_order(orderNumber));
+  const reset = () => {
+    setStatus("");
+    setClaim("");
+    setClaimApproved("");
+    setOrderNumber("");
   };
-  console.log(order); */
 
   let content = null;
 
@@ -116,10 +118,9 @@ const AllOrders = () => {
                   </td>
                   <td className="py-1 px-2 font-medium whitespace-nowrap">
                     <span
-                      className={`capitalize p-2 rounded-md ${
-                        order.orderStatus === "Delivery Failed" &&
-                        "bg-red-500 text-white"
-                      }`}
+                      className={`capitalize p-2 rounded-md ${getOrderStatusClass(
+                        order.orderStatus
+                      )}`}
                     >
                       {order.orderStatus}
                     </span>
@@ -247,13 +248,13 @@ const AllOrders = () => {
                 placeholder="Order number"
               />
 
-              {/* <button
+              <button
                 type="button"
-                // onClick={handleSearch}
-                className="bg-[#00b795] font-poppin text-white font-medium px-3 py-2 rounded-md"
+                onClick={reset}
+                className="bg-red-500 font-poppin text-white font-medium px-3 py-2 rounded-md"
               >
-                Search
-              </button> */}
+                Reset
+              </button>
             </div>
           </div>
         </div>
