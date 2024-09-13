@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 const UpdateBulkOrders = () => {
-  const [loading, setLoading] = useState(false);
   //   const dispatch = useDispatch();
   //   const { orders } = useSelector((state) => state.order);
   const [status, setStatus] = useState("");
 
   const [textareaValue, setTextareaValue] = useState("");
+  const [date, setDate] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +14,6 @@ const UpdateBulkOrders = () => {
     if (!textareaValue.trim()) {
       return;
     }
-    console.log(textareaValue);
 
     const newOrders = textareaValue
       .trim()
@@ -38,16 +37,22 @@ const UpdateBulkOrders = () => {
           name="orderStatus"
           className="w-full p-3 focus:outline-slate-200 border rounded"
         >
-          <option value="">--select--</option>
-          <option value="transit">Transit</option>
+          <option className="text-center" value="">
+            --select--
+          </option>
+
           <option value="Delivered">Delivered</option>
           <option value="Delivery Failed">Delivery Failed</option>
-          <option value="Return">Return</option>
-          <option value="Not Drop">Not Drop</option>
-          <option value="Item Loss">Item Loss</option>
-          <option value="Scraped">Scraped</option>
-          <option value="No Return Yet">No Return Yet</option>
         </select>
+        {status === "Delivery Failed" && (
+          <input
+            className="rounded-md p-2 border border-teal-500 focus:border-teal-500 focus:outline-none"
+            type="date"
+            name="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        )}
         <textarea
           cols={40}
           rows={15}

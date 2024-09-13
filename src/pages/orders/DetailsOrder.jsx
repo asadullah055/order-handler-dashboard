@@ -69,9 +69,12 @@ const DetailsOrder = () => {
             />
             <TableTr title="DF Mail Date" values={formatDate(dfMailDate)} />
             <TableTr title="Receive Date" values={formatDate(receivedDate)} />
-            <TableTr title="Claim" values={claim} />
-            <TableTr title="Claim Type" values={claimType} />
-            <TableTr title="CSMD" values={csmd} />
+            <TableTr title="Claim" values={claim ? claim : "No Claim"} />
+            <TableTr
+              title="Claim Type"
+              values={claimType ? claimType : "No Claim"}
+            />
+            <TableTr title="CSMD" values={csmd ? csmd : "No"} />
             <TableTr title="Case Number" values={caseNumber} />
             <TableTr title="Claim Approve" values={approvedOrReject} />
             <TableTr title="A/R Mail Date" values={arMailDate} />
@@ -79,6 +82,25 @@ const DetailsOrder = () => {
             <TableTr title="Invoice Cycle" values={statementNoOrInvoiceCycle} />
             <TableTr title="Comment" values={comment} />
             <TableTr title="Complain Details" values={complainDetails} />
+            <tr className="border">
+              <td></td>
+              <td className="p-1 font-medium border">
+                <div className="flex justify-between w-[90%] gap-4">
+                  <Link
+                    to={"/all-orders"}
+                    className="p-2 text-center bg-red-500 rounded-md w-1/2"
+                  >
+                    Back All Order
+                  </Link>
+                  <Link
+                    to={`/update/${orderNumber}`}
+                    className="p-2 text-center bg-emerald-500 text-white rounded-md w-1/2"
+                  >
+                    Update
+                  </Link>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

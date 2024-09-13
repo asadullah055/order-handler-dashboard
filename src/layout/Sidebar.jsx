@@ -9,7 +9,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [allNav, setAllNav] = useState([]);
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
-  const { orders } = useSelector((state) => state.order);
+
   const { allOrder } = useSelector((state) => state.filter);
 
   useEffect(() => {

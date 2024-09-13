@@ -40,9 +40,9 @@ export const get_single_order = createAsyncThunk(
 );
 export const get_all_order = createAsyncThunk(
   "order/get_all_order",
-  async ({ pageNo, perPage }, { fulfillWithValue, rejectWithValue }) => {
+  async ({ pageNo, perPage, orderStatus,claim,claimType,orderNumber }, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const order = await getAllOrder({ pageNo, perPage });
+      const order = await getAllOrder({ pageNo, perPage, orderStatus,claim,claimType,orderNumber });
 
       return fulfillWithValue(order);
     } catch (error) {

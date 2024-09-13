@@ -18,7 +18,7 @@ export const allNav = [
   },
   {
     id: 3,
-    title: "Update Orders",
+    title: "Bulk Update",
     icon: RiFileEditLine ,
     path: "/update-orders",
   },

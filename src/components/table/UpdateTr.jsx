@@ -3,7 +3,7 @@ import React from "react";
 const UpdateTr = ({ title, type, name, value, placeholder, onChange }) => {
   return (
     <tr className="border">
-      <td scope="row" className="p-1 font-medium border whitespace-nowrap">
+      <td scope="row" className="p-3 font-medium border whitespace-nowrap">
         {title}
       </td>
       <td scope="row" className="p-1 font-medium border whitespace-nowrap">
