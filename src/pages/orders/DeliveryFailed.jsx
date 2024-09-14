@@ -9,14 +9,16 @@ import { formatDate } from "../../util/dateFormater";
 import { getOrderStatusClass } from "../../util/statusColor";
 import { get_order_number } from "./../../features/filter/filterSlice";
 
-const AllOrders = () => {
-  const { orders, isLoading } = useSelector((state) => state.order);
+const DeliveryFailed = () => {
+  const { orders, isLoading, order, totalItem } = useSelector(
+    (state) => state.order
+  );
 
   const dispatch = useDispatch();
   const [perPage, setPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [showItem, setShowItem] = useState(5);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Delivery Failed");
   const [claim, setClaim] = useState("");
   const [claimApproved, setClaimApproved] = useState("");
   const [orderNumber, setOrderNumber] = useState("");
@@ -24,8 +26,8 @@ const AllOrders = () => {
   useEffect(() => {
     dispatch(
       get_all_order({
-        perPage: parseInt(perPage, 10),
-        pageNo: parseInt(currentPage, 10),
+        perPage: parseInt(perPage),
+        pageNo: parseInt(currentPage),
         orderStatus: status,
         claim,
         claimType: claimApproved,
@@ -198,8 +200,11 @@ const AllOrders = () => {
   return (
     <div className="rounded-md lg:w-[90%] mx-auto p-2">
       <div className="bg-white p-2 mt-2 mb-3 rounded">
+        <h1 className="text-teal-500 text-2xl font-semibold text-center">
+          Delivery Failed Orders ({orders?.totalItem})
+        </h1>
         {/* <OrderFilter /> */}
-        <div>
+        {/* <div>
           <div className="grid md:grid-cols-3 grid-cols-1 gap-3 p-2">
             <div className="flex items-center gap-2">
               <h2 className="w-[50%] md:w-fit">Status</h2>
@@ -276,7 +281,7 @@ const AllOrders = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Responsive table container */}
@@ -287,4 +292,4 @@ const AllOrders = () => {
   );
 };
 
-export default AllOrders;
+export default DeliveryFailed;

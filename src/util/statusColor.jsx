@@ -16,3 +16,13 @@ export const getOrderStatusClass = (orderStatus) => {
       return "bg-gray-200";
   }
 };
+
+export const getOrderCount = (title, allOrder, totalDF) => {
+  if (title === "All Orders") {
+    return allOrder;
+  } else if (title === "Delivery Failed") {
+    return totalDF;
+  } else {
+    return 0;
+  }
+};

@@ -3,6 +3,7 @@ import {
   addOrder,
   getAllOrder,
   getSingleOrder,
+  updateBulkOrder,
   updateSingleOrder,
 } from "./orderApi";
 
@@ -73,6 +74,18 @@ export const update_single_order = createAsyncThunk(
     }
   }
 );
+export const update_Bulk_order = createAsyncThunk(
+  "order/update_Bulk_order",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const order = await updateBulkOrder(data);
+      console.log(order);
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "order",
@@ -133,8 +146,8 @@ const orderSlice = createSlice({
       .addCase(update_single_order.pending, (state, action) => {
         state.isError = false;
         state.isLoading = true;
-      })
+      });
   },
 });
-export const { messageClear } = orderSlice.actions
+export const { messageClear } = orderSlice.actions;
 export default orderSlice.reducer;

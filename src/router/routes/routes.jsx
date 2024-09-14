@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
 import { lazy } from "react";
+import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
 import UpdateBulkOrders from "./../../pages/orders/UpdateBulkOrders";
@@ -33,5 +34,9 @@ export const allRoutes = [
   {
     path: "/update-orders",
     element: <UpdateBulkOrders />,
+  },
+  {
+    path: "/delivery-failed",
+    element: <DeliveryFailed />,
   },
 ];

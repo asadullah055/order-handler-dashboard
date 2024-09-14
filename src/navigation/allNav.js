@@ -36,7 +36,7 @@ export const allNav = [
       {
         id: "4-2",
         title: "Delivery Failed",
-        path: "/",
+        path: "/delivery-failed",
       },
       {
         id: "4-5",

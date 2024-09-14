@@ -4,13 +4,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getNavs } from "../navigation";
+import { getOrderCount } from "../util/statusColor";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [allNav, setAllNav] = useState([]);
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
 
-  const { allOrder } = useSelector((state) => state.filter);
+  const { allOrder, totalDF } = useSelector((state) => state.filter);
 
   useEffect(() => {
     const navs = getNavs();
@@ -98,15 +99,11 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                               <span>{child.title}</span>
                             </span>
 
-                            {nav.children && child.title === "All Orders" ? (
+                            {
                               <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
-                                {allOrder}
+                                {getOrderCount(child.title, allOrder, totalDF)}
                               </span>
-                            ) : (
-                              <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
-                                0
-                              </span>
-                            )}
+                            }
                           </div>
                         </Link>
                       </li>

@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { update_Bulk_order } from "../../features/order/orderSlice";
 
 const UpdateBulkOrders = () => {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   //   const { orders } = useSelector((state) => state.order);
   const [status, setStatus] = useState("");
 
   const [textareaValue, setTextareaValue] = useState("");
   const [date, setDate] = useState("");
+
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    setDate(formattedDate);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,17 +23,35 @@ const UpdateBulkOrders = () => {
       return;
     }
 
+    const orderSet = new Set();
     const newOrders = textareaValue
       .trim()
       .split(/[\n, ,]+/)
-      .map((item) => ({
-        orderNumber: item.trim(),
-        status,
-      }));
-    console.log(newOrders);
+      .map((item) => item.trim()) // Trim each orderNumber
+      .filter((orderNumber) => {
+        // Filter out duplicate order numbers using a Set
+        if (orderSet.has(orderNumber)) {
+          return false; // Exclude duplicates
+        }
+        orderSet.add(orderNumber);
+        return true;
+      })
+      .map((orderNumber) => {
+        const orderData = {
+          orderNumber,
+          status,
+        };
 
-    // dispatch(create_order(newOrders));
-    setTextareaValue("");
+        // If status is "Delivery Failed", include the date
+        if (status === "Delivery Failed") {
+          orderData.date = date;
+        }
+
+        return orderData;
+      });
+
+    dispatch(update_Bulk_order(newOrders));
+
   };
 
   return (

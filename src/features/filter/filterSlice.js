@@ -4,6 +4,7 @@ import { totalOrder } from "./filterApi";
 
 const initialState = {
   allOrder: 0,
+  totalDF:0
 };
 
 export const get_order_number = createAsyncThunk(
@@ -27,6 +28,7 @@ const filterSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(get_order_number.fulfilled, (state, { payload }) => {
       state.allOrder = payload.totalOrders
+      state.totalDF = payload.totalDF
     }); 
   },
 });

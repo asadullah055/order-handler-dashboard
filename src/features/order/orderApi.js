@@ -35,3 +35,10 @@ export const updateSingleOrder = async ({ orderNumber, data }) => {
   );
   return response.data;
 };
+export const updateBulkOrder = async (data) => {
+  const response = await axiosInstance.put(
+    `update-bulk-order/`,
+    data
+  );
+  return response.data;
+};
