@@ -77,7 +77,7 @@ const DetailsOrder = () => {
             <TableTr title="CSMD" values={csmd ? csmd : "No"} />
             <TableTr title="Case Number" values={caseNumber} />
             <TableTr title="Claim Approve" values={approvedOrReject} />
-            <TableTr title="A/R Mail Date" values={arMailDate} />
+            <TableTr title="A/R Mail Date" values={formatDate(arMailDate)} />
             <TableTr title="Paid Amount" values={paidAmount} />
             <TableTr title="Invoice Cycle" values={statementNoOrInvoiceCycle} />
             <TableTr title="Comment" values={comment} />
