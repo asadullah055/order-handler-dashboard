@@ -8,7 +8,7 @@ const UpdateTr = ({ title, type, name, value, placeholder, onChange }) => {
       </td>
       <td scope="row" className="p-1 font-medium border whitespace-nowrap">
         <input
-          className="w-full p-3 focus:outline-slate-300 border rounded"
+          className="w-full md:w-3/4 p-3 focus:outline-slate-300 border rounded"
           type={type}
           name={name}
           id=""

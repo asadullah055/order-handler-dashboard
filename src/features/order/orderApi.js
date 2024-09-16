@@ -11,6 +11,8 @@ export const getAllOrder = async ({
   claim = "",
   claimType = "",
   orderNumber = "",
+  date='',
+  receivedDate=""
 }) => {
   const response = await axiosInstance.get("/all-order", {
     params: {
@@ -20,6 +22,8 @@ export const getAllOrder = async ({
       claim,
       claimType,
       orderNumber,
+      date,
+      receivedDate
     },
   });
   return response.data;

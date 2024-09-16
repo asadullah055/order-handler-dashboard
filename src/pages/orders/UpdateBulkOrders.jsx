@@ -51,7 +51,6 @@ const UpdateBulkOrders = () => {
       });
 
     dispatch(update_Bulk_order(newOrders));
-
   };
 
   return (

@@ -70,10 +70,7 @@ const DetailsOrder = () => {
             <TableTr title="DF Mail Date" values={formatDate(dfMailDate)} />
             <TableTr title="Receive Date" values={formatDate(receivedDate)} />
             <TableTr title="Claim" values={claim ? claim : "No Claim"} />
-            <TableTr
-              title="Claim Type"
-              values={claimType ? claimType : "No Claim"}
-            />
+            <TableTr title="Claim Type" values="N/A" />
             <TableTr title="CSMD" values={csmd ? csmd : "No"} />
             <TableTr title="Case Number" values={caseNumber} />
             <TableTr title="Claim Approve" values={approvedOrReject} />
@@ -94,7 +91,7 @@ const DetailsOrder = () => {
                   </Link>
                   <Link
                     to={`/update/${orderNumber}`}
-                    className="p-2 text-center bg-emerald-500 text-white rounded-md w-1/2"
+                    className="p-2 text-center bg-emerald-500 text-white rounded-md w-1/2 "
                   >
                     Update
                   </Link>

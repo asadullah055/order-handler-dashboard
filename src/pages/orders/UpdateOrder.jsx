@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import LoadingBtn from "../../components/LoadingBtn";
-import UpdateTr from "../../components/table/UpdateTr";
+import LoadingBtn from "./../../components/LoadingBtn";
+
+import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   get_single_order,
   messageClear,
   update_single_order,
 } from "../../features/order/orderSlice";
+import UpdateTr from "./../../components/table/UpdateTr";
 
 const UpdateOrder = () => {
   const dispatch = useDispatch();
@@ -17,15 +19,20 @@ const UpdateOrder = () => {
     (state) => state.order
   );
   const { orderNumber } = useParams();
+  // date formate
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toISOString().split("T")[0] : "";
   };
+  // handle claim
+  const [claimEntries, setClaimEntries] = useState([
+    { claimName: "", caseNumber: "", claimDate: "" },
+  ]);
+  // form input
   const [formData, setFormData] = useState({
     approvedOrReject: "",
     arMailDate: "",
-    caseNumber: "",
     claim: "",
-    claimType: "",
+    claimType: [{ claimName: "", caseNumber: "", claimDate: "" }],
     comment: "",
     complainDetails: "",
     csmd: "",
@@ -36,15 +43,15 @@ const UpdateOrder = () => {
     receivedDate: "",
     statementNoOrInvoiceCycle: "",
   });
-
+  // load form data
   useEffect(() => {
     if (order) {
       setFormData({
         approvedOrReject: order.approvedOrReject || "",
         arMailDate: formatDate(order.arMailDate),
-        caseNumber: order.caseNumber || "",
+        // caseNumber: order.caseNumber || "",
         claim: order.claim || "",
-        claimType: order.claimType || "",
+        claimType: order.claimType || [],
         comment: order.comment || "",
         complainDetails: order.complainDetails || "",
         csmd: formatDate(order.csmd),
@@ -55,33 +62,73 @@ const UpdateOrder = () => {
         receivedDate: formatDate(order.receivedDate),
         statementNoOrInvoiceCycle: order.statementNoOrInvoiceCycle || "",
       });
+      if (order.claimType && order.claimType.length > 0) {
+        setClaimEntries(order.claimType);
+      } else {
+        const todayDate = new Date().toISOString().split("T")[0];
+        setClaimEntries([
+          {
+            claimName: "",
+            caseNumber: "",
+            claimDate: todayDate,
+          },
+        ]);
+      }
     }
   }, [order]);
-
+  // load single data
   useEffect(() => {
     dispatch(get_single_order(orderNumber));
   }, [orderNumber, dispatch]);
-
+  // handle all input change
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
+  // handle claim change
+  const handleClaimChange = (index, e) => {
+    const newClaims = [...claimEntries];
+    const updatedClaim = { ...newClaims[index] };
+    updatedClaim[e.target.name] = e.target.value;
+    newClaims[index] = updatedClaim;
+    setClaimEntries(newClaims);
+  };
+  // add claim
+  const addClaimEntry = () => {
+    const todayDate = new Date().toISOString().split("T")[0];
+    setClaimEntries([
+      ...claimEntries,
+      { claimName: "", caseNumber: "", claimDate: todayDate },
+    ]);
+  };
+  // delete claim
+  const deleteClaimEntry = (index) => {
+    const newClaims = [...claimEntries];
+    newClaims.splice(index, 1); // Remove the selected entry
+    setClaimEntries(newClaims); // Update the state
+  };
+  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(update_single_order({ orderNumber, data: formData }));
+    dispatch(
+      update_single_order({
+        orderNumber,
+        data: { ...formData, claimType: claimEntries },
+      })
+    );
   };
 
+  // show message
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
 
       dispatch(messageClear());
-      setTimeout(() => {
+      /* setTimeout(() => {
         navigate("/all-orders");
-      }, 500);
+      }, 500); */
     }
     if (errorMessage) {
       toast.error(errorMessage);
@@ -91,7 +138,7 @@ const UpdateOrder = () => {
   }, [successMessage, errorMessage]);
 
   return (
-    <div className="rounded-md lg:w-[70%] md:w-[80%] mx-auto bg-white p-2">
+    <div className="rounded-md w-[80%] mx-auto bg-white p-2">
       <h1 className="text-3xl font-semibold text-center p-3 bg-teal-50 text-teal-500">
         Update Order
       </h1>
@@ -100,8 +147,8 @@ const UpdateOrder = () => {
           <table className="text-sm text-left rounded-md p-2 text-black w-full">
             <thead className="text-sm uppercase border bg-gray-200">
               <tr>
-                <th className="py-3 px-2 border w-[50%]">Title</th>
-                <th className="py-3 px-2 border w-[50%]">Status</th>
+                <th className="py-3 px-2 border w-[30%]">Title</th>
+                <th className="py-3 px-2 border w-[70%]">Status</th>
               </tr>
             </thead>
             <tbody className="[&>:nth-child(odd)]:bg-gray-100">
@@ -123,9 +170,8 @@ const UpdateOrder = () => {
                     name="orderStatus"
                     value={formData.orderStatus}
                     onChange={handleInputChange}
-                    className="w-full p-3 focus:outline-slate-200 border rounded"
+                    className="w-full md:w-3/4 p-3 focus:outline-slate-200 border rounded"
                   >
-                    {/* <option value="">--select--</option> */}
                     <option value="transit">Transit</option>
                     <option value="Delivered">Delivered</option>
                     <option value="Delivery Failed">Delivery Failed</option>
@@ -158,7 +204,7 @@ const UpdateOrder = () => {
                     name="claim"
                     value={formData.claim}
                     onChange={handleInputChange}
-                    className="w-full focus:outline-slate-200 border rounded p-3"
+                    className="w-full md:w-3/4 focus:outline-slate-200 border rounded p-3"
                   >
                     <option value="">--select--</option>
                     <option value="Yes">Yes</option>
@@ -166,67 +212,115 @@ const UpdateOrder = () => {
                   </select>
                 </td>
               </tr>
-              <UpdateTr
-                title={"Claim Type"}
-                type={"text"}
-                name="claimType"
-                value={formData.claimType}
-                placeholder="Claim Type"
-                onChange={handleInputChange}
-              />
-              <UpdateTr
-                title={"CSMD"}
-                type={"date"}
-                name="csmd"
-                value={formData.csmd}
-                onChange={handleInputChange}
-              />
-              <UpdateTr
-                title={"Case Number"}
-                type={"text"}
-                name="caseNumber"
-                value={formData.caseNumber}
-                placeholder="Case Number"
-                onChange={handleInputChange}
-              />
-              <tr className="border">
-                <td className="p-3 font-medium border">Claim Approve</td>
-                <td className="p-1 font-medium border">
-                  <select
-                    name="approvedOrReject"
-                    value={formData.approvedOrReject}
+              {formData.claim === "Yes" && (
+                <>
+                  <tr className="border">
+                    <td
+                      scope="row"
+                      className="p-3 font-medium border whitespace-nowrap"
+                    >
+                      Claim Type
+                    </td>
+                    <td
+                      scope="row"
+                      className="p-1 font-medium border whitespace-nowrap"
+                    >
+                      <div className="grid grid-cols-1">
+                        {claimEntries.map((entry, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-col w-full md:w-3/4 gap-2 mt-2"
+                          >
+                            <select
+                              name="claimName"
+                              value={entry.claimName}
+                              onChange={(e) => handleClaimChange(index, e)}
+                              className="p-2 focus:outline-slate-200 border rounded"
+                            >
+                              <option value="">--select--</option>
+                              <option value="Wrong Item">Wrong Item</option>
+                              <option value="Missing Item">Missing Item</option>
+                              <option value="Score Card">Score Card</option>
+                              <option value="Packaging Damage">
+                                Packaging Damage
+                              </option>
+                              <option value="Damage Item Received">
+                                Damage Item Received
+                              </option>
+                              <option value="Returned item never received">
+                                Returned item never received
+                              </option>
+                              <option value="Penalty Cancellations">
+                                Penalty Cancellations
+                              </option>
+                              <option value="Penalty Returns">
+                                Penalty Returns
+                              </option>
+                            </select>
+
+                            <input
+                              type="text"
+                              name="caseNumber"
+                              value={entry.caseNumber}
+                              onChange={(e) => handleClaimChange(index, e)}
+                              className="border p-2 focus:outline-0"
+                              placeholder="Additional Information"
+                            />
+
+                            <div className="flex items-center justify-between">
+                              <input
+                                type="date"
+                                name="claimDate"
+                                value={entry.claimDate}
+                                onChange={(e) => handleClaimChange(index, e)}
+                                className="border p-2 focus:outline-0 w-full"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => deleteClaimEntry(index)}
+                                className="bg-red-500 text-white p-1 rounded ml-2"
+                              >
+                                <RiDeleteBin6Line />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={addClaimEntry}
+                          className="bg-teal-500 w-[100px] text-white rounded p-2 mt-3"
+                        >
+                          Add More
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <UpdateTr
+                    title={"A/R Mail Date"}
+                    type={"date"}
+                    name="arMailDate"
+                    value={formData.arMailDate}
                     onChange={handleInputChange}
-                    className="w-full  focus:outline-slate-200 border rounded p-3"
-                  >
-                    <option value="">--select--</option>
-                    <option value="Approve">Approve</option>
-                    <option value="Reject">Reject</option>
-                  </select>
-                </td>
-              </tr>
-              <UpdateTr
-                title={"A/R Mail Date"}
-                type={"date"}
-                name="arMailDate"
-                value={formData.arMailDate}
-                onChange={handleInputChange}
-              />
-              <UpdateTr
-                title={"Paid Amount"}
-                type={"text"}
-                name="paidAmount"
-                value={formData.paidAmount}
-                placeholder="Paid Amount"
-                onChange={handleInputChange}
-              />
-              <UpdateTr
-                title={"Invoice Cycle"}
-                type={"text"}
-                name="statementNoOrInvoiceCycle"
-                value={formData.statementNoOrInvoiceCycle}
-                placeholder="Invoice Cycle"
-                onChange={handleInputChange}
-              />
+                  />
+                  <UpdateTr
+                    title={"Paid Amount"}
+                    type={"text"}
+                    name="paidAmount"
+                    value={formData.paidAmount}
+                    placeholder="Paid Amount"
+                    onChange={handleInputChange}
+                  />
+                  <UpdateTr
+                    title={"Invoice Cycle"}
+                    type={"text"}
+                    name="statementNoOrInvoiceCycle"
+                    value={formData.statementNoOrInvoiceCycle}
+                    placeholder="Invoice Cycle"
+                    onChange={handleInputChange}
+                  />
+                </>
+              )}
               <UpdateTr
                 title={"Comment"}
                 type={"text"}
@@ -243,6 +337,7 @@ const UpdateOrder = () => {
                 placeholder="Complain Details"
                 onChange={handleInputChange}
               />
+
               <tr className="border">
                 <td></td>
                 <td className="p-1 font-medium border">
