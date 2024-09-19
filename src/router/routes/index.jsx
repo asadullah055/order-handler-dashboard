@@ -3,8 +3,6 @@ import MainLayout from "../../layout/MainLayout";
 import { allRoutes } from "./routes";
 
 export const getRoutes = () => {
-
-
   return {
     path: "/",
     element: <MainLayout />,

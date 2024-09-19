@@ -101,7 +101,12 @@ const AllOrders = () => {
             orders.orders.map((order, i) => (
               <tr key={i}>
                 <td className="py-2 px-2 font-medium whitespace-nowrap">
-                  {order.orderNumber}
+                  <Link
+                    target="_blank"
+                    to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
+                  >
+                    {order.orderNumber}
+                  </Link>
                 </td>
                 <td className="py-2 px-2 font-medium whitespace-nowrap">
                   {formatDate(order.date)}

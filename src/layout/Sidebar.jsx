@@ -12,6 +12,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [expandedMenu, setExpandedMenu] = useState(null);
 
   const { allOrder, totalDF } = useSelector((state) => state.filter);
+  const { userInfo } = useSelector((state) => state.auth);
+
 
   useEffect(() => {
     const navs = getNavs();
@@ -43,11 +45,11 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         }`}
       >
         {/* shop logo */}
-        <div className="h-[70px] flex justify-center items-center">
-          <Link to="/" className="w-[180px] h-[50px]">
+        <div className="  flex justify-center items-center border pt-3">
+          <Link to="/" className="w-[180px] h-[150px]">
             <img
               className="w-full h-full"
-              src="/images/logo.png"
+              src={userInfo?.shopLogo}
               alt="shop logo"
             />
           </Link>

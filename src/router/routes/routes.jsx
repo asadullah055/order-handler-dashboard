@@ -4,6 +4,7 @@ import { lazy } from "react";
 import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
+import Profile from "../../pages/users/Profile";
 import UpdateBulkOrders from "./../../pages/orders/UpdateBulkOrders";
 
 const Dashboard = lazy(() => import("../../pages/Dashboard"));
@@ -38,5 +39,9 @@ export const allRoutes = [
   {
     path: "/delivery-failed",
     element: <DeliveryFailed />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ];
