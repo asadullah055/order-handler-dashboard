@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { seller_login } from "../../features/auth/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || "/";
 
   const [state, setState] = useState({
     email: "",
@@ -20,16 +18,10 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const result = await dispatch(seller_login(state)).unwrap();
-      if (result) {
-        navigate("/"); // Redirect after successful login
-      }
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+    dispatch(seller_login(state));
+    navigate("/");
   };
   return (
     <div className="min-w-screen min-h-screen flex justify-center items-center">

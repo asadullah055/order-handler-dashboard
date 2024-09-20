@@ -1,4 +1,9 @@
+import Cookies from "js-cookie";
 import axiosInstance from "../../util/axios";
+export const isLogin =()=>{
+  return Cookies.get()
+}
+
 
 export const sellerRegistration = async (data) => {
   const response = await axiosInstance.post("registration", data);

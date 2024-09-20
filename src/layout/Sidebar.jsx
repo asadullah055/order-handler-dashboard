@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getNavs } from "../navigation";
 import { getOrderCount } from "../util/statusColor";
@@ -13,7 +13,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
   const { allOrder, totalDF } = useSelector((state) => state.filter);
   const { userInfo } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const navs = getNavs();

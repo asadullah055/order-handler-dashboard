@@ -1,15 +1,18 @@
 import React from "react";
 import { MdOutlineDirectionsTransitFilled } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import OrderCard from "../components/OrderCard";
 
 const Dashboard = () => {
+  const { token, userInfo } = useSelector((state) => state.auth);
+
   return (
     <div className="px-5 ">
       <div className="py-3 flex justify-between items-center">
         <div>
           <h1 className="text-2xl text-teal-500 font-semibold mb-2 ">
-            Welcome Shop Name
+            Welcome {userInfo?.shopName}
           </h1>
           <p>Monitor your business analytics and statistics.</p>
         </div>

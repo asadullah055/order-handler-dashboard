@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get_seller } from "./features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 import { get_order_number } from "./features/filter/filterSlice";
 import Router from "./router/Router";
 import { getRoutes } from "./router/routes/index";
@@ -9,7 +9,7 @@ function App() {
   const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const routes = getRoutes();
     setAllRoutes([...allRoutes, routes]);
@@ -17,11 +17,13 @@ function App() {
   useEffect(() => {
     dispatch(get_order_number());
   }, [dispatch]);
+
   useEffect(() => {
-    if (token) {
-      dispatch(get_seller());
+    if (!token) {
+      navigate("/login");
     }
-  }, [token, dispatch]);
+  }, [token]);
+
   return (
     <>
       <Router allRoutes={allRoutes} />

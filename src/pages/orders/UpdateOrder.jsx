@@ -25,14 +25,16 @@ const UpdateOrder = () => {
   };
   // handle claim
   const [claimEntries, setClaimEntries] = useState([
-    { claimName: "", caseNumber: "", claimDate: "" },
+    { claimName: "", caseNumber: "", claimDate: "", statusName: "" },
   ]);
   // form input
   const [formData, setFormData] = useState({
     approvedOrReject: "",
     arMailDate: "",
     claim: "",
-    claimType: [{ claimName: "", caseNumber: "", claimDate: "" }],
+    claimType: [
+      { claimName: "", caseNumber: "", claimDate: "", statusName: "" },
+    ],
     comment: "",
     complainDetails: "",
     csmd: "",
@@ -71,6 +73,7 @@ const UpdateOrder = () => {
             claimName: "",
             caseNumber: "",
             claimDate: todayDate,
+            statusName: "",
           },
         ]);
       }
@@ -100,7 +103,7 @@ const UpdateOrder = () => {
     const todayDate = new Date().toISOString().split("T")[0];
     setClaimEntries([
       ...claimEntries,
-      { claimName: "", caseNumber: "", claimDate: todayDate },
+      { claimName: "", caseNumber: "", claimDate: todayDate, statusName: "" },
     ]);
   };
   // delete claim
@@ -138,7 +141,7 @@ const UpdateOrder = () => {
   }, [successMessage, errorMessage]);
 
   return (
-    <div className="rounded-md w-[80%] mx-auto bg-white p-2">
+    <div className="rounded-md w-full lg:w-[80%] mx-auto bg-white p-2">
       <h1 className="text-3xl font-semibold text-center p-3 bg-teal-50 text-teal-500">
         Update Order
       </h1>
@@ -258,15 +261,26 @@ const UpdateOrder = () => {
                               </option>
                             </select>
 
-                            <input
-                              type="text"
-                              name="caseNumber"
-                              value={entry.caseNumber}
-                              onChange={(e) => handleClaimChange(index, e)}
-                              className="border p-2 focus:outline-0"
-                              placeholder="Additional Information"
-                            />
-
+                            <div className="flex flex-col md:flex-row gap-2">
+                              <input
+                                type="text"
+                                name="caseNumber"
+                                value={entry.caseNumber}
+                                onChange={(e) => handleClaimChange(index, e)}
+                                className="border p-2 focus:outline-0 w-full md:w-3/4"
+                                placeholder="Case Number"
+                              />
+                              <select
+                                name="statusName"
+                                value={entry.statusName}
+                                onChange={(e) => handleClaimChange(index, e)}
+                                className="p-2 focus:outline-slate-200 border rounded "
+                              >
+                                <option value="">--select status--</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Reject">Reject</option>
+                              </select>
+                            </div>
                             <div className="flex items-center justify-between">
                               <input
                                 type="date"
@@ -296,6 +310,21 @@ const UpdateOrder = () => {
                     </td>
                   </tr>
 
+                  <tr className="border">
+                    <td className="p-3 font-medium border">Claim Approved</td>
+                    <td className="p-1 font-medium border">
+                      <select
+                        name="approvedOrReject"
+                        value={formData.approvedOrReject}
+                        onChange={handleInputChange}
+                        className="w-full md:w-3/4 focus:outline-slate-200 border rounded p-3"
+                      >
+                        <option value="">--select--</option>
+                        <option value="Approve">Approve</option>
+                        <option value="Reject">Reject</option>
+                      </select>
+                    </td>
+                  </tr>
                   <UpdateTr
                     title={"A/R Mail Date"}
                     type={"date"}

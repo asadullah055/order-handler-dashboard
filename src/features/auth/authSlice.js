@@ -22,18 +22,6 @@ const returnRole = (token) => {
   }
 };
 
-const initialState = {
-  isError: false,
-  seller: "",
-  userInfo: "",
-  isLoading: false,
-  successMessage: "",
-  errorMessage: "",
-  role: returnRole(localStorage.getItem("accessToken")),
-  error: "",
-  token: localStorage.getItem("accessToken"),
-};
-
 export const seller_register = createAsyncThunk(
   "auth/seller_register",
   async (data, { fulfillWithValue, rejectWithValue }) => {
@@ -75,22 +63,27 @@ export const get_seller = createAsyncThunk(
 export const update_seller_profile = createAsyncThunk(
   "auth/update_seller_profile",
   async (data, { fulfillWithValue, rejectWithValue }) => {
-   
-    
     try {
       const seller = await updateSellerProfile(data);
-
-    
 
       return fulfillWithValue(seller);
     } catch (error) {
       console.log(error);
-      
+
       return rejectWithValue(error.response.data);
     }
   }
 );
-
+const initialState = {
+  isError: false,
+  seller: "",
+  userInfo: "",
+  isLoading: false,
+  successMessage: "",
+  errorMessage: "",
+  error: "",
+  token: localStorage.getItem("accessToken") || "",
+};
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -110,8 +103,8 @@ const authSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.seller = payload.sellerWithoutPassword;
+        state.token = payload.token;
         state.successMessage = payload.message;
-        state.role = returnRole(payload.token);
       })
       .addCase(seller_register.rejected, (state, action) => {
         state.isError = true;
@@ -126,8 +119,8 @@ const authSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.seller = payload.sellerWithoutPassword;
+        state.token = payload.token;
         state.successMessage = payload.message;
-        state.role = returnRole(payload.token);
       })
       .addCase(seller_login.rejected, (state, action) => {
         state.isError = true;
@@ -136,7 +129,6 @@ const authSlice = createSlice({
       })
       .addCase(get_seller.fulfilled, (state, { payload }) => {
         state.userInfo = payload.seller;
-        state.role = returnRole(payload.token);
       });
   },
 });

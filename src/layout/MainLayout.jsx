@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { get_seller } from "../features/auth/authSlice";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 const MainLayout = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const { role, token } = useSelector((state) => state.auth);
-
-  const location = useLocation();
-  if (!token) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    token && dispatch(get_seller());
+  }, [token, dispatch]);
 
   return (
     <>
