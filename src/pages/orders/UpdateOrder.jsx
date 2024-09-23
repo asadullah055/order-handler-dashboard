@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingBtn from "./../../components/LoadingBtn";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,6 +19,7 @@ const UpdateOrder = () => {
     (state) => state.order
   );
   const { orderNumber } = useParams();
+  const [searchOrderNumber, setSearchOrderNumber] = useState("");
   // date formate
   const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toISOString().split("T")[0] : "";
@@ -142,6 +143,11 @@ const UpdateOrder = () => {
     );
   };
 
+  const getOrder = () => {
+    if (searchOrderNumber) {
+      dispatch(get_single_order(searchOrderNumber));
+    }
+  };
   // show message
   useEffect(() => {
     if (successMessage) {
@@ -164,6 +170,23 @@ const UpdateOrder = () => {
       <h1 className="text-3xl font-semibold text-center p-3 bg-teal-50 text-teal-500">
         Update Order
       </h1>
+      <div className="flex items-center gap-2 p-2">
+        <h2 className="font-semibold text-xl">Update Another Order</h2>
+        <input
+          type="text"
+          className="border focus:outline-0 p-1 rounded"
+          placeholder="order/case number"
+          value={searchOrderNumber}
+          onChange={(e) => setSearchOrderNumber(e.target.value)} // Update the input state
+        />
+        <Link
+          to={`/update/${searchOrderNumber}`}
+          // onClick={getOrder}
+          className="p-2 bg-teal-500 text-white rounded-md "
+        >
+          Search
+        </Link>
+      </div>
       <div className="relative overflow-x-auto rounded-md p-2">
         <form onSubmit={handleSubmit}>
           <table className="text-sm text-left rounded-md p-2 text-black w-full">
@@ -213,7 +236,7 @@ const UpdateOrder = () => {
                 onChange={handleInputChange}
               />
               <UpdateTr
-                title={"Receive Date"}
+                title={"Return Receive Date"}
                 type={"date"}
                 name="receivedDate"
                 value={formData.receivedDate}
@@ -287,7 +310,16 @@ const UpdateOrder = () => {
                                   </option>
                                 </select>
                               </div>
-
+                              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                                <p className="w-[25%]">Claim Date</p>
+                                <input
+                                  type="date"
+                                  name="claimDate"
+                                  value={entry.claimDate}
+                                  onChange={(e) => handleClaimChange(index, e)}
+                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
+                                />
+                              </div>
                               <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                                 <p className="w-[25%]">Case Number</p>
                                 <input
@@ -298,6 +330,18 @@ const UpdateOrder = () => {
                                   className="border p-2 focus:outline-0 w-full md:w-[75%]"
                                   placeholder="Case Number"
                                 />
+                              </div>
+                              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                                <p className="w-[25%]">A/R Mail Date</p>
+                                <input
+                                  title={"A/R Mail Date"}
+                                  type={"date"}
+                                  name="arMailDate"
+                                  value={entry.arMailDate}
+                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
+                                  onChange={(e) => handleClaimChange(index, e)}
+                                />
+                                {/* Show delete button only for the last entry */}
                               </div>
                               <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                                 <p className="w-[25%]">Status Name</p>
@@ -312,73 +356,64 @@ const UpdateOrder = () => {
                                   <option value="Reject">Reject</option>
                                 </select>
                               </div>
-                              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                                <p className="w-[25%]">Claim Date</p>
-                                <input
-                                  type="date"
-                                  name="claimDate"
-                                  value={entry.claimDate}
-                                  onChange={(e) => handleClaimChange(index, e)}
-                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
-                                />
-                              </div>
 
-                              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                                <p className="w-[25%]">Paid Amount</p>
-                                <input
-                                  type="text"
-                                  name="paidAmount"
-                                  value={entry.paidAmount}
-                                  onChange={(e) => handleClaimChange(index, e)}
-                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
-                                  placeholder="Paid Amount"
-                                />
-                              </div>
+                              {entry.claimName !== "Score Card" && (
+                                <>
+                                  <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                                    <p className="w-[25%]">Paid Amount</p>
+                                    <input
+                                      type="text"
+                                      name="paidAmount"
+                                      value={entry.paidAmount}
+                                      onChange={(e) =>
+                                        handleClaimChange(index, e)
+                                      }
+                                      className="border p-2 focus:outline-0 w-full md:w-[75%]"
+                                      placeholder="Paid Amount"
+                                    />
+                                  </div>
 
-                              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                                <p className="w-[25%]">Invoice Cycle</p>
-                                <input
-                                  type="text"
-                                  name="invoiceCycle"
-                                  value={entry.invoiceCycle}
-                                  onChange={(e) => handleClaimChange(index, e)}
-                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
-                                  placeholder="Invoice cycle"
-                                />
-                              </div>
+                                  <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                                    <p className="w-[25%]">Invoice Cycle</p>
+                                    <input
+                                      type="text"
+                                      name="invoiceCycle"
+                                      value={entry.invoiceCycle}
+                                      onChange={(e) =>
+                                        handleClaimChange(index, e)
+                                      }
+                                      className="border p-2 focus:outline-0 w-full md:w-[75%]"
+                                      placeholder="Invoice cycle"
+                                    />
+                                  </div>
+                                </>
+                              )}
                               <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                                 <p className="w-[25%]">Claim Details</p>
-                                <input
-                                  type="text"
-                                  name="claimDetails"
-                                  value={entry.claimDetails}
-                                  onChange={(e) => handleClaimChange(index, e)}
-                                  className="border p-2 focus:outline-0 w-full md:w-[75%]"
-                                  placeholder="Claim Details"
-                                />
+                                <div className="flex items-center w-full md:w-[75%]">
+                                  <input
+                                    type="text"
+                                    name="claimDetails"
+                                    value={entry.claimDetails}
+                                    onChange={(e) =>
+                                      handleClaimChange(index, e)
+                                    }
+                                    className="border p-2 focus:outline-0 
+                                  w-[90%]"
+                                    placeholder="Claim Details"
+                                  />
+                                  {index === lastIndex && (
+                                    <button
+                                      type="button"
+                                      onClick={() => deleteClaimEntry(index)}
+                                      className="bg-red-500 text-white p-1 rounded ml-2"
+                                    >
+                                      <RiDeleteBin6Line />
+                                    </button>
+                                  )}
+                                </div>
                               </div>
 
-                              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
-                                <p>A/R Mail Date</p>
-                                <input
-                                  title={"A/R Mail Date"}
-                                  type={"date"}
-                                  name="arMailDate"
-                                  value={entry.arMailDate}
-                                  className="border p-2 focus:outline-0 w-full"
-                                  onChange={(e) => handleClaimChange(index, e)}
-                                />
-                                {/* Show delete button only for the last entry */}
-                                {index === lastIndex && (
-                                  <button
-                                    type="button"
-                                    onClick={() => deleteClaimEntry(index)}
-                                    className="bg-red-500 text-white p-1 rounded ml-2"
-                                  >
-                                    <RiDeleteBin6Line />
-                                  </button>
-                                )}
-                              </div>
                               {index !== lastIndex && (
                                 <div className="bg-teal-500 h-[1px]" />
                               )}

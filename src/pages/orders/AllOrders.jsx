@@ -4,6 +4,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { RotatingLines } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import DropdownFilter from "../../components/DropdownFilter";
 import { get_all_order } from "../../features/order/orderSlice";
 import { formatDate } from "../../util/dateFormater";
 import { getOrderStatusClass } from "../../util/statusColor";
@@ -179,6 +180,7 @@ const AllOrders = () => {
   return (
     <div className="rounded-md lg:w-[90%] mx-auto p-2">
       <div className="bg-white p-2 mt-2 mb-3 rounded">
+        <DropdownFilter />
         <h1 className="text-teal-500 text-2xl font-semibold text-center">
           Total Orders ({orders?.totalItem})
         </h1>
