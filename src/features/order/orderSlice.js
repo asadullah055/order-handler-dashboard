@@ -53,6 +53,8 @@ export const get_all_order = createAsyncThunk(
       orderNumber,
       date,
       receivedDate,
+      dfMailDate,
+      settled
     },
     { fulfillWithValue, rejectWithValue }
   ) => {
@@ -66,6 +68,9 @@ export const get_all_order = createAsyncThunk(
         orderNumber,
         date,
         receivedDate,
+        dfMailDate,
+        settled
+
       });
 
       return fulfillWithValue(order);

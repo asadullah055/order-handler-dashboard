@@ -89,7 +89,157 @@
           </div>
         </div> */}
 
+/* <thead className="text-xs lg:text-sm uppercase border-b bg-gray-200">
+            <tr>
+             
+              <th scope="col" className="py-3 px-2 whitespace-nowrap">
+                <div className="flex items-center gap-1">
+                  <span>
+                    {showOrderNumberInput ? ( // Conditionally render the input
+                      <input
+                        className="focus:outline-gray-200 p-1  border rounded"
+                        id="orderNumber"
+                        type="text"
+                        value={orderNumber}
+                        onChange={(e) => {
+                          setOrderNumber(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                        placeholder="Order number"
+                      />
+                    ) : (
+                      "Order Number"
+                    )}
+                  </span>
 
+                  <span
+                    className="text-[18px] cursor-pointer"
+                    onClick={() =>
+                      setShowOrderNumberInput(!showOrderNumberInput)
+                    }
+                  >
+                    <IoSearchSharp />
+                  </span>
+                </div>
+              </th>
+              <th scope="col" className="py-3 px-2 whitespace-nowrap">
+                <div className="flex items-center gap-1">
+                  <span>
+                    {showDropDate ? ( 
+                      <input
+                        className="focus:outline-gray-200 p-1  border rounded"
+                        type="date"
+                        value={date}
+                        onChange={(e) => {
+                          setDate(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    ) : (
+                      "Drop Date"
+                    )}
+                  </span>
+
+                  <span
+                    className="text-[16px] cursor-pointer"
+                    onClick={() => setShowDropDate(!showDropDate)}
+                  >
+                    <FaRegCalendar />
+                  </span>
+                </div>
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap">
+                <select
+                  value={status}
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="focus:outline-slate-200 rounded p-2 bg-transparent"
+                >
+                  <option className="text-center" value="">
+                    Order Status
+                  </option>
+                  <option className="p-2" value="transit">
+                    Transit
+                  </option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Delivery Failed">Delivery Failed</option>
+                  <option value="Return">Return</option>
+                  <option value="Not Drop">Not Drop</option>
+                  <option value="Item Loss">Item Loss</option>
+                  <option value="Scraped">Scraped</option>
+                  <option value="No Return Yet">No Return Yet</option>
+                </select>
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap">
+                DF Mail Date
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap">
+                <div className="flex items-center gap-1">
+                  <span>
+                    {showRDate ? ( 
+                      <input
+                        className="focus:outline-gray-200 p-1  border rounded"
+                        type="date"
+                        value={rDate}
+                        onChange={(e) => {
+                          setRDate(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    ) : (
+                      "Receive Date"
+                    )}
+                  </span>
+
+                  <span
+                    className="text-[16px] cursor-pointer"
+                    onClick={() => setShowRDate(!showRDate)}
+                  >
+                    <FaRegCalendar />
+                  </span>
+                </div>
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap border ">
+                <select
+                  value={claim}
+                  onChange={(e) => {
+                    setClaim(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="focus:outline-slate-200 border rounded bg-transparent p-2 pr-10"
+               
+                >
+                  <option className="text-center" value="">
+                    Claim
+                  </option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap">
+                <select
+                  value={claimApproved}
+                  onChange={(e) => {
+                    setClaimApproved(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="focus:outline-slate-200 border rounded bg-transparent p-2"
+                >
+                  <option className="text-center" value="">
+                    Claim Status
+                  </option>
+                  <option value="Approve">Approve</option>
+                  <option value="Reject">Reject</option>
+                </select>
+              </th>
+              <th scope="col" className="py-2 px-2 whitespace-nowrap">
+                Action
+              </th>
+            </tr>
+          </thead> */
 
         // data 
 
@@ -709,4 +859,231 @@
       };
       
       export default UpdateOrder; */ 
-      
+      {/* <div className="grid md:grid-cols-3 grid-cols-1 gap-3 p-2">
+        <div className="flex items-center gap-2">
+          <h2 className="w-[50%] md:w-fit">Status</h2>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="focus:outline-slate-200 border rounded md:w-[70%] w-[50%] p-2"
+          >
+            <option value="">--select--</option>
+            <option value="transit">Transit</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Delivery Failed">Delivery Failed</option>
+            <option value="Return">Return</option>
+            <option value="Not Drop">Not Drop</option>
+            <option value="Item Loss">Item Loss</option>
+            <option value="Scraped">Scraped</option>
+            <option value="No Return Yet">No Return Yet</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <h2 className="w-[50%] md:w-fit">Claim</h2>
+          <select
+            value={claim}
+            onChange={(e) => setClaim(e.target.value)}
+            className="focus:outline-slate-200 border rounded md:w-[70%] w-[50%] p-2"
+          >
+            <option value="">--select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <h2 className="w-[50%]">Claim Approved</h2>
+          <select
+            value={claimApproved}
+            onChange={(e) => setClaimApproved(e.target.value)}
+            className="focus:outline-slate-200 border rounded md:w-[70%] w-[50%] p-2"
+          >
+            <option value="">--select--</option>
+            <option value="Approve">Approve</option>
+            <option value="Reject">Reject</option>
+          </select>
+        </div>
+      </div> */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex gap-2 ">
+          <h2>Filter Date</h2>
+          <select className="border" name="" id="">
+            <option value="">---select---</option>
+            <option value="date">Drop Date</option>
+            <option value="dfMailDate">DF Mail Date</option>
+            <option value="receivedDate">Received Date</option>
+          </select>
+          <input type="date" name="" id="" />
+        </div>
+        <div className="flex items-center gap-2 border">
+          <h2 className="whitespace-nowrap">Filter Type</h2>
+          <div
+            className="flex items-center gap-1 w-[50%] border relative"
+            ref={dropdownRef}
+          >
+            <div
+              className="flex items-center justify-between w-full "
+              onClick={toggleDropdown}
+            >
+              <h2>Please Select</h2>
+              {/* <div className="flex gap-1 flex-wrap">
+                <span className="bg-gray-200 flex items-center gap-1 px-1 rounded-xl">
+                  delivery failed
+                  <span className="cursor-pointer">
+                    <IoMdClose />
+                  </span>
+                </span>
+                <span className="bg-gray-200 flex items-center gap-1 px-1 rounded-xl">
+                  claim
+                  <span className="cursor-pointer">
+                    <IoMdClose />
+                  </span>
+                </span>
+                <span className="bg-gray-200 flex items-center gap-1 px-1 rounded-xl">
+                  claim
+                  <span className="cursor-pointer">
+                    <IoMdClose />
+                  </span>
+                </span>
+              </div> */}
+
+              <IoIosArrowDown
+                className={`transform transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </div>
+            <nav
+              className={`absolute top-7 border w-[250px] z-[200] bg-white p-2 rounded transition-opacity duration-300 transform ${
+                isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+              style={{ visibility: isOpen ? "visible" : "hidden" }}
+            >
+              <ul className="border">
+                <li className="flex items-center justify-between cursor-pointer relative w-full">
+                  <span className="flex items-center gap-2">
+                    <input
+                      className="border-gray-300 rounded h-4 w-4"
+                      type="checkbox"
+                    />{" "}
+                    <span>Delivery Failed</span>
+                  </span>
+                  <span>
+                    <IoIosArrowForward />
+                  </span>
+                  <ul className="absolute right-0  top-0  w-[150px] bg-white border rounded shadow-lg">
+                    <li className="p-2">Lorem ipsum dolor sit amet.</li>
+                    <li className="p-2">Another option</li>
+                    <li className="p-2">More items</li>
+                  </ul>
+                </li>
+                <li>
+                  <input type="checkbox" /> <span>Delivery Failed</span>
+                </li>
+                <li>
+                  <input type="checkbox" /> <span>Delivery Failed</span>
+                </li>
+                <li>
+                  <input type="checkbox" /> <span>Delivery Failed</span>
+                </li>
+                <li>
+                  <input type="checkbox" /> <span>Delivery Failed</span>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+const filterItems = [
+  {
+    id: 1,
+    title: "Order Status",
+    children: [
+      {
+        id: "1-1",
+        title: "transit",
+      },
+      {
+        id: "2-1",
+        title: "Delivered",
+      },
+      {
+        id: "3-1",
+        title: "Delivery Failed",
+      },
+      {
+        id: "3-1",
+        title: "Return",
+      },
+      {
+        id: "5-1",
+        title: "Not Drop",
+      },
+      {
+        id: "6-1",
+        title: "Item Loss",
+      },
+
+      {
+        id: "7-1",
+        title: "Scraped",
+      },
+      {
+        id: "8-1",
+        title: "No Return Yet",
+      },
+      {
+        id: "9-1",
+        title: "Cancel",
+      },
+    ],
+  },
+
+  {
+    id: 2,
+    title: "Claim",
+    children: [
+      {
+        id: "1-2",
+        title: "Yes",
+      },
+      {
+        id: "2-2",
+        title: "No",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Settled",
+    children: [
+      {
+        id: "1-3",
+        title: "Yes",
+      },
+      {
+        id: "2-3",
+        title: "No",
+      },
+    ],
+  },
+];
+
+/* const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null); */
+
+  /* useEffect(() => {
+     const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]); */

@@ -11,8 +11,10 @@ export const getAllOrder = async ({
   claim = "",
   claimType = "",
   orderNumber = "",
-  date='',
-  receivedDate=""
+  date = "",
+  receivedDate = "",
+  dfMailDate = "",
+  settled = "",
 }) => {
   const response = await axiosInstance.get("/all-order", {
     params: {
@@ -23,7 +25,9 @@ export const getAllOrder = async ({
       claimType,
       orderNumber,
       date,
-      receivedDate
+      receivedDate,
+      dfMailDate,
+      settled,
     },
   });
   return response.data;
@@ -40,9 +44,6 @@ export const updateSingleOrder = async ({ orderNumber, data }) => {
   return response.data;
 };
 export const updateBulkOrder = async (data) => {
-  const response = await axiosInstance.put(
-    `update-bulk-order/`,
-    data
-  );
+  const response = await axiosInstance.put(`update-bulk-order/`, data);
   return response.data;
 };
