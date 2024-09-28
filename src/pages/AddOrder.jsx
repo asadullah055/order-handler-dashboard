@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingBtn from "../components/LoadingBtn";
 import { create_order, messageClear } from "../features/order/orderSlice";
 
-const Order = () => {
+const AddOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { successMessage, errorMessage, isLoading } = useSelector(
@@ -21,20 +21,34 @@ const Order = () => {
     setDate(formattedDate);
   }, []);
 
+  const handleBlur = () => {
+    const orderNumbers = textareaValue
+      .trim()
+      .split(/[\n, ,]+/)
+      .map((item) => item.trim());
+
+    const uniqueOrderNumbers = [...new Set(orderNumbers)];
+
+    setTextareaValue(uniqueOrderNumbers.join("\n"));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!textareaValue.trim()) {
       return;
     }
+
     const newOrders = textareaValue
       .trim()
-      .split(/[\n, ,]+/)
-      .map((item) => ({
-        orderNumber: item.trim(),
+      .split(/\n/)
+      .map((orderNumber) => ({
+        orderNumber: orderNumber.trim(),
         date,
       }));
+
     dispatch(create_order(newOrders));
   };
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
@@ -46,10 +60,10 @@ const Order = () => {
     }
     if (errorMessage) {
       toast.error(errorMessage);
-
       dispatch(messageClear());
     }
   }, [successMessage, errorMessage]);
+
   return (
     <div className="flex justify-center mt-5">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
@@ -67,6 +81,7 @@ const Order = () => {
           className="resize-y rounded-md border border-teal-500 focus:border-teal-500 focus:outline-none p-2"
           value={textareaValue}
           onChange={(e) => setTextareaValue(e.target.value)}
+          onBlur={handleBlur} // Trigger when the textarea loses focus
         ></textarea>
         <button
           disabled={isLoading}
@@ -79,4 +94,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default AddOrder;

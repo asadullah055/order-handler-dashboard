@@ -1,12 +1,19 @@
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { MdOutlineEmail } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { seller_logout } from "../features/auth/authSlice";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
   const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handelLogout = () => {
+    dispatch(seller_logout(""));
+    navigate("/login");
+  };
   return (
     <div className="fixed top-0 left-0 w-full z-40 shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] ">
       <div className="ml-0 lg:ml-[250px] rounded-md h-[65px] flex justify-between items-center bg-white pl-6 lg:pr-12 transition-all">
@@ -23,9 +30,9 @@ const Header = ({ showSidebar, setShowSidebar }) => {
           <div className="text-[25px] lg:p-3 md:p-2 p-1 ">
             <IoMdNotificationsOutline />
           </div>
-          <div className="text-[25px] lg:p-3 md:p-2 p-1 ">
+          {/* <div className="text-[25px] lg:p-3 md:p-2 p-1 ">
             <MdOutlineEmail />
-          </div>
+          </div> */}
           <Link
             to="/profile"
             className="p-2 flex justify-between items-center lg:gap-3 gap-1
@@ -46,6 +53,9 @@ const Header = ({ showSidebar, setShowSidebar }) => {
               alt="title"
             />
           </Link>
+          <button onClick={handelLogout} className="bg-teal-50 p-2 rounded-md">
+            <RiLogoutCircleLine className="font-bold text-xl" />
+          </button>
         </div>
       </div>
     </div>

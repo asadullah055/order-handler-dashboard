@@ -27,11 +27,10 @@ const UpdateBulkOrders = () => {
     const newOrders = textareaValue
       .trim()
       .split(/[\n, ,]+/)
-      .map((item) => item.trim()) // Trim each orderNumber
+      .map((item) => item.trim())
       .filter((orderNumber) => {
-        // Filter out duplicate order numbers using a Set
         if (orderSet.has(orderNumber)) {
-          return false; // Exclude duplicates
+          return false;
         }
         orderSet.add(orderNumber);
         return true;

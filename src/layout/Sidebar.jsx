@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { seller_logout } from "../features/auth/authSlice";
 import { getNavs } from "../navigation";
 import { getOrderCount } from "../util/statusColor";
 
@@ -14,7 +15,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { allOrder, totalDF } = useSelector((state) => state.filter);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const navs = getNavs();
     setAllNav(navs);
@@ -27,6 +28,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
   const toggleSubMenu = (id) => {
     setExpandedMenu(expandedMenu === id ? null : id);
+  };
+  const handelLogout = () => {
+    dispatch(seller_logout(""));
+    navigate("/login");
   };
 
   return (
@@ -119,6 +124,14 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               </li>
             ))}
           </ul>
+          <div className="px-[25px]">
+            <button
+              onClick={handelLogout}
+              className="bg-teal-500 text-white text-center p-2 rounded-md"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -21,9 +21,10 @@ export const getSeller = async () => {
   return response.data;
 };
 export const updateSellerProfile = async (data) => {
-
-  
   const response = await axiosInstance.put("update-profile", data);
- 
-  return response.data;
+   return response.data;
+};
+export const logout = async (data) => {
+  const response = await axiosInstance.post("logout", data);
+   return response.data;
 };

@@ -8,7 +8,7 @@ import Profile from "../../pages/users/Profile";
 import UpdateBulkOrders from "./../../pages/orders/UpdateBulkOrders";
 
 const Dashboard = lazy(() => import("../../pages/Dashboard"));
-const Order = lazy(() => import("../../pages/Order"));
+const AddOrder = lazy(() => import("../../pages/AddOrder"));
 const AllOrders = lazy(() => import("../../pages/orders/AllOrders"));
 
 export const allRoutes = [
@@ -18,7 +18,7 @@ export const allRoutes = [
   },
   {
     path: "/add-order",
-    element: <Order />,
+    element: <AddOrder />,
   },
   {
     path: "/all-orders",

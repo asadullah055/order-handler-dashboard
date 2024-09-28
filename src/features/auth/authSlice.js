@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import {
   getSeller,
+  logout,
   sellerLogin,
   sellerRegistration,
   updateSellerProfile,
@@ -42,6 +43,18 @@ export const seller_login = createAsyncThunk(
       const seller = await sellerLogin(data);
       localStorage.setItem("accessToken", seller.token);
 
+      return fulfillWithValue(seller);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const seller_logout = createAsyncThunk(
+  "auth/seller_logout",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const seller = await logout(data);
+      localStorage.removeItem('accessToken')
       return fulfillWithValue(seller);
     } catch (error) {
       return rejectWithValue(error.response.data);
