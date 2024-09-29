@@ -17,11 +17,15 @@ export const getOrderStatusClass = (orderStatus) => {
   }
 };
 
-export const getOrderCount = (title, allOrder, totalDF) => {
+export const getOrderCount = (title, allOrder, totalDF, totalUnSettled,totalReturn) => {
   if (title === "All Orders") {
     return allOrder;
   } else if (title === "Delivery Failed") {
     return totalDF;
+  } else if (title === "Unsettled order") {
+    return totalUnSettled;
+  } else if (title === "Return") {
+    return totalReturn;
   } else {
     return 0;
   }

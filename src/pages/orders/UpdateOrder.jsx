@@ -250,7 +250,7 @@ const UpdateOrder = () => {
                       <option value="Not Drop">Not Drop</option>
                       <option value="Item Loss">Item Loss</option>
                       <option value="Scraped">Scraped</option>
-                      <option value="No Return Yet">No Return Yet</option>
+                      <option value="No Return Yet">No Return Yet!</option>
                     </select>
                   </td>
                 </tr>

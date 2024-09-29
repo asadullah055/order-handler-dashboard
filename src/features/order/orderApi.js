@@ -47,3 +47,30 @@ export const updateBulkOrder = async (data) => {
   const response = await axiosInstance.put(`update-bulk-order/`, data);
   return response.data;
 };
+export const getUnsettledOrder = async ({ pageNo = 1, perPage = 20 }) => {
+  const response = await axiosInstance.get(`un-settled-order/`, {
+    params: {
+      pageNo,
+      perPage,
+    },
+  });
+  return response.data;
+};
+export const getReturnOrder = async ({ pageNo = 1, perPage = 20 }) => {
+  const response = await axiosInstance.get(`return-order/`, {
+    params: {
+      pageNo,
+      perPage,
+    },
+  });
+  return response.data;
+};
+export const getDfOrder = async ({ pageNo = 1, perPage = 20 }) => {
+  const response = await axiosInstance.get(`delivery-failed-order/`, {
+    params: {
+      pageNo,
+      perPage,
+    },
+  });
+  return response.data;
+};

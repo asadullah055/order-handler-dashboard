@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { update_Bulk_order } from "../../features/order/orderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  update_Bulk_order,
+  messageClear,
+} from "../../features/order/orderSlice";
+import { toast } from "react-hot-toast";
+import LoadingBtn from "./../../components/LoadingBtn";
 
 const UpdateBulkOrders = () => {
   const dispatch = useDispatch();
-  //   const { orders } = useSelector((state) => state.order);
   const [status, setStatus] = useState("");
-
   const [textareaValue, setTextareaValue] = useState("");
   const [date, setDate] = useState("");
-
+  const { successMessage, errorMessage, missingOrders, isLoading } =
+    useSelector((state) => state.order);
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toISOString().split("T")[0];
@@ -18,8 +22,12 @@ const UpdateBulkOrders = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (status === "") {
+      toast.error("Status is required.");
+      return;
+    }
     if (!textareaValue.trim()) {
+      toast.error("Please enter at least one order number.");
       return;
     }
 
@@ -41,7 +49,6 @@ const UpdateBulkOrders = () => {
           status,
         };
 
-        // If status is "Delivery Failed", include the date
         if (status === "Delivery Failed") {
           orderData.date = date;
         }
@@ -51,9 +58,19 @@ const UpdateBulkOrders = () => {
 
     dispatch(update_Bulk_order(newOrders));
   };
-
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      setTextareaValue("");
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage, dispatch]);
   return (
-    <div className="flex justify-center mt-5">
+    <div className="flex justify-center mt-5 gap-3">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <select
           value={status}
@@ -84,10 +101,25 @@ const UpdateBulkOrders = () => {
           onChange={(e) => setTextareaValue(e.target.value)}
           className="resize-y focus:outline-slate-200 border rounded  p-2"
         ></textarea>
-        <button className="bg-[#00b795] font-poppin text-white font-medium px-3 py-2 rounded-md">
-          {"Update"}
+        <button
+          disabled={isLoading}
+          className="bg-[#00b795] font-poppin text-white font-medium px-3 py-2 rounded-md"
+        >
+          {isLoading ? <LoadingBtn /> : "Submit"}
         </button>
       </form>
+      {missingOrders.length !== 0 && (
+        <div className="bg-white w-[30%] p-2 rounded-md">
+          <h2 className="text-red-600 text-2xl">
+            Messing Orders {missingOrders.length}
+          </h2>
+          <ul>
+            {missingOrders?.map((order, i) => (
+              <li key={i}>{order}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

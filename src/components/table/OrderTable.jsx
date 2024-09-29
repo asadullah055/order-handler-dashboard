@@ -7,7 +7,6 @@ import { getOrderStatusClass } from "../../util/statusColor";
 
 const OrderTable = ({ orders, isLoading, openModal }) => {
   let content = null;
-
   if (isLoading) {
     content = (
       <tbody>
@@ -28,7 +27,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
         </tr>
       </tbody>
     );
-  } else if (orders?.orders?.length === 0) {
+  } else if (orders?.length === 0) {
     content = (
       <tbody>
         <tr>
@@ -38,10 +37,10 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
         </tr>
       </tbody>
     );
-  } else if (orders?.orders?.length > 0) {
+  } else if (orders?.length > 0) {
     content = (
       <tbody className="[&>:nth-child(even)]:bg-gray-100">
-        {orders.orders.map((order, i) => (
+        {orders.map((order, i) => (
           <tr key={i}>
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               <Link
@@ -82,7 +81,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
                 {order.claim || ""}
               </span>
             </td>
-            <td className="py-2 px-2 font-medium whitespace-nowrap">
+            {/* <td className="py-2 px-2 font-medium whitespace-nowrap">
               <span
                 className={`p-2 rounded-md ${
                   order.approvedOrReject === "Reject"
@@ -94,7 +93,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
               >
                 {order.approvedOrReject || ""}
               </span>
-            </td>
+            </td> */}
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               <div className="flex gap-2">
                 <button
@@ -140,9 +139,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
           <th scope="col" className="py-2 px-2 whitespace-nowrap border ">
             Claim
           </th>
-          <th scope="col" className="py-2 px-2 whitespace-nowrap">
-            Claim Status
-          </th>
+
           <th scope="col" className="py-2 px-2 whitespace-nowrap">
             Action
           </th>

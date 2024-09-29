@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdOutlineDirectionsTransitFilled } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import OrderCard from "../components/OrderCard";
+import { get_status_number } from "../features/filter/filterSlice";
 
 const Dashboard = () => {
-  const { token, userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const {
+    totalTransit,
+    totalDF,
+    totalReturn,
+    totalNotDrop,
+    totalItemLoss,
+    totalScraped,
+    totalNRY,
+    totalDelivered,
+    allOrder,
+  } = useSelector((state) => state.filter);
+
+  useEffect(() => {
+    dispatch(get_status_number());
+  }, [dispatch]);
 
   return (
     <div className="px-5 ">
@@ -24,47 +41,51 @@ const Dashboard = () => {
         </Link>
       </div>
       <div className="bg-white p-3 rounded shadow-[0_0_15px_0_rgb(34_41_47_/_5%)]">
-        <h2 className="font-semibold text-[#334257]">All Order Analytics</h2>
+        <h2 className="font-semibold text-[#334257] text-xl">
+          All Order Analytics ({allOrder})
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 py-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           <OrderCard
             title={"Transit"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalTransit}
           />
           <OrderCard
             title={"Delivered"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalDelivered}
           />
           <OrderCard
             title={"Delivery Failed"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalDF}
+            link={"/delivery-failed"}
           />
           <OrderCard
             title={"Return"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalReturn}
+            link={"/return-order"}
           />
           <OrderCard
             title={"Not Drop"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalNotDrop}
           />
           <OrderCard
             title={"Item Loss"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalItemLoss}
           />
           <OrderCard
             title={"Scraped"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalScraped}
           />
           <OrderCard
             title={"No Return Yet"}
             icon={<MdOutlineDirectionsTransitFilled />}
-            count={"10"}
+            count={totalNRY}
           />
         </div>
       </div>

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get_all_order } from "../features/order/orderSlice";
 import {
   setClaim,
   setClaimStatus,
@@ -77,9 +76,7 @@ const MultiSelectDropdown = () => {
 
   const selectedItems = [...orderStatus, ...claim, ...claimStatus, ...settled];
 
-  useEffect(() => {
-    dispatch(get_all_order({ orderStatus, claim, settled }));
-  }, [claim, orderStatus, settled, dispatch]);
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {

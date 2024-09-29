@@ -15,15 +15,36 @@ const AllOrders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [orderNumber, setOrderNumber] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const { orderStatus, claim, claimStatus, settled, dateFilter } = useSelector(
+    (state) => state.dropdown
+  );
+
   useEffect(() => {
+    const dateType = Object.keys(dateFilter)[0];
+    const dateValue = dateFilter[dateType];
     dispatch(
       get_all_order({
         perPage,
         pageNo: currentPage,
         orderNumber,
+        orderStatus,
+        claim,
+        claimStatus,
+        settled,
+        [dateType]: dateValue,
       })
     );
-  }, [dispatch, perPage, currentPage, orderNumber]);
+  }, [
+    dispatch,
+    perPage,
+    currentPage,
+    orderNumber,
+    orderStatus,
+    claim,
+    claimStatus,
+    settled,
+    dateFilter,
+  ]);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,6 +61,9 @@ const AllOrders = () => {
       <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
 
       <div className="relative overflow-x-auto bg-white p-2 border rounded border-gray-200">
+        <h2 className="bg-teal-100 text-teal-700 text-3xl text-center p-2 font-semibold">
+          Total Order ({orders.totalItem})
+        </h2>
         <div className="bg-white rounded-md shadow-sm py-4 px-2">
           <Filters
             orderNumber={orderNumber}
@@ -50,7 +74,7 @@ const AllOrders = () => {
 
         <div className="p-2 bg-white rounded-md shadow-sm mt-4 relative overflow-x-auto ">
           <OrderTable
-            orders={orders}
+            orders={orders.orders}
             isLoading={isLoading}
             openModal={handleModal}
           />

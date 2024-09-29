@@ -12,7 +12,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
 
-  const { allOrder, totalDF } = useSelector((state) => state.filter);
+  const { allOrder, totalDF, totalUnSettled,totalReturn } = useSelector(
+    (state) => state.filter
+  );
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -112,7 +114,13 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
 
                             {
                               <span className="bg-teal-100 rounded-full p-[2px] min-h-[20px] min-w-[20px] text-center text-teal-500 text-[12px]">
-                                {getOrderCount(child.title, allOrder, totalDF)}
+                                {getOrderCount(
+                                  child.title,
+                                  allOrder,
+                                  totalDF,
+                                  totalUnSettled,
+                                  totalReturn
+                                )}
                               </span>
                             }
                           </div>

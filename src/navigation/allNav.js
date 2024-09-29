@@ -1,4 +1,4 @@
-import { AiFillDashboard, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
 import { RiFileEditLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -41,46 +41,14 @@ export const allNav = [
       {
         id: "4-5",
         title: "Unsettled order",
-        path: "/",
+        path: "/un-settled-order",
       },
       {
         id: "4-3",
         title: "Return",
-        path: "/",
+        path: "/return-order",
       },
     ],
   },
-  {
-    id: 5,
-    title: "Dashboard",
-    icon: AiFillDashboard,
-    children: [
-      {
-        id: "4-1",
-        title: "Sub Order 1",
-        path: "/nai/sub1",
-      },
-      {
-        id: "4-2",
-        title: "Sub Order 2",
-        path: "/nai/sub2",
-      },
-      {
-        id: "4-5",
-        title: "Sub Order 1",
-        path: "/nai/sub5",
-      },
-      {
-        id: "4-3",
-        title: "Sub Order 2",
-        path: "/nai/sub",
-      },
-    ],
-  },
-  {
-    id: 6,
-    title: "Orders",
-    icon: AiOutlineShoppingCart,
-    path: "/gelo",
-  },
+  
 ];

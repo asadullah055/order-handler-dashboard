@@ -5,6 +5,7 @@ const initialState = {
   claim: [],
   claimStatus: [],
   settled: [],
+  dateFilter: {}, // Field for dynamic date filters
 };
 
 const dropdownSlice = createSlice({
@@ -23,10 +24,19 @@ const dropdownSlice = createSlice({
     setSettled: (state, action) => {
       state.settled = action.payload;
     },
+    setDateFilter: (state, action) => {
+      const { key, value } = action.payload;
+      state.dateFilter = { [key]: value };
+    },
   },
 });
 
-export const { setOrderStatus, setClaim, setClaimStatus, setSettled } =
-  dropdownSlice.actions;
+export const {
+  setOrderStatus,
+  setClaim,
+  setClaimStatus,
+  setSettled,
+  setDateFilter,
+} = dropdownSlice.actions;
 
 export default dropdownSlice.reducer;

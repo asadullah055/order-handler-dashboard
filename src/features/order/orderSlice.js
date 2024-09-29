@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   addOrder,
   getAllOrder,
+  getDfOrder,
+  getReturnOrder,
   getSingleOrder,
+  getUnsettledOrder,
   updateBulkOrder,
   updateSingleOrder,
 } from "./orderApi";
@@ -10,18 +13,26 @@ import {
 const initialState = {
   isError: false,
   orders: [],
+  unsettledOrder: [],
+  dfOrder:[],
+  returnOrder: [],
   order: "",
+  missingOrders: [],
   isLoading: false,
   successMessage: "",
   errorMessage: "",
   error: "",
+  uniqueOrderCount: 0,
 };
 
 export const create_order = createAsyncThunk(
   "order/create_order",
-  async (data, { fulfillWithValue, rejectWithValue }) => {
+  async (
+    { newOrders, confirmInsert = false },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
     try {
-      const order = await addOrder(data);
+      const order = await addOrder({ newOrders, confirmInsert });
 
       return fulfillWithValue(order);
     } catch (error) {
@@ -54,7 +65,7 @@ export const get_all_order = createAsyncThunk(
       date,
       receivedDate,
       dfMailDate,
-      settled
+      settled,
     },
     { fulfillWithValue, rejectWithValue }
   ) => {
@@ -69,8 +80,7 @@ export const get_all_order = createAsyncThunk(
         date,
         receivedDate,
         dfMailDate,
-        settled
-
+        settled,
       });
 
       return fulfillWithValue(order);
@@ -102,6 +112,39 @@ export const update_Bulk_order = createAsyncThunk(
     }
   }
 );
+export const get_return_order = createAsyncThunk(
+  "order/get_return_order",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const order = await getReturnOrder(data);
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const get_df_order = createAsyncThunk(
+  "order/get_df_order",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const order = await getDfOrder(data);
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const get_unsettled_order = createAsyncThunk(
+  "order/get_unsettled_order",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const order = await getUnsettledOrder(data);
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: "order",
@@ -121,8 +164,15 @@ const orderSlice = createSlice({
       .addCase(create_order.fulfilled, (state, { payload }) => {
         state.isError = false;
         state.isLoading = false;
-        state.orders = payload.insertedOrders;
-        state.successMessage = payload.message;
+        if (payload.uniqueOrderCount !== undefined) {
+          state.uniqueOrderCount = payload.uniqueOrderCount;
+        }
+
+        // If orders were inserted, update orders and success message
+        if (payload.insertedOrders) {
+          state.orders = payload.insertedOrders;
+          state.successMessage = payload.message;
+        }
       })
       .addCase(create_order.rejected, (state, action) => {
         state.isError = true;
@@ -162,6 +212,48 @@ const orderSlice = createSlice({
       .addCase(update_single_order.pending, (state, action) => {
         state.isError = false;
         state.isLoading = true;
+      })
+      .addCase(update_Bulk_order.pending, (state, action) => {
+        state.isError = false;
+        state.isLoading = true;
+      })
+      .addCase(update_Bulk_order.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.missingOrders = action.payload.missingOrders;
+        state.successMessage = action.payload.message;
+      })
+      .addCase(update_Bulk_order.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.errorMessage = action?.payload?.message;
+      })
+      .addCase(get_unsettled_order.pending, (state, action) => {
+        state.isError = false;
+        state.isLoading = true;
+      })
+      .addCase(get_unsettled_order.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.unsettledOrder = action.payload;
+      })
+      .addCase(get_return_order.pending, (state, action) => {
+        state.isError = false;
+        state.isLoading = true;
+      })
+      .addCase(get_return_order.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.returnOrder = action.payload;
+      })
+      .addCase(get_df_order.pending, (state, action) => {
+        state.isError = false;
+        state.isLoading = true;
+      })
+      .addCase(get_df_order.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.dfOrder = action.payload;
       });
   },
 });

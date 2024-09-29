@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { get_order_number } from "./features/filter/filterSlice";
+import { get_status_number } from "./features/filter/filterSlice";
 import Router from "./router/Router";
 import { getRoutes } from "./router/routes/index";
 import publicRoutes from "./router/routes/publicRoutes";
@@ -15,7 +15,7 @@ function App() {
     setAllRoutes([...allRoutes, routes]);
   }, []);
   useEffect(() => {
-    dispatch(get_order_number());
+    dispatch(get_status_number());
   }, [dispatch]);
 
   useEffect(() => {
