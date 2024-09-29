@@ -4,7 +4,7 @@ import { lazy } from "react";
 import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import ReturnOrder from "../../pages/orders/ReturnOrder";
-import UnSettledOrder from "../../pages/orders/unSettledOrder";
+import UnSettledOrders from "../../pages/orders/UnSettledOrders";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
 import Profile from "../../pages/users/Profile";
 import UpdateBulkOrders from "./../../pages/orders/UpdateBulkOrders";
@@ -48,7 +48,7 @@ export const allRoutes = [
   },
   {
     path: "/un-settled-order",
-    element: <UnSettledOrder />,
+    element: <UnSettledOrders />,
   },
   {
     path: "/return-order",

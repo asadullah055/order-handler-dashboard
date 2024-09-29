@@ -6,7 +6,7 @@ import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
 import { get_unsettled_order } from "../../features/order/orderSlice";
 
-const UnSettledOrder = () => {
+const UnSettledOrders = () => {
   const { unsettledOrder, isLoading } = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const UnSettledOrder = () => {
         pageNo: currentPage,
       })
     );
-  }, [perPage, currentPage]);
+  }, [perPage, currentPage, dispatch]);
   return (
     <div className="rounded-md lg:w-[90%] mx-auto p-2">
       <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
@@ -62,4 +62,4 @@ const UnSettledOrder = () => {
   );
 };
 
-export default UnSettledOrder;
+export default UnSettledOrders;
