@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingBtn from "../../components/LoadingBtn";
 import { seller_login } from "../../features/auth/authSlice";
+import { messageClear } from "../../features/order/orderSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { successMessage, errorMessage, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -21,8 +26,18 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(seller_login(state));
-    navigate("/");
   };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      navigate("/");
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage, dispatch]);
   return (
     <div className="min-w-screen min-h-screen flex justify-center items-center">
       <div className="w-[350px] p-2">
@@ -58,8 +73,11 @@ const Login = () => {
               />
             </div>
 
-            <button className="bg-teal-500 w-full text-white rounded-md px-7 py-2 mb-3">
-              Signup
+            <button
+              disabled={isLoading}
+              className="bg-teal-500 w-full text-white rounded-md px-7 py-2 mb-3"
+            >
+              {isLoading ? <LoadingBtn /> : " Signup"}
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
