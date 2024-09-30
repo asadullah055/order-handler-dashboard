@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingBtn from "./../../components/LoadingBtn";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { get_status_number } from "../../features/filter/filterSlice";
 import {
   get_single_order,
   messageClear,
@@ -90,7 +91,8 @@ const UpdateOrder = () => {
         ]);
       }
     }
-  }, [order]);
+    dispatch(get_status_number());
+  }, [order, dispatch]);
   // load single data
   useEffect(() => {
     dispatch(get_single_order(orderNumber));

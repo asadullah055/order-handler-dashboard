@@ -3,8 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingBtn from "../../components/LoadingBtn";
-import { seller_login } from "../../features/auth/authSlice";
-import { messageClear } from "../../features/order/orderSlice";
+import { messageClear, seller_login } from "../../features/auth/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -30,14 +29,14 @@ const Login = () => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      navigate("/");
       dispatch(messageClear());
+      navigate("/");
     }
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
     }
-  }, [successMessage, errorMessage, dispatch]);
+  }, [successMessage, errorMessage]);
   return (
     <div className="min-w-screen min-h-screen flex justify-center items-center">
       <div className="w-[350px] p-2">

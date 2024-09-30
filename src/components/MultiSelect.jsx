@@ -9,7 +9,7 @@ import {
 import DropdownItem from "./Filters/Type-Filter/DropdownItem";
 import SelectedItems from "./Filters/Type-Filter/SelectedItems";
 
-const MultiSelectDropdown = () => {
+const MultiSelectDropdown = ({ setCurrentPage }) => {
   const dispatch = useDispatch();
   const { orderStatus, claim, claimStatus, settled } = useSelector(
     (state) => state.dropdown
@@ -76,8 +76,6 @@ const MultiSelectDropdown = () => {
 
   const selectedItems = [...orderStatus, ...claim, ...claimStatus, ...settled];
 
-
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target))
@@ -108,6 +106,7 @@ const MultiSelectDropdown = () => {
           isParentChecked={isParentChecked}
           handleParentCheckboxChange={handleParentCheckboxChange}
           activeMenu={activeMenu}
+          setCurrentPage={setCurrentPage}
         />
       )}
     </div>

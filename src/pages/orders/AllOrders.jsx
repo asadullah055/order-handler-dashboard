@@ -5,6 +5,7 @@ import Filters from "../../components/Filters/Filters";
 import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
+import { get_status_number } from "../../features/filter/filterSlice";
 import { get_all_order } from "../../features/order/orderSlice";
 
 const AllOrders = () => {
@@ -34,6 +35,7 @@ const AllOrders = () => {
         [dateType]: dateValue,
       })
     );
+    dispatch(get_status_number());
   }, [
     dispatch,
     perPage,

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  update_Bulk_order,
-  messageClear,
-} from "../../features/order/orderSlice";
 import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { get_status_number } from "../../features/filter/filterSlice";
+import {
+  messageClear,
+  update_Bulk_order,
+} from "../../features/order/orderSlice";
 import LoadingBtn from "./../../components/LoadingBtn";
 
 const UpdateBulkOrders = () => {
@@ -63,6 +64,7 @@ const UpdateBulkOrders = () => {
       toast.success(successMessage);
       setTextareaValue("");
       dispatch(messageClear());
+      dispatch(get_status_number());
     }
     if (errorMessage) {
       toast.error(errorMessage);

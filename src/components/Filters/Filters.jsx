@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setClaim,
   setClaimStatus,
@@ -15,9 +15,6 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   const dispatch = useDispatch();
 
   // Access selected date type from Redux state
-  const selectedDateType = useSelector(
-    (state) => Object.keys(state.dropdown.dateFilter)[0]
-  );
 
   // Handle date type change without resetting the date value
   const handleDateTypeChange = (e) => {
@@ -74,13 +71,15 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
             type="date"
             className="p-2 border rounded focus:outline-gray-200 w-[50%]"
             value={dateValue} // Maintain the date value
-            onChange={handleDateValueChange}
+            onChange={() => {
+              handleDateValueChange, setCurrentPage(1);
+            }}
             disabled={!dateType} // Only enable if a date type is selected
           />
         </div>
         <div className="flex items-center gap-2 p-1">
           <h2 className="whitespace-nowrap">Filter Type</h2>
-          <MultiSelectDropdown />
+          <MultiSelectDropdown setCurrentPage={setCurrentPage} />
         </div>
       </div>
 

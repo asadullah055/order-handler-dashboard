@@ -7,6 +7,7 @@ const DropdownItem = ({
   isParentChecked,
   handleCheckboxChange,
   activeMenu,
+  setCurrentPage = { setCurrentPage },
 }) => {
   return (
     <div className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-[100%] md:w-[75%] max-h-64 overflow-auto">
@@ -47,14 +48,15 @@ const DropdownItem = ({
                       type="checkbox"
                       className="mr-1 w-4 h-4"
                       checked={options[key].data.includes(option)}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         handleCheckboxChange(
                           e,
                           option,
                           options[key].data,
                           options[key].action
-                        )
-                      }
+                        );
+                        setCurrentPage(1);
+                      }}
                     />
                     {option}
                   </li>
