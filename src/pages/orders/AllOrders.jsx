@@ -9,47 +9,56 @@ import { get_status_number } from "../../features/filter/filterSlice";
 import { get_all_order } from "../../features/order/orderSlice";
 
 const AllOrders = () => {
-  const { orders, isLoading } = useSelector((state) => state.order);
   const dispatch = useDispatch();
-  const [perPage, setPerPage] = useState(20);
-  const [showItem, setShowItem] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [orderNumber, setOrderNumber] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const { orders, isLoading } = useSelector((state) => state.order);
   const { orderStatus, claim, claimStatus, settled, dateFilter } = useSelector(
     (state) => state.dropdown
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [showItem, setShowItem] = useState(5);
+  const [orderNumber, setOrderNumber] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const dateType = Object.values(dateFilter)[0];
+  const startDate = Object.values(dateFilter)[1];
+  const endDate = Object.values(dateFilter)[2];
+  // Fetch orders and status numbers when dependencies change
   useEffect(() => {
-    const dateType = Object.keys(dateFilter)[0];
-    const dateValue = dateFilter[dateType];
-    dispatch(
-      get_all_order({
-        perPage,
-        pageNo: currentPage,
-        orderNumber,
-        orderStatus,
-        claim,
-        claimStatus,
-        settled,
-        [dateType]: dateValue,
-      })
-    );
+    const filterPayload = {
+      perPage,
+      pageNo: currentPage,
+      orderNumber,
+      orderStatus,
+      claim,
+      claimStatus,
+      settled,
+      [dateType]: {
+        startDate,
+        endDate,
+      },
+    };
+
+    dispatch(get_all_order(filterPayload));
     dispatch(get_status_number());
   }, [
     dispatch,
-    perPage,
     currentPage,
+    perPage,
     orderNumber,
     orderStatus,
     claim,
     claimStatus,
     settled,
     dateFilter,
+    dateType,
+    startDate,
+    endDate,
   ]);
 
-  const [isOpen, setIsOpen] = useState(false);
-
+  // Handle modal opening and setting selected order
   const handleModal = (orderNumber) => {
     const order = orders.orders.find(
       (order) => order.orderNumber === orderNumber
@@ -60,12 +69,22 @@ const AllOrders = () => {
 
   return (
     <div className="rounded-md lg:w-[90%] mx-auto p-2">
-      <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
+      {/* Order Modal */}
+      {selectedOrder && (
+        <OrderModal
+          isOpen={isOpen}
+          onClose={handleModal}
+          order={selectedOrder}
+        />
+      )}
 
+      {/* Orders Table and Filters */}
       <div className="relative overflow-x-auto bg-white p-2 border rounded border-gray-200">
         <h2 className="bg-teal-100 text-teal-700 text-3xl text-center p-2 font-semibold">
-          Total Order ({orders.totalItem})
+          Total Orders ({orders.totalItem || 0})
         </h2>
+
+        {/* Filters Component */}
         <div className="bg-white rounded-md shadow-sm py-4 px-2">
           <Filters
             orderNumber={orderNumber}
@@ -74,14 +93,16 @@ const AllOrders = () => {
           />
         </div>
 
-        <div className="p-2 bg-white rounded-md shadow-sm mt-4 relative overflow-x-auto ">
+        {/* Orders Table */}
+        <div className="p-2 bg-white rounded-md shadow-sm mt-4 relative overflow-x-auto">
           <OrderTable
-            orders={orders.orders}
+            orders={orders?.orders || []}
             isLoading={isLoading}
             openModal={handleModal}
           />
         </div>
 
+        {/* Pagination */}
         {orders?.totalItem > perPage && (
           <div className="mt-3 flex justify-end mx-3">
             <Pagination

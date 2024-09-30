@@ -11,19 +11,6 @@ export const allNav = [
     path: "/",
   },
   {
-    id: 2,
-    title: "Add Orders",
-    icon: MdAdd,
-    path: "/add-order",
-  },
-  {
-    id: 3,
-    title: "Bulk Update",
-    icon: RiFileEditLine ,
-    path: "/update-orders",
-  },
- 
-  {
     id: 4,
     title: "Orders",
     icon: AiOutlineShoppingCart,
@@ -50,5 +37,19 @@ export const allNav = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "Add Orders",
+    icon: MdAdd,
+    path: "/add-order",
+  },
+  {
+    id: 3,
+    title: "Bulk Update",
+    icon: RiFileEditLine ,
+    path: "/update-orders",
+  },
+ 
+  
   
 ];

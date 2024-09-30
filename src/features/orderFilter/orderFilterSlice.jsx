@@ -5,7 +5,11 @@ const initialState = {
   claim: [],
   claimStatus: [],
   settled: [],
-  dateFilter: {}, // Field for dynamic date filters
+  dateFilter: {
+    dateType: "",
+    startDate: "",
+    endDate: "",
+  },
 };
 
 const dropdownSlice = createSlice({
@@ -25,8 +29,10 @@ const dropdownSlice = createSlice({
       state.settled = action.payload;
     },
     setDateFilter: (state, action) => {
-      const { key, value } = action.payload;
-      state.dateFilter = { [key]: value };
+      const { key, startDate, endDate } = action.payload;
+      state.dateFilter.dateType = key;
+      state.dateFilter.startDate = startDate;
+      state.dateFilter.endDate = endDate;
     },
   },
 });

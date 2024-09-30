@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import {
   setClaim,
@@ -13,28 +15,43 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   const [dateType, setDateType] = useState("");
   const [dateValue, setDateValue] = useState(""); // Local state for date input value
   const dispatch = useDispatch();
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
 
-  // Access selected date type from Redux state
+  // Format the dates to "YYYY-MM-DD"
+  const formattedStartDate = startDate?.toLocaleDateString("en-CA");
+  const formattedEndDate = endDate?.toLocaleDateString("en-CA");
 
   // Handle date type change without resetting the date value
   const handleDateTypeChange = (e) => {
     const newDateType = e.target.value;
-    setDateType(newDateType); // Update the date type
-
-    // Dispatch the new date type without resetting the date value
-    if (dateValue) {
-      dispatch(setDateFilter({ key: newDateType, value: dateValue }));
+    setDateType(newDateType);
+    // Dispatch date range if selected
+    if (formattedStartDate && formattedEndDate) {
+      dispatch(
+        setDateFilter({
+          key: newDateType,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        })
+      );
     }
   };
 
-  // Handle date value change
-  const handleDateValueChange = (e) => {
-    const newDateValue = e.target.value;
-    setDateValue(newDateValue); // Update the local date value
-
-    // Dispatch the date type and the new date value to the Redux store
-    if (dateType && newDateValue) {
-      dispatch(setDateFilter({ key: dateType, value: newDateValue }));
+  // Handle DatePicker date range change
+  const handleDateRangeChange = (update) => {
+    setDateRange(update);
+    setCurrentPage(1);
+    if (dateType && update[0] && update[1]) {
+      const formattedStartDate = update[0];
+      const formattedEndDate = update[1];
+      dispatch(
+        setDateFilter({
+          key: dateType,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        })
+      );
     }
   };
 
@@ -42,8 +59,9 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   const handleReset = () => {
     setOrderNumber("");
     setDateType("");
-    setDateValue(""); // Clear the date input
-    dispatch(setDateFilter({ key: "", value: "" })); // Reset the date filter in Redux
+    setDateValue("");
+    setDateRange([null, null]);
+    dispatch(setDateFilter({ key: "", startDate: "", endDate: "" }));
     dispatch(setOrderStatus([]));
     dispatch(setClaim([]));
     dispatch(setClaimStatus([]));
@@ -67,14 +85,12 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
             <option value="receivedDate">Received Date</option>
           </select>
 
-          <input
-            type="date"
-            className="p-2 border rounded focus:outline-gray-200 w-[50%]"
-            value={dateValue} // Maintain the date value
-            onChange={() => {
-              handleDateValueChange, setCurrentPage(1);
-            }}
-            disabled={!dateType} // Only enable if a date type is selected
+          <DatePicker
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            onChange={handleDateRangeChange}
+            placeholderText="Start Date - End Date"
           />
         </div>
         <div className="flex items-center gap-2 p-1">
