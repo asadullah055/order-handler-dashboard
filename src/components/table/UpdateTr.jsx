@@ -1,6 +1,6 @@
 import React from "react";
 
-const UpdateTr = ({ title, type, name, value, placeholder, onChange }) => {
+const UpdateTr = ({ title, type, name, value, placeholder, onChange, ref }) => {
   return (
     <tr className="border">
       <td scope="row" className="p-3 font-medium border whitespace-nowrap">

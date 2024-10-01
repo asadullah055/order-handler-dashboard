@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-span.select-container {
+/* span.select-container {
   width: 100%;
   display: block;
   position: relative;
@@ -9,7 +9,7 @@ span.select-container {
 
 span.select-container select {
   appearance: none;
-  /* padding: 0.25rem 0.85rem; */
+   padding: 0.25rem 0.85rem; 
 }
 
 span.select-container::before {
@@ -24,4 +24,23 @@ span.select-container::before {
   font-size: 1rem;
   line-height: 2.5rem;
   pointer-events: none;
+} */
+input {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-position: right;
+  background-size: auto;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  /* display: none; */
+  -webkit-appearance: none;
 }

@@ -14,7 +14,7 @@ const initialState = {
   isError: false,
   orders: [],
   unsettledOrder: [],
-  dfOrder:[],
+  dfOrder: [],
   returnOrder: [],
   order: "",
   missingOrders: [],
@@ -196,10 +196,15 @@ const orderSlice = createSlice({
         state.isLoading = false;
         state.order = action.payload.order;
       })
+      .addCase(get_single_order.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.order = "";
+      })
       .addCase(update_single_order.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-        state.order = action.payload.order;
+        state.order = action.payload.updatedOrder;
         state.successMessage = action.payload.message;
       })
       .addCase(update_single_order.rejected, (state, action) => {
