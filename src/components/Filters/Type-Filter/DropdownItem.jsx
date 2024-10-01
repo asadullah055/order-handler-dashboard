@@ -1,4 +1,5 @@
 import React from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 const DropdownItem = ({
   toggleSubmenu,
@@ -7,7 +8,7 @@ const DropdownItem = ({
   isParentChecked,
   handleCheckboxChange,
   activeMenu,
-  setCurrentPage = { setCurrentPage },
+  setCurrentPage,
 }) => {
   return (
     <div className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-[100%] md:w-[75%] max-h-64 overflow-auto">
@@ -15,26 +16,38 @@ const DropdownItem = ({
         <ul>
           {Object.keys(options).map((key) => (
             <li key={key} className="p-0.5">
-              <span>
-                <input
-                  type="checkbox"
-                  className="mr-1 w-4 h-4"
-                  checked={isParentChecked(options[key].data, options[key].all)}
-                  onChange={(e) =>
-                    handleParentCheckboxChange(
-                      e,
-                      options[key].all,
-                      options[key].action
-                    )
-                  }
-                />
-              </span>
-              <span
-                className="cursor-pointer"
-                onClick={() => toggleSubmenu(key)}
-              >
-                {key}
-              </span>
+              <div className="flex gap-1 items-center">
+                <span>
+                  <input
+                    type="checkbox"
+                    className="mr-1 w-4 h-4"
+                    checked={isParentChecked(
+                      options[key].data,
+                      options[key].all
+                    )}
+                    onChange={(e) =>
+                      handleParentCheckboxChange(
+                        e,
+                        options[key].all,
+                        options[key].action
+                      )
+                    }
+                  />
+                </span>
+                <div
+                  className="cursor-pointer w-full flex items-center justify-between px-1"
+                  onClick={() => toggleSubmenu(key)}
+                >
+                  <span>{key}</span>
+                  <span
+                    className={`transition-transform duration-300 ${
+                      activeMenu === key ? "rotate-180" : ""
+                    }`}
+                  >
+                    <IoIosArrowDown />
+                  </span>
+                </div>
+              </div>
               <ul
                 className={`ml-5 transition-all duration-300 ${
                   activeMenu === key

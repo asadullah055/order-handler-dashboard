@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setClaim,
-  setClaimStatus,
   setOrderStatus,
   setSettled,
 } from "../features/orderFilter/orderFilterSlice";
@@ -27,7 +26,6 @@ const MultiSelectDropdown = ({ setCurrentPage }) => {
     "Cancel",
   ];
   const claimOptions = ["Yes", "No"];
-  const claimStatusOptions = ["Approved", "Rejected"];
   const settledOptions = ["Yes", "No"];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,11 +39,6 @@ const MultiSelectDropdown = ({ setCurrentPage }) => {
       action: setOrderStatus,
     },
     Claim: { data: claim, all: claimOptions, action: setClaim },
-    "Claim Status": {
-      data: claimStatus,
-      all: claimStatusOptions,
-      action: setClaimStatus,
-    },
     Settled: { data: settled, all: settledOptions, action: setSettled },
   };
 

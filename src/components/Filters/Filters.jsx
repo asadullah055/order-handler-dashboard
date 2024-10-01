@@ -13,7 +13,7 @@ import MultiSelectDropdown from "./../MultiSelect";
 
 const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   const [dateType, setDateType] = useState("");
-  const [dateValue, setDateValue] = useState(""); // Local state for date input value
+
   const dispatch = useDispatch();
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
@@ -43,8 +43,8 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
     setDateRange(update);
     setCurrentPage(1);
     if (dateType && update[0] && update[1]) {
-      const formattedStartDate = update[0];
-      const formattedEndDate = update[1];
+      const formattedStartDate = update[0].toLocaleDateString("en-CA");
+      const formattedEndDate = update[1].toLocaleDateString("en-CA");
       dispatch(
         setDateFilter({
           key: dateType,
@@ -59,7 +59,6 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   const handleReset = () => {
     setOrderNumber("");
     setDateType("");
-    setDateValue("");
     setDateRange([null, null]);
     dispatch(setDateFilter({ key: "", startDate: "", endDate: "" }));
     dispatch(setOrderStatus([]));

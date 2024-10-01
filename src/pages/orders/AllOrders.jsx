@@ -11,7 +11,7 @@ import { get_all_order } from "../../features/order/orderSlice";
 const AllOrders = () => {
   const dispatch = useDispatch();
   const { orders, isLoading } = useSelector((state) => state.order);
-  const { orderStatus, claim, claimStatus, settled, dateFilter } = useSelector(
+  const { orderStatus, claim, settled, dateFilter } = useSelector(
     (state) => state.dropdown
   );
 
@@ -33,7 +33,6 @@ const AllOrders = () => {
       orderNumber,
       orderStatus,
       claim,
-      claimStatus,
       settled,
       [dateType]: {
         startDate,
@@ -50,7 +49,6 @@ const AllOrders = () => {
     orderNumber,
     orderStatus,
     claim,
-    claimStatus,
     settled,
     dateFilter,
     dateType,

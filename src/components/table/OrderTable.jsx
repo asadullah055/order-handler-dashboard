@@ -81,19 +81,6 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
                 {order.claim || ""}
               </span>
             </td>
-            {/* <td className="py-2 px-2 font-medium whitespace-nowrap">
-              <span
-                className={`p-2 rounded-md ${
-                  order.approvedOrReject === "Reject"
-                    ? "bg-rose-500 text-white"
-                    : order.approvedOrReject === "Approve"
-                    ? "bg-green-500 text-white"
-                    : ""
-                }`}
-              >
-                {order.approvedOrReject || ""}
-              </span>
-            </td> */}
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               <div className="flex gap-2">
                 <button
