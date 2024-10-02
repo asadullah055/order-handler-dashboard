@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import useMessages from "../../Hooks/useMessages";
 import useOrderForm from "../../Hooks/useOrderForm";
 import LoadingBtn from "../LoadingBtn";
@@ -10,9 +10,8 @@ import OrderNumberAndSettled from "./OrderNumberAndSettled";
 import OrderStatus from "./OrderStatus";
 
 const OrderFormData = () => {
-  const dispatch = useDispatch();
   const { orderNumber } = useParams();
-  const navigate = useNavigate();
+
   const { order, isLoading } = useSelector((state) => state.order);
 
   // date formate

@@ -42,9 +42,13 @@ const useOrderForm = (orderNumber) => {
         comment: order.comment || "",
         settled: order.settled || "",
         date: formatDate(order.date),
-        dfMailDate: order.dfMailDate || "",
+        dfMailDate: order.dfMailDate
+          ? new Date(order.dfMailDate).toISOString().split("T")[0]
+          : "",
         orderStatus: order.orderStatus || "",
-        receivedDate: order.receivedDate || "",
+        receivedDate: order.receivedDate
+          ? new Date(order.receivedDate).toISOString().split("T")[0]
+          : "",
       });
       if (order.claimType && order.claimType.length > 0) {
         const updatedClaims = order.claimType?.map((claim) => ({
