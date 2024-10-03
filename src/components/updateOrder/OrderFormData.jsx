@@ -186,22 +186,29 @@ const OrderFormData = () => {
               formData={formData}
               handleInputChange={handleInputChange}
             />
-            {formData.orderStatus !== "Delivered" && (
+            {!["Not Drop", "Delivered"].includes(formData.orderStatus) && (
               <>
-                <UpdateTr
-                  title={"DF Mail Date"}
-                  type={"date"}
-                  name="dfMailDate"
-                  value={formData.dfMailDate}
-                  onChange={handleInputChange}
-                />
-                <UpdateTr
-                  title={"Return Receive Date"}
-                  type={"date"}
-                  name="receivedDate"
-                  value={formData.receivedDate}
-                  onChange={handleInputChange}
-                />
+                {!["Return", "Item Loss"].includes(formData.orderStatus) && (
+                  <UpdateTr
+                    title={"DF Mail Date"}
+                    type={"date"}
+                    name="dfMailDate"
+                    value={formData.dfMailDate}
+                    onChange={handleInputChange}
+                  />
+                )}
+
+                {!["Scraped", "No Return Yet", "Item Loss"].includes(
+                  formData.orderStatus
+                ) && (
+                  <UpdateTr
+                    title={"Return Receive Date"}
+                    type={"date"}
+                    name="receivedDate"
+                    value={formData.receivedDate}
+                    onChange={handleInputChange}
+                  />
+                )}
                 <tr className="border">
                   <td className="p-3 font-medium border">Claim</td>
                   <td className="p-1 font-medium border">

@@ -30,7 +30,7 @@ const useOrderForm = (orderNumber) => {
       paidAmount: "",
       invoiceCycle: "",
       claimDetails: "",
-      arMailDate: formatDate(new Date()),
+      arMailDate: '',
     },
   ]);
 
@@ -54,7 +54,7 @@ const useOrderForm = (orderNumber) => {
         const updatedClaims = order.claimType?.map((claim) => ({
           ...claim,
           claimDate: claim.claimDate || formatDate(new Date()), // default to today
-          arMailDate: claim.arMailDate || formatDate(new Date()), // default to today
+          arMailDate: claim.arMailDate || '', // default to today
         }));
         setClaimEntries(updatedClaims);
       } else {
@@ -67,7 +67,7 @@ const useOrderForm = (orderNumber) => {
             paidAmount: "",
             invoiceCycle: "",
             claimDetails: "",
-            arMailDate: formatDate(new Date()),
+            arMailDate: '',
           },
         ]);
       }
@@ -91,6 +91,12 @@ const useOrderForm = (orderNumber) => {
     const newClaims = [...claimEntries];
     const updatedClaim = { ...newClaims[index] };
     updatedClaim[e.target.name] = e.target.value;
+    if (e.target.name === "claimStatus") {
+      updatedClaim.arMailDate =
+        e.target.value === "Approved" || e.target.value === "Reject"
+          ? formatDate(new Date()) // Today's date
+          : ""; // Otherwise, empty string
+    }
     newClaims[index] = updatedClaim;
     setClaimEntries(newClaims);
   };
@@ -106,7 +112,7 @@ const useOrderForm = (orderNumber) => {
         paidAmount: "",
         invoiceCycle: "",
         claimDetails: "",
-        arMailDate: formatDate(new Date()),
+        arMailDate: '',
       },
     ]);
   };
@@ -119,10 +125,11 @@ const useOrderForm = (orderNumber) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const claimData = formData.claim === "Yes" ? claimEntries : [];
     dispatch(
       update_single_order({
         orderNumber,
-        data: { ...formData, claimType: claimEntries },
+        data: { ...formData, claimType: claimData },
       })
     );
   };

@@ -69,18 +69,6 @@ const ClaimSection = ({
                   />
                 </div>
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                  <p className="w-[25%]">A/R Mail Date</p>
-                  <input
-                    title={"A/R Mail Date"}
-                    type={"date"}
-                    name="arMailDate"
-                    value={entry.arMailDate}
-                    className="border p-2 focus:outline-0 w-full md:w-[75%]"
-                    onChange={(e) => handleClaimChange(index, e)}
-                  />
-                  {/* Show delete button only for the last entry */}
-                </div>
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                   <p className="w-[25%]">Claim Status</p>
                   <select
                     name="claimStatus"
@@ -92,6 +80,18 @@ const ClaimSection = ({
                     <option value="Approved">Approved</option>
                     <option value="Reject">Reject</option>
                   </select>
+                </div>
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                  <p className="w-[25%]">A/R Mail Date</p>
+                  <input
+                    title={"A/R Mail Date"}
+                    type={"date"}
+                    name="arMailDate"
+                    value={entry.arMailDate}
+                    className="border p-2 focus:outline-0 w-full md:w-[75%]"
+                    onChange={(e) => handleClaimChange(index, e)}
+                  />
+                  {/* Show delete button only for the last entry */}
                 </div>
 
                 {entry.claimName !== "Score Card" && (
