@@ -55,7 +55,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
             </td>
             <td className="py-1 px-2 font-medium whitespace-nowrap">
               <span
-                className={`capitalize p-2 rounded-md ${getOrderStatusClass(
+                className={`capitalize p-2 rounded-md w-28 ${getOrderStatusClass(
                   order.orderStatus
                 )}`}
               >
