@@ -1,4 +1,5 @@
 import React from "react";
+import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { formatDate } from "../util/dateFormater";
 import { getOrderStatusClass } from "../util/statusColor";
@@ -18,22 +19,22 @@ const OrderModal = ({ isOpen, onClose, order }) => {
   return (
     <div
       onClick={handleBackdropClick}
-      className="fixed inset-0 bg-gray-600 bg-opacity-70 flex justify-center items-center z-[100]"
+      className="fixed inset-0  bg-gray-600 bg-opacity-70 flex justify-center items-center z-[100]"
     >
-      <div className="bg-white rounded-lg shadow-lg p-8 md:w-[700px] w-full max-h-[100vh] md:max-h-[95vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-lg p-4 md:w-[700px] w-full max-h-[100vh] md:max-h-[95vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
           <h2 className="font-semibold">Order Number #{order.orderNumber}</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-800"
+            className="text-red-500 hover:text-gray-800 bg-teal-100 p-2 rounded-full "
           >
-            &times;
+            <IoClose />
           </button>
         </div>
 
         {/* Status */}
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-2">
           <span className="px-2 py-1 bg-green-500 text-white font-semibold text-sm rounded-full">
             {order.settled === "Yes" ? "Settled" : "Unsettled"}
           </span>
@@ -58,7 +59,7 @@ const OrderModal = ({ isOpen, onClose, order }) => {
             </tr>
             <tr>
               <td className="border p-2">Order Status</td>
-              <td className="border p-2">
+              <td className="border p-1">
                 <span
                   className={`capitalize p-2 rounded-md w-30 ${getOrderStatusClass(
                     order.orderStatus
@@ -112,6 +113,7 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                         <ClaimTypeRow
                           title={"Claim Name"}
                           value={item.claimName}
+                          cClass={`text-teal-700 font-semibold`}
                         />
                         <ClaimTypeRow
                           title={"Claim Date"}
@@ -123,7 +125,7 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                         />
                         <ClaimTypeRow
                           title={"A/R Mail Date"}
-                          value={formatDate(item.arMailDate)}
+                          value={item.arMailDate && formatDate(item.arMailDate)}
                         />
                         <ClaimTypeRow
                           title={"Paid Amount"}
@@ -149,13 +151,10 @@ const OrderModal = ({ isOpen, onClose, order }) => {
           </tbody>
         </table>
 
-        <div className="flex justify-between mt-6">
-          <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            Completed
-          </button>
+        <div className="flex justify-end mt-2">
           <Link
             to={`/update/${order.orderNumber}`}
-            className="p-[6px] bg-yellow-500 text-white rounded hover:shadow-lg flex justify-center items-center"
+            className="p-2  bg-emerald-500 text-white rounded hover:shadow-lg flex justify-center items-center"
           >
             Update
           </Link>

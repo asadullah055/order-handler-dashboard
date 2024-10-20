@@ -102,7 +102,7 @@ const AddOrder = () => {
           onChange={(e) => setDate(e.target.value)}
         />
         <textarea
-          cols={40}
+          cols={30}
           rows={15}
           className="resize-y rounded-md border border-teal-500 focus:border-teal-500 focus:outline-none p-2"
           value={textareaValue}

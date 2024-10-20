@@ -1,10 +1,12 @@
 import React from "react";
 
-const ClaimTypeRow = ({ title, value }) => {
+const ClaimTypeRow = ({ title, value, cClass }) => {
   return (
-    <div className="flex flex-col md:flex-row items-start gap-2 border-b pb-1">
-      <p className="w-[35%]">{title}</p>
-      <p className="text-center">{value}</p>
+    <div className="flex flex-col sm:flex-row items-start gap-2 border-b pb-1">
+      <p className="sm:w-[35%] w-full font-semibold">{title}</p>
+      <p className="text-center">
+        <span className={cClass}>{value}</span>
+      </p>
     </div>
   );
 };

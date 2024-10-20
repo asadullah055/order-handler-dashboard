@@ -97,7 +97,7 @@ const UpdateBulkOrders = () => {
           />
         )}
         <textarea
-          cols={40}
+          cols={30}
           rows={15}
           value={textareaValue}
           onChange={(e) => setTextareaValue(e.target.value)}
