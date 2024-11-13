@@ -31,20 +31,31 @@ const ClaimSection = ({
                     className="p-2 focus:outline-slate-200 border rounded w-full md:w-[75%]"
                   >
                     <option value="">--select--</option>
-                    <option value="Wrong Item">Wrong Item</option>
-                    <option value="Missing Item">Missing Item</option>
-                    <option value="Score Card">Score Card</option>
-                    <option value="Packaging Damage">Packaging Damage</option>
-                    <option value="Damage Item Received">
-                      Damage Item Received
+                    <option value="Damaged item received">
+                      Damaged item received
                     </option>
                     <option value="Returned item never received">
                       Returned item never received
                     </option>
-                    <option value="Penalty Cancellations">
-                      Penalty Cancellations
+                    <option value="Wrong item received">
+                      Wrong item received
                     </option>
-                    <option value="Penalty Returns">Penalty Returns</option>
+                    <option value="Package received after the promised timeline">
+                      Package received after the promised timeline
+                    </option>
+                    <option value="Missing Item / Component / Accessories / Bundle">
+                      Missing Item / Component / Accessories / Bundle
+                    </option>
+                    <option value="Financial Penalty Cancellations">
+                      Financial Penalty Cancellations
+                    </option>
+                    <option value="Financial Penalty Returns">
+                      Financial Penalty Returns
+                    </option>
+                    <option value="Inventory Return">Inventory Return</option>
+                    <option value="QRR Scorecard Adjustment">
+                      QRR Scorecard Adjustment
+                    </option>
                   </select>
                 </div>
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-2">

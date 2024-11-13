@@ -26,7 +26,7 @@ const useOrderForm = (orderNumber) => {
     {
       claimName: "",
       caseNumber: "",
-      claimDate: formatDate(new Date()),
+      claimDate: "",
       claimStatus: "",
       paidAmount: "",
       invoiceCycle: "",
@@ -63,7 +63,7 @@ const useOrderForm = (orderNumber) => {
           {
             claimName: "",
             caseNumber: "",
-            claimDate: formatDate(new Date()),
+            claimDate: "",
             claimStatus: "",
             paidAmount: "",
             invoiceCycle: "",
@@ -94,7 +94,13 @@ const useOrderForm = (orderNumber) => {
     updatedClaim[e.target.name] = e.target.value;
     if (e.target.name === "claimStatus") {
       updatedClaim.arMailDate =
-        e.target.value === "Approved" || e.target.value === "Reject"
+        e.target.value !== ""
+          ? formatDate(new Date()) // Today's date
+          : ""; // Otherwise, empty string
+    }
+    if (e.target.name === "claimName") {
+      updatedClaim.claimDate =
+        e.target.value !== ""
           ? formatDate(new Date()) // Today's date
           : ""; // Otherwise, empty string
     }
@@ -108,7 +114,7 @@ const useOrderForm = (orderNumber) => {
       {
         claimName: "",
         caseNumber: "",
-        claimDate: formatDate(new Date()),
+        claimDate: "",
         claimStatus: "",
         paidAmount: "",
         invoiceCycle: "",

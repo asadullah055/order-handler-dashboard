@@ -3,8 +3,8 @@ import React from "react";
 const OrderNumberAndSettled = ({ order, formData, handleInputChange }) => {
   return (
     <tr className="border">
-      <td className="p-3 font-medium border">Order Number</td>
-      <td className="p-3 font-medium border flex items-center">
+      <th className="p-3 font-medium border">Status</th>
+      <th className="p-3 font-medium border flex items-center">
         <span className="w-1/3">{order.orderNumber}</span>
         {formData.orderStatus === "Delivered" ||
         (formData.orderStatus === "Delivery Failed" &&
@@ -24,7 +24,7 @@ const OrderNumberAndSettled = ({ order, formData, handleInputChange }) => {
             </select>
           </div>
         )}
-      </td>
+      </th>
     </tr>
   );
 };

@@ -99,7 +99,7 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
       </div>
 
       <div className="grid grid-cols-1 md:flex items-center px-2 py-4">
-        <label htmlFor="orderNumber">Order Number:</label>
+        <label htmlFor="orderNumber">Order/Case Number:</label>
         <div className="flex items-center flex-wrap gap-2">
           <input
             className="focus:outline-gray-200 p-2 ml-2 border rounded"
@@ -107,10 +107,10 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
             type="text"
             value={orderNumber}
             onChange={(e) => {
-              setOrderNumber(e.target.value);
+              setOrderNumber(e.target.value.trim());
               setCurrentPage(1);
             }}
-            placeholder="Order number"
+            placeholder="Order/Case number"
           />
           <button
             type="button"

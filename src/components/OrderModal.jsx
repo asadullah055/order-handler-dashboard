@@ -110,35 +110,53 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                   <div className="grid grid-cols-1">
                     {order.claimType?.map((item, i) => (
                       <div className="flex flex-col w-full gap-2 p-2" key={i}>
-                        <ClaimTypeRow
-                          title={"Claim Name"}
-                          value={item.claimName}
-                          cClass={`text-teal-700 font-semibold`}
-                        />
-                        <ClaimTypeRow
-                          title={"Claim Date"}
-                          value={formatDate(item.claimDate)}
-                        />
-                        <ClaimTypeRow
-                          title={"Claim Status"}
-                          value={item.claimStatus}
-                        />
-                        <ClaimTypeRow
-                          title={"A/R Mail Date"}
-                          value={item.arMailDate && formatDate(item.arMailDate)}
-                        />
-                        <ClaimTypeRow
-                          title={"Paid Amount"}
-                          value={item.paidAmount}
-                        />
-                        <ClaimTypeRow
-                          title={"Invoice Cycle"}
-                          value={item.invoiceCycle}
-                        />
-                        <ClaimTypeRow
-                          title={"Claim Details"}
-                          value={item.claimDetails}
-                        />
+                        {item.claimName && (
+                          <ClaimTypeRow
+                            title={"Claim Name"}
+                            value={item.claimName}
+                            cClass={`text-teal-700 font-semibold`}
+                          />
+                        )}
+                        {item.claimDate && (
+                          <ClaimTypeRow
+                            title={"Claim Date"}
+                            value={
+                              item.claimDate ? formatDate(item.claimDate) : ""
+                            }
+                          />
+                        )}
+                        {item.claimStatus && (
+                          <ClaimTypeRow
+                            title={"Claim Status"}
+                            value={item.claimStatus}
+                          />
+                        )}
+                        {item.arMailDate && (
+                          <ClaimTypeRow
+                            title={"A/R Mail Date"}
+                            value={
+                              item.arMailDate ? formatDate(item.arMailDate) : ""
+                            }
+                          />
+                        )}
+                        {item.paidAmount && (
+                          <ClaimTypeRow
+                            title={"Paid Amount"}
+                            value={item.paidAmount}
+                          />
+                        )}
+                        {item.invoiceCycle && (
+                          <ClaimTypeRow
+                            title={"Invoice Cycle"}
+                            value={item.invoiceCycle}
+                          />
+                        )}
+                        {item.claimDetails && (
+                          <ClaimTypeRow
+                            title={"Claim Details"}
+                            value={item.claimDetails}
+                          />
+                        )}
                         {order.claimType.length > 1 && (
                           <div className="bg-teal-500 h-[1px]" />
                         )}

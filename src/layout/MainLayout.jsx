@@ -17,7 +17,7 @@ const MainLayout = () => {
     <>
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="ml-0 lg:ml-[260px] pt-[80px] pb-[30px] pl-4 pr-4 transition-all">
+      <div className="ml-0 lg:ml-[260px] pt-[80px] pb-[30px] pl-4 pr-4  transition-all">
         <Outlet />
       </div>
     </>

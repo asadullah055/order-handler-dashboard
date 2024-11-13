@@ -1,12 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useMessages from "../../Hooks/useMessages";
 import useOrderForm from "../../Hooks/useOrderForm";
 import LoadingBtn from "../LoadingBtn";
 import UpdateTr from "./../table/UpdateTr";
 import ClaimSection from "./ClaimSection";
-import OrderNumberAndSettled from "./OrderNumberAndSettled";
 import OrderStatus from "./OrderStatus";
 
 const OrderFormData = () => {
@@ -26,21 +25,59 @@ const OrderFormData = () => {
 
   useMessages(orderNumber);
   return (
-    <div className="relative overflow-x-auto rounded-md p-2">
+    <div className="overflow-x-auto rounded-md p-2 ">
       <form onSubmit={handleSubmit}>
-        <table className="text-sm text-left rounded-md p-2 text-black w-full">
+        <table className="text-sm  text-left rounded-md p-2 text-black w-full overflow-x-hidden ">
           <thead className="text-sm uppercase border bg-gray-200">
             <tr>
               <th className="py-3 px-2 border w-[30%]">Title</th>
-              <th className="py-3 px-2 border w-[70%]">Status</th>
+              <th className="py-3 ps-2  flex items-center justify-between w-[75%]">
+                <span className="w-1/3">Status</span>
+                {formData.orderStatus === "Delivered" ||
+                (formData.orderStatus === "Delivery Failed" &&
+                  formData.claim === "No") ? (
+                  <h2 className="bg-teal-100 p-2 rounded font-semibold">
+                    Settled
+                  </h2>
+                ) : (
+                  <div className="flex items-center gap-2 w-1/2">
+                    <h2 className="w-1/2 font-semibold">Settled</h2>
+                    <select
+                      name="settled"
+                      value={formData.settled}
+                      onChange={handleInputChange}
+                      className="w-full p-1 bg-white focus:outline-slate-200 border rounded"
+                    >
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                )}
+              </th>
+              {/* <OrderNumberAndSettled
+                order={order}
+                formData={formData}
+                handleInputChange={handleInputChange}
+              /> */}
             </tr>
           </thead>
           <tbody className="[&>:nth-child(odd)]:bg-gray-100">
-            <OrderNumberAndSettled
+            {/* <OrderNumberAndSettled
               order={order}
               formData={formData}
               handleInputChange={handleInputChange}
-            />
+            /> */}
+            <tr className="border">
+              <td scope="row" className="p-3 font-medium border">
+                Order Number
+              </td>
+              <td
+                scope="row"
+                className="p-3 font-medium border flex items-center"
+              >
+                {order.orderNumber}
+              </td>
+            </tr>
 
             <UpdateTr
               title={"Drop Date"}
@@ -114,12 +151,12 @@ const OrderFormData = () => {
               <td></td>
               <td className="p-1 font-medium border">
                 <div className="flex justify-between w-[90%] gap-4">
-                  <button
-                    type="button"
-                    className="p-2 bg-red-500 text-white rounded-md w-1/2"
+                  <Link
+                    to={"/all-orders"}
+                    className="p-2 bg-red-500 text-white text-center rounded-md w-1/2"
                   >
                     Cancel
-                  </button>
+                  </Link>
                   <button
                     disabled={isLoading}
                     type="submit"
