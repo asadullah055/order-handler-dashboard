@@ -26,14 +26,14 @@ export const allNav = [
         path: "/delivery-failed",
       },
       {
-        id: "4-5",
-        title: "Unsettled order",
-        path: "/un-settled-order",
-      },
-      {
         id: "4-3",
         title: "Return",
         path: "/return-order",
+      },
+      {
+        id: "4-5",
+        title: "Unsettled order",
+        path: "/un-settled-order",
       },
     ],
   },
@@ -46,10 +46,7 @@ export const allNav = [
   {
     id: 3,
     title: "Bulk Update",
-    icon: RiFileEditLine ,
+    icon: RiFileEditLine,
     path: "/update-orders",
   },
- 
-  
-  
 ];

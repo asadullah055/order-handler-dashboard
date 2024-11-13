@@ -63,7 +63,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
               </span>
             </td>
             <td className="py-2 px-2 font-medium whitespace-nowrap">
-              {order.dfMailDate ? formatDate(order.dfMailDate) : "No Date"}
+              {order.settled}
             </td>
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               {order.receivedDate ? formatDate(order.receivedDate) : "No Date"}
@@ -118,7 +118,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
             Order Status
           </th>
           <th scope="col" className="py-2 px-2 whitespace-nowrap">
-            DF Mail Date
+            Settled status
           </th>
           <th scope="col" className="py-2 px-2 whitespace-nowrap">
             <div className="flex items-center gap-1">Receive Date</div>

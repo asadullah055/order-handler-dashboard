@@ -25,6 +25,8 @@ const AllOrders = () => {
   const dateType = Object.values(dateFilter)[0];
   const startDate = Object.values(dateFilter)[1];
   const endDate = Object.values(dateFilter)[2];
+  console.log("All order");
+
   // Fetch orders and status numbers when dependencies change
   useEffect(() => {
     const filterPayload = {
@@ -43,17 +45,16 @@ const AllOrders = () => {
     dispatch(get_all_order(filterPayload));
     dispatch(get_status_number());
   }, [
-    dispatch,
+    claim,
     currentPage,
-    perPage,
+    dateType,
+    dispatch,
+    endDate,
     orderNumber,
     orderStatus,
-    claim,
+    perPage,
     settled,
-    dateFilter,
-    dateType,
     startDate,
-    endDate,
   ]);
 
   // Handle modal opening and setting selected order

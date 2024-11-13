@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { get_status_number } from "../features/filter/filterSlice";
 import { update_single_order } from "../features/order/orderSlice";
@@ -30,7 +31,7 @@ const useOrderForm = (orderNumber) => {
       paidAmount: "",
       invoiceCycle: "",
       claimDetails: "",
-      arMailDate: '',
+      arMailDate: "",
     },
   ]);
 
@@ -54,7 +55,7 @@ const useOrderForm = (orderNumber) => {
         const updatedClaims = order.claimType?.map((claim) => ({
           ...claim,
           claimDate: claim.claimDate || formatDate(new Date()), // default to today
-          arMailDate: claim.arMailDate || '', // default to today
+          arMailDate: claim.arMailDate || "", // default to today
         }));
         setClaimEntries(updatedClaims);
       } else {
@@ -67,7 +68,7 @@ const useOrderForm = (orderNumber) => {
             paidAmount: "",
             invoiceCycle: "",
             claimDetails: "",
-            arMailDate: '',
+            arMailDate: "",
           },
         ]);
       }
@@ -112,7 +113,7 @@ const useOrderForm = (orderNumber) => {
         paidAmount: "",
         invoiceCycle: "",
         claimDetails: "",
-        arMailDate: '',
+        arMailDate: "",
       },
     ]);
   };
@@ -126,12 +127,16 @@ const useOrderForm = (orderNumber) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const claimData = formData.claim === "Yes" ? claimEntries : [];
-    dispatch(
-      update_single_order({
-        orderNumber,
-        data: { ...formData, claimType: claimData },
-      })
-    );
+    if (formData.claim === "" && formData.orderStatus !== "Delivered") {
+      toast.error("Please select claim");
+    } else {
+      dispatch(
+        update_single_order({
+          orderNumber,
+          data: { ...formData, claimType: claimData },
+        })
+      );
+    }
   };
 
   return {

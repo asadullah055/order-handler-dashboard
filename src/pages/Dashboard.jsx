@@ -8,6 +8,8 @@ import { get_status_number } from "../features/filter/filterSlice";
 const Dashboard = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  console.log("dashboard");
+
   const {
     totalTransit,
     totalDF,
