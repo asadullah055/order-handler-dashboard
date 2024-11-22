@@ -26,12 +26,12 @@ const OrderFormData = () => {
   useMessages(orderNumber);
   return (
     <div className="overflow-x-auto rounded-md p-2 ">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="overflow-y-auto max-h-[500px]">
         <table className="text-sm  text-left rounded-md p-2 text-black w-full overflow-x-hidden ">
-          <thead className="text-sm uppercase border bg-gray-200">
+          <thead className="text-sm uppercase border bg-gray-200 sticky top-0 z-10">
             <tr>
-              <th className="py-3 px-2 border w-[30%]">Title</th>
-              <th className="py-3 ps-2  flex items-center justify-between w-[75%]">
+              <th className="py-3 px-2 border w-[30%] ">Title</th>
+              <th className="py-3 ps-2  flex items-center justify-between w-[75%] ">
                 <span className="w-1/3">Status</span>
                 {formData.orderStatus === "Delivered" ||
                 (formData.orderStatus === "Delivery Failed" &&
