@@ -75,7 +75,12 @@ const OrderFormData = () => {
                 scope="row"
                 className="p-3 font-medium border flex items-center"
               >
-                {order.orderNumber}
+                <Link
+                  target="_blank"
+                  to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
+                >
+                  {order.orderNumber}
+                </Link>
               </td>
             </tr>
 
@@ -142,7 +147,7 @@ const OrderFormData = () => {
               title={"Comment"}
               type={"text"}
               name="comment"
-              value={formData.comment}
+              value={formData.comment.trim()}
               placeholder="Comment"
               onChange={handleInputChange}
             />

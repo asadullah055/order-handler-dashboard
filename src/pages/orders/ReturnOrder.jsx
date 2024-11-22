@@ -4,6 +4,7 @@ import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
 import { get_return_order } from "../../features/order/orderSlice";
+import showOrderItems from "../../util/showOrderItems";
 
 const ReturnOrder = () => {
   const { returnOrder, isLoading } = useSelector((state) => state.order);
@@ -35,7 +36,7 @@ const ReturnOrder = () => {
       <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
       <div className="relative overflow-x-auto bg-white p-2 border rounded border-gray-200">
         <h1 className="text-teal-500 text-2xl font-semibold text-center">
-          Return Orders ({returnOrder?.totalReturnItem})
+          Return Orders ({showOrderItems(returnOrder?.totalReturnItem)})
         </h1>
         <div className="p-2 bg-white rounded-md shadow-sm mt-1 relative overflow-x-auto ">
           <OrderTable

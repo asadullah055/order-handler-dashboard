@@ -1,11 +1,17 @@
 import React from "react";
-import { FaEye, FaRegEdit } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { FaEye, FaRegCopy, FaRegEdit } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../util/dateFormater";
 import { getOrderStatusClass } from "../../util/statusColor";
 
-const OrderTable = ({ orders, isLoading, openModal }) => {
+const OrderTable = ({ orders, isLoading, openModal, orderStatus }) => {
+  // console.log(orders?.map((i) => i.claimType[0]?.caseNumber));
+  const handleCopy = (orderNumber) => {
+    navigator.clipboard.writeText(orderNumber);
+    toast.success("Order number copied successfully!");
+  };
   let content = null;
   if (isLoading) {
     content = (
@@ -42,14 +48,23 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
       <tbody className="[&>:nth-child(even)]:bg-gray-100">
         {orders.map((order, i) => (
           <tr key={i}>
-            <td className="py-2 px-2 font-medium whitespace-nowrap">
+            <td className="py-2 px-2 font-medium whitespace-nowrap relative group">
               <Link
                 target="_blank"
                 to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
               >
                 {order.orderNumber}
               </Link>
+              {/* Copy Button */}
+
+              <span
+                onClick={() => handleCopy(order.orderNumber)}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-orange-400 text-sm px-2 py-1 cursor-pointer hidden group-hover:block"
+              >
+                <FaRegCopy />
+              </span>
             </td>
+
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               {formatDate(order.date)}
             </td>
@@ -63,7 +78,9 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
               </span>
             </td>
             <td className="py-2 px-2 font-medium whitespace-nowrap">
-              {order.settled}
+              {orderStatus === "unsettledOrders"
+                ? order.claimType[0]?.caseNumber
+                : order.settled}
             </td>
             <td className="py-2 px-2 font-medium whitespace-nowrap">
               {order.receivedDate ? formatDate(order.receivedDate) : "No Date"}
@@ -118,7 +135,7 @@ const OrderTable = ({ orders, isLoading, openModal }) => {
             Order Status
           </th>
           <th scope="col" className="py-2 px-2 whitespace-nowrap">
-            Settled status
+            {orderStatus === "unsettledOrders" ? "Claim No" : "Settled status"}
           </th>
           <th scope="col" className="py-2 px-2 whitespace-nowrap">
             <div className="flex items-center gap-1">Receive Date</div>

@@ -5,6 +5,7 @@ import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
 import { get_unsettled_order } from "../../features/order/orderSlice";
+import showOrderItems from "../../util/showOrderItems";
 
 const UnSettledOrders = () => {
   const { unsettledOrder, isLoading } = useSelector((state) => state.order);
@@ -36,11 +37,13 @@ const UnSettledOrders = () => {
       <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
       <div className="relative overflow-x-auto bg-white p-2 border rounded border-gray-200">
         <h1 className="text-teal-500 text-2xl font-semibold text-center">
-          Unsettled Orders ({unsettledOrder?.totalUnsettledItem})
+          Unsettled Orders ({showOrderItems(unsettledOrder?.totalUnsettledItem)}
+          )
         </h1>
         <div className="p-2 bg-white rounded-md shadow-sm mt-1 relative overflow-x-auto ">
           <OrderTable
             orders={unsettledOrder.unsettledOrders}
+            orderStatus={"unsettledOrders"}
             isLoading={isLoading}
             openModal={handleModal}
           />

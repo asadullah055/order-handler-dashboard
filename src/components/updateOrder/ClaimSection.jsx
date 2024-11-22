@@ -73,7 +73,7 @@ const ClaimSection = ({
                   <input
                     type="text"
                     name="caseNumber"
-                    value={entry.caseNumber}
+                    value={entry.caseNumber.trim()}
                     onChange={(e) => handleClaimChange(index, e)}
                     className="border p-2 focus:outline-0 w-full md:w-[75%]"
                     placeholder="Case Number"
@@ -112,7 +112,7 @@ const ClaimSection = ({
                       <input
                         type="text"
                         name="paidAmount"
-                        value={entry.paidAmount}
+                        value={entry.paidAmount.trim()}
                         onChange={(e) => handleClaimChange(index, e)}
                         className="border p-2 focus:outline-0 w-full md:w-[75%]"
                         placeholder="Paid Amount"
@@ -124,7 +124,7 @@ const ClaimSection = ({
                       <input
                         type="text"
                         name="invoiceCycle"
-                        value={entry.invoiceCycle}
+                        value={entry.invoiceCycle.trim()}
                         onChange={(e) => handleClaimChange(index, e)}
                         className="border p-2 focus:outline-0 w-full md:w-[75%]"
                         placeholder="Invoice cycle"
@@ -135,7 +135,7 @@ const ClaimSection = ({
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                   <p className="w-[25%]">Claim Details</p>
                   <div className="flex items-center w-full md:w-[75%]">
-                    <input
+                    {/*  <input
                       type="text"
                       name="claimDetails"
                       value={entry.claimDetails}
@@ -143,7 +143,15 @@ const ClaimSection = ({
                       className="border p-2 focus:outline-0 
                                 w-[90%]"
                       placeholder="Claim Details"
-                    />
+                    /> */}
+                    <textarea
+                      name="claimDetails"
+                      value={entry.claimDetails.trim()}
+                      onChange={(e) => handleClaimChange(index, e)}
+                      className="border p-2 focus:outline-0 w-[90%] resize-y"
+                      placeholder="Claim Details"
+                      rows="4"
+                    ></textarea>
                     {index === lastIndex && (
                       <button
                         type="button"

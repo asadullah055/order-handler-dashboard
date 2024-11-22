@@ -107,7 +107,7 @@ const OrderModal = ({ isOpen, onClose, order }) => {
               <tr>
                 <td className="border p-2">Claim Type</td>
                 <td className="border">
-                  <div className="grid grid-cols-1">
+                  <div className="grid grid-cols-1 ">
                     {order.claimType?.map((item, i) => (
                       <div className="flex flex-col w-full gap-2 p-2" key={i}>
                         {item.claimName && (
@@ -123,6 +123,12 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                             value={
                               item.claimDate ? formatDate(item.claimDate) : ""
                             }
+                          />
+                        )}
+                        {item.caseNumber && (
+                          <ClaimTypeRow
+                            title={"Case Number"}
+                            value={item.caseNumber}
                           />
                         )}
                         {item.claimStatus && (
@@ -152,10 +158,14 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                           />
                         )}
                         {item.claimDetails && (
-                          <ClaimTypeRow
-                            title={"Claim Details"}
-                            value={item.claimDetails}
-                          />
+                          <div className="flex flex-col sm:flex-row items-center gap-2 border-b pb-1">
+                            <p className="sm:w-[35%] w-full font-semibold whitespace-nowrap">
+                              Claim Details
+                            </p>
+                            <p className="p-2 sm:w-[65%] w-full break-words">
+                              {item.claimDetails}
+                            </p>
+                          </div>
                         )}
                         {order.claimType.length > 1 && (
                           <div className="bg-teal-500 h-[1px]" />

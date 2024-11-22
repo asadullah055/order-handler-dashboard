@@ -7,6 +7,7 @@ import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
 import { get_status_number } from "../../features/filter/filterSlice";
 import { get_all_order } from "../../features/order/orderSlice";
+import showOrderItems from "../../util/showOrderItems";
 
 const AllOrders = () => {
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ const AllOrders = () => {
       {/* Orders Table and Filters */}
       <div className="relative overflow-x-auto bg-white p-2 border rounded border-gray-200">
         <h2 className="bg-teal-100 text-teal-700 text-3xl text-center p-2 font-semibold">
-          Total Orders ({orders.totalItem || 0})
+          Total Orders ( {showOrderItems(orders.totalItem)} )
         </h2>
 
         {/* Filters Component */}
