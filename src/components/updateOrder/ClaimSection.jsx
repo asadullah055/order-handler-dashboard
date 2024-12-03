@@ -112,7 +112,7 @@ const ClaimSection = ({
                       <input
                         type="text"
                         name="paidAmount"
-                        value={entry.paidAmount.trim()}
+                        value={entry.paidAmount}
                         onChange={(e) => handleClaimChange(index, e)}
                         className="border p-2 focus:outline-0 w-full md:w-[75%]"
                         placeholder="Paid Amount"
@@ -124,7 +124,7 @@ const ClaimSection = ({
                       <input
                         type="text"
                         name="invoiceCycle"
-                        value={entry.invoiceCycle.trim()}
+                        value={entry.invoiceCycle}
                         onChange={(e) => handleClaimChange(index, e)}
                         className="border p-2 focus:outline-0 w-full md:w-[75%]"
                         placeholder="Invoice cycle"
@@ -146,7 +146,7 @@ const ClaimSection = ({
                     /> */}
                     <textarea
                       name="claimDetails"
-                      value={entry.claimDetails.trim()}
+                      value={entry.claimDetails}
                       onChange={(e) => handleClaimChange(index, e)}
                       className="border p-2 focus:outline-0 w-[90%] resize-y"
                       placeholder="Claim Details"

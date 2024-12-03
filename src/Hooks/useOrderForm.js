@@ -133,7 +133,11 @@ const useOrderForm = (orderNumber) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const claimData = formData.claim === "Yes" ? claimEntries : [];
-    if (formData.claim === "" && formData.orderStatus !== "Delivered") {
+    if (
+      formData.claim === "" &&
+      formData.orderStatus !== "Delivered" &&
+      formData.orderStatus !== "transit"
+    ) {
       toast.error("Please select claim");
     } else {
       dispatch(

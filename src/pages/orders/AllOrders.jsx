@@ -26,7 +26,6 @@ const AllOrders = () => {
   const dateType = Object.values(dateFilter)[0];
   const startDate = Object.values(dateFilter)[1];
   const endDate = Object.values(dateFilter)[2];
-  console.log("All order");
 
   // Fetch orders and status numbers when dependencies change
   useEffect(() => {
@@ -57,6 +56,12 @@ const AllOrders = () => {
     settled,
     startDate,
   ]);
+  console.log("All Order Rendered", {
+    currentPage,
+    orderNumber,
+    orderStatus,
+    orders,
+  });
 
   // Handle modal opening and setting selected order
   const handleModal = (orderNumber) => {
@@ -96,9 +101,11 @@ const AllOrders = () => {
         {/* Orders Table */}
         <div className="p-2 bg-white rounded-md shadow-sm mt-4 relative overflow-x-auto">
           <OrderTable
+            orderNumber={orderNumber}
             orders={orders?.orders || []}
             isLoading={isLoading}
             openModal={handleModal}
+            selectedOrder={selectedOrder}
           />
         </div>
 

@@ -1,13 +1,10 @@
 function showOrderItems(items) {
   if (items < 10) {
     return `0${items}`;
+  } else if (items === 0 || !items) {
+    return `00`;
   } else {
     return items;
   }
-  /* (
-        {(orders.totalItem < 10
-          ? `0${orders.totalItem}`
-          : orders.totalItem) || 0}
-        ) */
 }
 export default showOrderItems;

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { FaEye, FaRegCopy, FaRegEdit } from "react-icons/fa";
+import { RotatingLines } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
-import OrderTable from "../../components/table/OrderTable";
 import { get_df_order } from "../../features/order/orderSlice";
+import { formatDate } from "../../util/dateFormater";
 import showOrderItems from "../../util/showOrderItems";
+import { getOrderStatusClass } from "../../util/statusColor";
 
 const DeliveryFailed = () => {
   const { dfOrder, isLoading } = useSelector((state) => state.order);
@@ -31,6 +36,85 @@ const DeliveryFailed = () => {
       })
     );
   }, [perPage, currentPage]);
+
+  const handleCopy = (orderNumber) => {
+    navigator.clipboard.writeText(orderNumber);
+    toast.success("Order number copied successfully!");
+  };
+  const content = dfOrder?.dfOrders?.map((order, i) => (
+    <tr key={i}>
+      <td className="py-2 px-2 font-medium relative group">
+        <Link
+          target="_blank"
+          to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
+        >
+          {order.orderNumber}
+        </Link>
+        <span
+          onClick={() => handleCopy(order.orderNumber)}
+          className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-400 text-sm px-2 py-1 cursor-pointer hidden group-hover:block"
+        >
+          <FaRegCopy />
+        </span>
+      </td>
+      <td className="py-2 px-2">{formatDate(order.date)}</td>
+      <td className="py-1 px-2">
+        <span
+          className={`capitalize py-2 px-1 rounded-md w-28 ${getOrderStatusClass(
+            order.orderStatus
+          )}`}
+        >
+          {order.orderStatus}
+        </span>
+      </td>
+      <td className="py-2 px-2 text-center ">
+        {order.orderStatus === "unsettledOrders"
+          ? order.claimType[0]?.caseNumber
+          : order.settled}
+      </td>
+      <td className="py-2 px-2">
+        {order.receivedDate ? formatDate(order.receivedDate) : "No Date"}
+      </td>
+      <td className="py-2 px-2">
+        <span
+          className={`p-2 rounded-md ${
+            order.claim === "Yes"
+              ? "bg-red-500 text-white"
+              : order.claim === "No"
+              ? "bg-green-500 text-white"
+              : ""
+          }`}
+        >
+          {order.claim || ""}
+        </span>
+      </td>
+      <td className="py-2 px-2">
+        <div className="flex gap-2">
+          <button
+            className="bg-teal-100 text-teal-500 p-2 rounded"
+            onClick={() => handleModal(order.orderNumber)}
+          >
+            <FaEye />
+          </button>
+          <Link
+            to={`/update/${order.orderNumber}`}
+            className="p-[6px] w-[30px] bg-yellow-500 text-white rounded hover:shadow-lg flex justify-center items-center"
+          >
+            <FaRegEdit />
+          </Link>
+        </div>
+      </td>
+    </tr>
+  ));
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-3">
+        <RotatingLines visible height="50" width="50" strokeColor="#00bfae" />
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-md lg:w-[90%] mx-auto p-2">
       <OrderModal isOpen={isOpen} onClose={handleModal} order={selectedOrder} />
@@ -39,11 +123,30 @@ const DeliveryFailed = () => {
           Delivery Failed Orders ( {showOrderItems(dfOrder?.totalDfItem)} )
         </h1>
         <div className="p-2 bg-white rounded-md shadow-sm mt-1 relative overflow-x-auto ">
-          <OrderTable
-            orders={dfOrder.dfOrders}
-            isLoading={isLoading}
-            openModal={handleModal}
-          />
+          <table className="text-sm text-left font-poppin text-black w-full">
+            <thead className="text-xs lg:text-sm uppercase border-b bg-gray-200">
+              <tr>
+                <th className="py-3 px-2">Order Number</th>
+                <th className="py-3 px-2">Drop Date</th>
+                <th className="py-2 px-2">Order Status</th>
+                <th className="py-2 px-2">Settled status</th>
+                <th className="py-2 px-2">Receive Date</th>
+                <th className="py-2 px-2">Claim</th>
+                <th className="py-2 px-2">Action</th>
+              </tr>
+            </thead>
+            <tbody className="[&>:nth-child(even)]:bg-gray-100">
+              {dfOrder?.dfOrders?.length ? (
+                content
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-3">
+                    No order found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         {dfOrder?.totalDfItem > perPage && (
           <div className="mt-3 flex justify-end mx-3">

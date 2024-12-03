@@ -14,7 +14,6 @@ const OrderModal = ({ isOpen, onClose, order }) => {
       onClose();
     }
   };
-  console.log(order);
 
   return (
     <div
