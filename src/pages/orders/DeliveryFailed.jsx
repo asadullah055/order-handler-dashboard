@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaEye, FaRegCopy, FaRegEdit } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +7,7 @@ import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
 import { get_df_order } from "../../features/order/orderSlice";
 import { formatDate } from "../../util/dateFormater";
+import { handleCopy } from "../../util/handleCopy";
 import showOrderItems from "../../util/showOrderItems";
 import { getOrderStatusClass } from "../../util/statusColor";
 
@@ -37,25 +37,23 @@ const DeliveryFailed = () => {
     );
   }, [perPage, currentPage]);
 
-  const handleCopy = (orderNumber) => {
-    navigator.clipboard.writeText(orderNumber);
-    toast.success("Order number copied successfully!");
-  };
   const content = dfOrder?.dfOrders?.map((order, i) => (
     <tr key={i}>
       <td className="py-2 px-2 font-medium relative group">
-        <Link
-          target="_blank"
-          to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
-        >
-          {order.orderNumber}
-        </Link>
-        <span
-          onClick={() => handleCopy(order.orderNumber)}
-          className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-400 text-sm px-2 py-1 cursor-pointer hidden group-hover:block"
-        >
-          <FaRegCopy />
-        </span>
+        <div className="flex gap-2 items-center">
+          <Link
+            target="_blank"
+            to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
+          >
+            {order.orderNumber}
+          </Link>
+          <span
+            onClick={() => handleCopy(order.orderNumber)}
+            className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
+          >
+            <FaRegCopy />
+          </span>
+        </div>
       </td>
       <td className="py-2 px-2">{formatDate(order.date)}</td>
       <td className="py-1 px-2">

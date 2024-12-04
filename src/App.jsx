@@ -14,12 +14,10 @@ function App() {
     const routes = getRoutes();
     setAllRoutes([...allRoutes, routes]);
   }, []);
-  console.log("hello");
 
   useEffect(() => {
     dispatch(get_status_number());
   }, [dispatch]);
-  console.log(token);
 
   useEffect(() => {
     if (!token) {

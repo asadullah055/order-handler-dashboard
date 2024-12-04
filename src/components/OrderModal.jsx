@@ -1,7 +1,9 @@
 import React from "react";
+import { FaRegCopy } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { formatDate } from "../util/dateFormater";
+import { handleCopy } from "../util/handleCopy";
 import { getOrderStatusClass } from "../util/statusColor";
 import ClaimTypeRow from "./ClaimTypeRow";
 
@@ -23,7 +25,15 @@ const OrderModal = ({ isOpen, onClose, order }) => {
       <div className="bg-white rounded-lg shadow-lg p-4 md:w-[700px] w-full max-h-[100vh] md:max-h-[95vh] overflow-y-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-2">
-          <h2 className="font-semibold">Order Number #{order.orderNumber}</h2>
+          <h2 className="font-semibold group flex gap-2 items-center">
+            Order Number #{order.orderNumber}
+            <span
+              onClick={() => handleCopy(order.orderNumber)}
+              className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
+            >
+              <FaRegCopy />
+            </span>
+          </h2>
           <button
             onClick={onClose}
             className="text-red-500 hover:text-gray-800 bg-teal-100 p-2 rounded-full "
@@ -125,10 +135,20 @@ const OrderModal = ({ isOpen, onClose, order }) => {
                           />
                         )}
                         {item.caseNumber && (
-                          <ClaimTypeRow
-                            title={"Case Number"}
-                            value={item.caseNumber}
-                          />
+                          <div className="flex flex-col sm:flex-row items-center gap-2 border-b pb-1">
+                            <p className="sm:w-[35%] w-full font-semibold whitespace-nowrap">
+                              Case Number
+                            </p>
+                            <p className="text-center group flex gap-2 items-center">
+                              {item.caseNumber}
+                              <span
+                                onClick={() => handleCopy(item.caseNumber)}
+                                className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
+                              >
+                                <FaRegCopy />
+                              </span>
+                            </p>
+                          </div>
                         )}
                         {item.claimStatus && (
                           <ClaimTypeRow

@@ -1,8 +1,10 @@
 import React from "react";
+import { FaRegCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import useMessages from "../../Hooks/useMessages";
 import useOrderForm from "../../Hooks/useOrderForm";
+import { handleCopy } from "../../util/handleCopy";
 import LoadingBtn from "../LoadingBtn";
 import UpdateTr from "./../table/UpdateTr";
 import ClaimSection from "./ClaimSection";
@@ -77,9 +79,16 @@ const OrderFormData = () => {
               >
                 <Link
                   target="_blank"
+                  className="group flex item-center gap-2"
                   to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
                 >
                   {order.orderNumber}
+                  <span
+                    onClick={() => handleCopy(order.orderNumber)}
+                    className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
+                  >
+                    <FaRegCopy />
+                  </span>
                 </Link>
               </td>
             </tr>
