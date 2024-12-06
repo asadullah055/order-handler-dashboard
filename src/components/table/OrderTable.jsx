@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { FaEye, FaRegCopy, FaRegEdit } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  clearSelectedOrders,
+  setSelectedOrders,
+} from "../../features/collectOrder/collectOrderSlice";
 import { formatDate } from "../../util/dateFormater";
 import { handleCopy } from "../../util/handleCopy";
 import { getOrderStatusClass } from "../../util/statusColor";
+import InputCheckbox2 from "../inputCheckBox2";
 
 const OrderTable = ({
   orders,
@@ -15,16 +21,41 @@ const OrderTable = ({
 }) => {
   const [showAllOrders, setShowAllOrders] = useState(false);
 
-  /* const handleCopy = (orderNumber) => {
-    navigator.clipboard.writeText(orderNumber);
-    toast.success("Order number copied successfully!");
-  }; */
+  const dispatch = useDispatch();
+  const { selectedOrders } = useSelector((state) => state.selectedOrder);
+  // Handle individual checkbox toggle
+
+  const handleCheckboxChange = (checked, orderNumber) => {
+    const updatedOrders = checked
+      ? [...selectedOrders, orderNumber]
+      : selectedOrders.filter((num) => num !== orderNumber);
+    dispatch(setSelectedOrders(updatedOrders));
+  };
+
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      const allOrderNumbers = orders.map((order) => order.orderNumber);
+      dispatch(setSelectedOrders(allOrderNumbers));
+    } else {
+      dispatch(clearSelectedOrders());
+    }
+  };
+  const isIndeterminate =
+    selectedOrders.length > 0 && selectedOrders.length < orders.length;
 
   const renderOrders = (visibleOrders) =>
     visibleOrders.map((order, i) => (
       <tr key={i}>
         <td className="py-2 px-2 font-medium relative group">
           <div className="flex gap-2 items-center">
+            <span>
+              <InputCheckbox2
+                checked={selectedOrders.includes(order.orderNumber)}
+                onChange={(e) =>
+                  handleCheckboxChange(e.target.checked, order.orderNumber)
+                }
+              />
+            </span>
             <Link
               target="_blank"
               to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
@@ -104,7 +135,19 @@ const OrderTable = ({
     <table className="text-sm text-left font-poppin text-black w-full">
       <thead className="text-xs lg:text-sm uppercase border-b bg-gray-200">
         <tr>
-          <th className="py-3 px-2">Order Number</th>
+          <th className="py-3 px-2 flex items-center gap-2">
+            {" "}
+            <span>
+              <InputCheckbox2
+                checked={
+                  selectedOrders.length === orders.length && orders.length !== 0
+                }
+                indeterminate={isIndeterminate}
+                onChange={(e) => handleSelectAll(e.target.checked)}
+              />
+            </span>{" "}
+            Order Number
+          </th>
           <th className="py-3 px-2">Drop Date</th>
           <th className="py-2 px-2">Order Status</th>
           <th className="py-2 px-2">Settled status</th>

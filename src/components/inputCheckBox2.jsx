@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCheck, FaMinus } from "react-icons/fa";
 
-const InputCheckbox = ({ checked, indeterminate, onChange }) => {
+const InputCheckbox2 = ({ checked, onChange, indeterminate }) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer">
       <input
@@ -25,4 +25,4 @@ const InputCheckbox = ({ checked, indeterminate, onChange }) => {
   );
 };
 
-export default InputCheckbox;
+export default InputCheckbox2;

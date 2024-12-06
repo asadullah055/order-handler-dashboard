@@ -5,6 +5,8 @@ import Filters from "../../components/Filters/Filters";
 import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
 import OrderTable from "../../components/table/OrderTable";
+import { bulk_history } from "../../features/bulkAction/historySlice";
+import { clearSelectedOrders } from "../../features/collectOrder/collectOrderSlice";
 import { get_status_number } from "../../features/filter/filterSlice";
 import { get_all_order } from "../../features/order/orderSlice";
 import showOrderItems from "../../util/showOrderItems";
@@ -15,17 +17,48 @@ const AllOrders = () => {
   const { orderStatus, claim, settled, dateFilter } = useSelector(
     (state) => state.dropdown
   );
+  const { selectedOrders } = useSelector((state) => state.selectedOrder);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
+  const [perPage, setPerPage] = useState(30);
   const [showItem, setShowItem] = useState(5);
   const [orderNumber, setOrderNumber] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState("Delete");
 
   const dateType = Object.values(dateFilter)[0];
   const startDate = Object.values(dateFilter)[1];
   const endDate = Object.values(dateFilter)[2];
+
+  // Handle Bulk Action
+  const handleBulkAction = async (e) => {
+    e.preventDefault();
+    const order = selectedOrders.map((orderNumber) => ({
+      orderNumber: orderNumber.trim(),
+      orderStatus: status,
+    }));
+
+    try {
+      await dispatch(bulk_history(order)).unwrap();
+      dispatch(clearSelectedOrders());
+      dispatch(
+        get_all_order({
+          perPage,
+          pageNo: currentPage,
+          orderNumber,
+          orderStatus,
+          claim,
+          settled,
+          [dateType]: { startDate, endDate },
+        })
+      );
+      dispatch(get_status_number());
+    } catch (error) {
+      // Handle any errors (e.g., show an error toast)
+      console.error("Error in bulk action:", error);
+    }
+  };
 
   // Fetch orders and status numbers when dependencies change
   useEffect(() => {
@@ -56,6 +89,7 @@ const AllOrders = () => {
     settled,
     startDate,
   ]);
+
   // Handle modal opening and setting selected order
   const handleModal = (orderNumber) => {
     const order = orders.orders.find(
@@ -89,6 +123,22 @@ const AllOrders = () => {
             setOrderNumber={setOrderNumber}
             setCurrentPage={setCurrentPage}
           />
+        </div>
+        <div className="bg-white flex gap-2 items-center rounded-md shadow-sm p-2">
+          <p className="">Bulk Action</p>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="p-2 focus:outline-0 rounded-md border w-[200px]"
+          >
+            <option value="Delete">Delete</option>
+          </select>
+          <button
+            onClick={handleBulkAction}
+            className="px-3 py-2 bg-teal-500 rounded-md text-white"
+          >
+            Submit
+          </button>
         </div>
 
         {/* Orders Table */}

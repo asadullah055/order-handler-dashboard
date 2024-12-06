@@ -75,21 +75,21 @@ const OrderFormData = () => {
               </td>
               <td
                 scope="row"
-                className="p-3 font-medium border flex items-center"
+                className="p-3 font-medium border flex items-center group gap-2"
               >
                 <Link
                   target="_blank"
-                  className="group flex item-center gap-2"
+                  className=""
                   to={`https://sellercenter.daraz.com.bd/apps/order/detail?tradeOrderId=${order.orderNumber}`}
                 >
                   {order.orderNumber}
-                  <span
-                    onClick={() => handleCopy(order.orderNumber)}
-                    className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
-                  >
-                    <FaRegCopy />
-                  </span>
                 </Link>
+                <span
+                  onClick={() => handleCopy(order.orderNumber)}
+                  className=" text-orange-400 text-sm cursor-pointer invisible group-hover:visible"
+                >
+                  <FaRegCopy />
+                </span>
               </td>
             </tr>
 

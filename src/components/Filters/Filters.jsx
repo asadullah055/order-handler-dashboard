@@ -98,7 +98,7 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:flex items-center px-2 py-4">
+      <div className="grid grid-cols-1 md:flex items-center py-2">
         <label htmlFor="orderNumber">Order/Case Number:</label>
         <div className="flex items-center flex-wrap gap-2">
           <input
