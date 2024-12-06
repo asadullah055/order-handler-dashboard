@@ -13,6 +13,10 @@ const AddOrder = () => {
     useSelector((state) => state.order);
 
   const [date, setDate] = useState("");
+  const [link, setLink] = useState("");
+  const [packageLocation, setPackageLocation] = useState("");
+  const [hubLocation, setHubLocation] = useState("");
+  const [packagingTime, setPackagingTime] = useState("");
   const [textareaValue, setTextareaValue] = useState("");
   const [newOrders, setNewOrders] = useState([]);
 
@@ -39,13 +43,23 @@ const AddOrder = () => {
       return;
     }
 
+    if (!link || !packageLocation || !hubLocation || !packagingTime) {
+      toast.error("Please fill all the fields.");
+      return;
+    }
+
     const orders = textareaValue
       .trim()
       .split(/\n/)
       .map((orderNumber) => ({
         orderNumber: orderNumber.trim(),
         date,
+        link,
+        packageLocation,
+        hubLocation,
+        packagingTime,
       }));
+
     setNewOrders(orders);
     dispatch(create_order({ newOrders: orders, confirmInsert: false }));
   };
@@ -79,6 +93,10 @@ const AddOrder = () => {
     if (successMessage) {
       toast.success(successMessage);
       setTextareaValue("");
+      setLink("");
+      setPackageLocation("");
+      setHubLocation("");
+      setPackagingTime("");
       dispatch(messageClear());
       setTimeout(() => {
         navigate("/all-orders");
@@ -91,20 +109,97 @@ const AddOrder = () => {
   }, [successMessage, errorMessage, dispatch]);
 
   return (
-    <div className="flex justify-center mt-5">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <input
-          className="rounded-md p-2 border border-teal-500 focus:border-teal-500 focus:outline-none"
-          type="date"
-          name="date"
-          id=""
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+    <div className="flex flex-col justify-center items-center mt-5 w-1/2 m-auto rounded-md shadow bg-white">
+      <h2 className="bg-teal-100 text-teal-600 text-3xl text-center mb-2 p-2 w-full font-semibold">
+        Add Order
+      </h2>
+      <form onSubmit={handleSubmit} className="flex flex-col w-full p-3 gap-2">
+        <div className="flex gap-2 items-center">
+          <label
+            className="w-[150px] text-gray-800 font-semibold"
+            htmlFor="dDate"
+          >
+            Drop Date:
+          </label>
+          <input
+            className="rounded-md p-2 border border-gray-300 focus:border-teal-500 focus:outline-none w-[70%] bg-slate-100"
+            type="date"
+            name="date"
+            id="dDate"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <label
+            className="w-[150px] text-gray-800 font-semibold"
+            htmlFor="link"
+          >
+            Link:
+          </label>
+          <input
+            className="rounded-md p-2 border border-gray-300 focus:border-teal-500 focus:outline-none w-[70%] bg-slate-100"
+            type="text"
+            name="link"
+            id="link"
+            placeholder="CC camera link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <label
+            className="w-[150px] text-gray-800 font-semibold"
+            htmlFor="pLocation"
+          >
+            Package Location:
+          </label>
+          <input
+            className="rounded-md p-2 border border-gray-300 focus:border-teal-500 focus:outline-none w-[70%] bg-slate-100"
+            type="text"
+            name="pLocation"
+            id="pLocation"
+            placeholder="Package Location"
+            value={packageLocation}
+            onChange={(e) => setPackageLocation(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <label
+            className="w-[150px] text-gray-800 font-semibold"
+            htmlFor="hLocation"
+          >
+            Hub Location:
+          </label>
+          <input
+            className="rounded-md p-2 border border-gray-300 focus:border-teal-500 focus:outline-none w-[70%] bg-slate-100"
+            type="text"
+            name="hLocation"
+            id="hLocation"
+            placeholder="Hub Location"
+            value={hubLocation}
+            onChange={(e) => setHubLocation(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2 items-center">
+          <label
+            className="w-[150px] text-gray-800 font-semibold"
+            htmlFor="pTime"
+          >
+            Packaging Time:
+          </label>
+          <input
+            className="rounded-md p-2 border border-gray-300 focus:border-teal-500 focus:outline-none w-[70%] bg-slate-100"
+            type="time"
+            name="pTime"
+            id="pTime"
+            value={packagingTime}
+            onChange={(e) => setPackagingTime(e.target.value)}
+          />
+        </div>
         <textarea
-          cols={30}
           rows={15}
-          className="resize-y rounded-md border border-teal-500 focus:border-teal-500 focus:outline-none p-2"
+          className="resize-y rounded-md border border-gray-300 focus:border-teal-500 focus:outline-none p-2"
           value={textareaValue}
           onChange={(e) => setTextareaValue(e.target.value)}
           onBlur={handleBlur}

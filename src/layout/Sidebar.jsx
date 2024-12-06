@@ -12,7 +12,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { pathname } = useLocation();
   const [expandedMenu, setExpandedMenu] = useState(null);
 
-  const { allOrder, totalDF, totalUnSettled,totalReturn } = useSelector(
+  const { allOrder, totalDF, totalUnSettled, totalReturn } = useSelector(
     (state) => state.filter
   );
   const { userInfo } = useSelector((state) => state.auth);

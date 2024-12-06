@@ -56,13 +56,6 @@ const AllOrders = () => {
     settled,
     startDate,
   ]);
-  console.log("All Order Rendered", {
-    currentPage,
-    orderNumber,
-    orderStatus,
-    orders,
-  });
-
   // Handle modal opening and setting selected order
   const handleModal = (orderNumber) => {
     const order = orders.orders.find(

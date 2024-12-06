@@ -105,7 +105,7 @@ const ClaimSection = ({
                   {/* Show delete button only for the last entry */}
                 </div>
 
-                {entry.claimName !== "Score Card" && (
+                {entry.claimName !== "QRR Scorecard Adjustment" && (
                   <>
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
                       <p className="w-[25%]">Paid Amount</p>
@@ -152,7 +152,7 @@ const ClaimSection = ({
                       placeholder="Claim Details"
                       rows="4"
                     ></textarea>
-                    {index === lastIndex && (
+                    {
                       <button
                         type="button"
                         onClick={() => deleteClaimEntry(index)}
@@ -160,7 +160,7 @@ const ClaimSection = ({
                       >
                         <RiDeleteBin6Line />
                       </button>
-                    )}
+                    }
                   </div>
                 </div>
 
