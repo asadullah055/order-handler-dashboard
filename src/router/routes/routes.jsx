@@ -3,6 +3,7 @@
 import { lazy } from "react";
 import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
+import HistoryPage from "../../pages/orders/HistoryPage";
 import ReturnOrder from "../../pages/orders/ReturnOrder";
 import UnSettledOrders from "../../pages/orders/UnSettledOrders";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
@@ -53,5 +54,9 @@ export const allRoutes = [
   {
     path: "/return-order",
     element: <ReturnOrder />,
+  },
+  {
+    path: "/history",
+    element: <HistoryPage />,
   },
 ];

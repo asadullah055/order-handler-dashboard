@@ -11,7 +11,14 @@ import {
 } from "../../features/orderFilter/orderFilterSlice";
 import MultiSelectDropdown from "./../MultiSelect";
 
-const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
+const Filters = ({
+  orderNumber,
+  setOrderNumber,
+  setCurrentPage,
+  status,
+  setStatus,
+  handleBulkAction,
+}) => {
   const [dateType, setDateType] = useState("");
 
   const dispatch = useDispatch();
@@ -69,40 +76,31 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
   };
 
   return (
-    <div className="">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <div className="flex md:flex-row md:gap-x-2 md:items-center flex-col items-start gap-y-2">
-          <h2 className="whitespace-nowrap">Filter Date</h2>
+    <div className="flex flex-col md:flex-row gap-3">
+      <div className="md:w-1/2 w-full">
+        <div className="bg-white flex gap-2 items-center">
+          <p className="w-[250px]">Bulk Action</p>
           <select
-            className="border p-2 focus:outline-0 rounded w-[50%]"
-            value={dateType}
-            onChange={handleDateTypeChange}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="p-2 focus:outline-0 rounded-md border w-3/4"
           >
-            <option value="">---select---</option>
-            <option value="date">Drop Date</option>
-            <option value="dfMailDate">DF Mail Date</option>
-            <option value="receivedDate">Received Date</option>
+            <option value="Delete">Delete</option>
           </select>
-
-          <DatePicker
-            selectsRange={true}
-            startDate={startDate}
-            endDate={endDate}
-            onChange={handleDateRangeChange}
-            placeholderText="Start Date - End Date"
-          />
+          <button
+            onClick={handleBulkAction}
+            className="w-[120px] py-2 bg-teal-500 rounded-md text-white"
+          >
+            Submit
+          </button>
         </div>
-        <div className="flex items-center gap-2 p-1">
-          <h2 className="whitespace-nowrap">Filter Type</h2>
-          <MultiSelectDropdown setCurrentPage={setCurrentPage} />
-        </div>
-      </div>
+        <div className="flex gap-2 items-center py-2 w-full">
+          <label className="whitespace-nowrap w-[180px]" htmlFor="orderNumber">
+            Order/Case Number:
+          </label>
 
-      <div className="grid grid-cols-1 md:flex items-center py-2">
-        <label htmlFor="orderNumber">Order/Case Number:</label>
-        <div className="flex items-center flex-wrap gap-2">
           <input
-            className="focus:outline-gray-200 p-2 ml-2 border rounded"
+            className="focus:outline-gray-200 p-2 w-3/4 border rounded"
             id="orderNumber"
             type="text"
             value={orderNumber}
@@ -115,10 +113,40 @@ const Filters = ({ orderNumber, setOrderNumber, setCurrentPage }) => {
           <button
             type="button"
             onClick={handleReset}
-            className="bg-red-500 font-poppin text-white font-medium px-3 py-2 rounded-md"
+            className="bg-red-500 font-poppin text-white font-medium w-[120px] py-2 rounded-md"
           >
             Reset
           </button>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-2 md:w-1/2 w-full">
+        <div className="flex md:flex-row md:gap-x-2 md:items-center flex-col items-start gap-y-2">
+          <h2 className="whitespace-nowrap w-[105px]">Filter Date</h2>
+          <div className="flex gap-2 items-center">
+            <select
+              className="border p-2 focus:outline-0 rounded w-1/2"
+              value={dateType}
+              onChange={handleDateTypeChange}
+            >
+              <option value="">---select---</option>
+              <option value="date">Drop Date</option>
+              <option value="dfMailDate">DF Mail Date</option>
+              <option value="receivedDate">Received Date</option>
+            </select>
+
+            <DatePicker
+              selectsRange={true}
+              className="w-full p-2 border focus:outline-gray-300 rounded-md"
+              startDate={startDate}
+              endDate={endDate}
+              onChange={handleDateRangeChange}
+              placeholderText="Start Date - End Date"
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-2 py-1">
+          <h2 className="whitespace-nowrap w-[120px]">Filter Type</h2>
+          <MultiSelectDropdown setCurrentPage={setCurrentPage} />
         </div>
       </div>
     </div>

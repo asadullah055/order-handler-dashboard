@@ -135,7 +135,7 @@ const MultiLevelDropdown = () => {
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative w-[500px]">
+    <div ref={dropdownRef} className="relative w-full">
       {/* Dropdown Trigger */}
       <div
         onClick={toggleDropdown}

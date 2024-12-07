@@ -117,28 +117,15 @@ const AllOrders = () => {
         </h2>
 
         {/* Filters Component */}
-        <div className="bg-white rounded-md shadow-sm py-4 px-2">
+        <div className="bg-white rounded-md shadow-sm py-2 px-2">
           <Filters
             orderNumber={orderNumber}
             setOrderNumber={setOrderNumber}
             setCurrentPage={setCurrentPage}
+            setStatus={setStatus}
+            status={status}
+            handleBulkAction={handleBulkAction}
           />
-        </div>
-        <div className="bg-white flex gap-2 items-center rounded-md shadow-sm p-2">
-          <p className="">Bulk Action</p>
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="p-2 focus:outline-0 rounded-md border w-[200px]"
-          >
-            <option value="Delete">Delete</option>
-          </select>
-          <button
-            onClick={handleBulkAction}
-            className="px-3 py-2 bg-teal-500 rounded-md text-white"
-          >
-            Submit
-          </button>
         </div>
 
         {/* Orders Table */}

@@ -43,10 +43,10 @@ const AddOrder = () => {
       return;
     }
 
-    if (!link || !packageLocation || !hubLocation || !packagingTime) {
+    /* if (!link || !packageLocation || !hubLocation || !packagingTime) {
       toast.error("Please fill all the fields.");
       return;
-    }
+    } */
 
     const orders = textareaValue
       .trim()

@@ -1,4 +1,5 @@
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { GoHistory } from "react-icons/go";
 import { MdAdd } from "react-icons/md";
 import { RiFileEditLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -48,5 +49,11 @@ export const allNav = [
     title: "Bulk Update",
     icon: RiFileEditLine,
     path: "/update-orders",
+  },
+  {
+    id: 5,
+    title: "History",
+    icon: GoHistory,
+    path: "/history",
   },
 ];
