@@ -78,13 +78,14 @@ const Filters = ({
   return (
     <div className="flex flex-col md:flex-row gap-3">
       <div className="md:w-1/2 w-full">
-        <div className="bg-white flex gap-2 items-center">
+        <div className="bg-white flex gap-2 items-center mb-2">
           <p className="w-[250px]">Bulk Action</p>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             className="p-2 focus:outline-0 rounded-md border w-3/4"
           >
+            <option value="">--select--</option>
             <option value="Delete">Delete</option>
           </select>
           <button

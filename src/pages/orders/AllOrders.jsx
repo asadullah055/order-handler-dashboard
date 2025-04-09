@@ -25,7 +25,7 @@ const AllOrders = () => {
   const [orderNumber, setOrderNumber] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [status, setStatus] = useState("Delete");
+  const [status, setStatus] = useState("");
 
   const dateType = Object.values(dateFilter)[0];
   const startDate = Object.values(dateFilter)[1];

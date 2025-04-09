@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
 import { lazy } from "react";
+import Compare from "../../pages/Compare";
 import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import HistoryPage from "../../pages/orders/HistoryPage";
@@ -58,5 +59,9 @@ export const allRoutes = [
   {
     path: "/history",
     element: <HistoryPage />,
+  },
+  {
+    path: "/compare/:id",
+    element: <Compare />,
   },
 ];

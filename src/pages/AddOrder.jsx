@@ -30,7 +30,8 @@ const AddOrder = () => {
     const orderNumbers = textareaValue
       .trim()
       .split(/[\n, ,]+/)
-      .map((item) => item.trim());
+      .map((item) => item.trim())
+      .filter((item) => /^[0-9]+$/.test(item));
 
     const uniqueOrderNumbers = [...new Set(orderNumbers)];
     setTextareaValue(uniqueOrderNumbers.join("\n"));
@@ -61,6 +62,8 @@ const AddOrder = () => {
       }));
 
     setNewOrders(orders);
+    console.log(orders);
+
     dispatch(create_order({ newOrders: orders, confirmInsert: false }));
   };
 

@@ -3,17 +3,23 @@ import { BiTransferAlt } from "react-icons/bi";
 import { CiCalendarDate } from "react-icons/ci";
 import { IoMdTime } from "react-icons/io";
 import { LuUndo2 } from "react-icons/lu";
+import { MdDeleteSweep } from "react-icons/md";
 
 const HistoryCard = () => {
   return (
     <div className="bg-slate-100 p-3 rounded border">
-      <h3>
+      <h3 className="">
         <span className="font-semibold">Order Number:</span>{" "}
-        <span>668059740124182</span>
+        <span>668059740124182</span>{" "}
       </h3>
-      <p className="mt-1">
-        <span className="font-semibold">Action:</span>{" "}
-        <span className="text-red-500">Delete</span>
+      <p className="mt-1 flex items-center justify-between">
+        <div className="">
+          <span className="font-semibold">Action:</span>{" "}
+          <span className="text-red-500">Delete</span>
+        </div>
+        <button className="p-1 text-red-500 rounded-md">
+          <MdDeleteSweep size={22} />
+        </button>
       </p>
       <div className="flex justify-between gap-2 mt-2">
         <p className="inline-flex gap-2 items-center">
