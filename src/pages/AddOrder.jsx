@@ -113,7 +113,7 @@ const AddOrder = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mt-5 w-1/2 m-auto rounded-md shadow bg-white">
-      <h2 className="bg-teal-100 text-teal-600 text-3xl text-center mb-2 p-2 w-full font-semibold">
+      <h2 className="bg-teal-100 bg-secondary text-teal-600 text-3xl text-center mb-2 p-2 w-full font-semibold">
         Add Order
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col w-full p-3 gap-2">
