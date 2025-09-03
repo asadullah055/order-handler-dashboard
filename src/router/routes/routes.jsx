@@ -6,6 +6,7 @@ import DeliveryFailed from "../../pages/orders/DeliveryFailed";
 import DetailsOrder from "../../pages/orders/DetailsOrder";
 import HistoryPage from "../../pages/orders/HistoryPage";
 import ReturnOrder from "../../pages/orders/ReturnOrder";
+import TransitOrder from "../../pages/orders/TransitOrder";
 import UnSettledOrders from "../../pages/orders/UnSettledOrders";
 import UpdateOrder from "../../pages/orders/UpdateOrder";
 import Profile from "../../pages/users/Profile";
@@ -55,6 +56,10 @@ export const allRoutes = [
   {
     path: "/return-order",
     element: <ReturnOrder />,
+  },
+  {
+    path: "/transit",
+    element: <TransitOrder />,
   },
   {
     path: "/history",

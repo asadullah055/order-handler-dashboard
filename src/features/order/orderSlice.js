@@ -5,9 +5,10 @@ import {
   getDfOrder,
   getReturnOrder,
   getSingleOrder,
+  getTransitOrder,
   getUnsettledOrder,
   updateBulkOrder,
-  updateSingleOrder,
+  updateSingleOrder
 } from "./orderApi";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   unsettledOrder: [],
   dfOrder: [],
   returnOrder: [],
+  transitOrder: [],
   order: "",
   missingOrders: [],
   isLoading: false,
@@ -115,6 +117,17 @@ export const get_return_order = createAsyncThunk(
   async (data, { fulfillWithValue, rejectWithValue }) => {
     try {
       const order = await getReturnOrder(data);
+      return fulfillWithValue(order);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const get_transit_order = createAsyncThunk(
+  "order/get_transit_order",
+  async (data, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const order = await getTransitOrder(data);
       return fulfillWithValue(order);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -248,6 +261,15 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.returnOrder = action.payload;
+      })
+      .addCase(get_transit_order.pending, (state, action) => {
+        state.isError = false;
+        state.isLoading = true;
+      })
+      .addCase(get_transit_order.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.transitOrder = action.payload;
       })
       .addCase(get_df_order.pending, (state, action) => {
         state.isError = false;

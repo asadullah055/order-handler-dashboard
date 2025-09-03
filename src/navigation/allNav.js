@@ -22,6 +22,11 @@ export const allNav = [
         path: "/all-orders",
       },
       {
+        id: "4-6",
+        title: "Transit",
+        path: "/transit",
+      },
+      {
         id: "4-2",
         title: "Delivery Failed",
         path: "/delivery-failed",

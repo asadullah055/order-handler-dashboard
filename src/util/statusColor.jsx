@@ -22,7 +22,8 @@ export const getOrderCount = (
   allOrder,
   totalDF,
   totalUnSettled,
-  totalReturn
+  totalReturn,
+  totalTransit
 ) => {
   if (title === "All Orders") {
     return allOrder;
@@ -32,6 +33,8 @@ export const getOrderCount = (
     return totalUnSettled;
   } else if (title === "Return") {
     return totalReturn;
+  } else if (title === "Transit") {
+    return totalTransit;
   } else {
     return 0;
   }

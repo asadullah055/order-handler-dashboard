@@ -63,6 +63,15 @@ export const getReturnOrder = async ({ pageNo = 1, perPage = 20 }) => {
   });
   return response.data;
 };
+export const getTransitOrder = async ({ pageNo = 1, perPage = 20 }) => {
+  const response = await axiosInstance.get(`transit-order/`, {
+    params: {
+      pageNo,
+      perPage,
+    },
+  });
+  return response.data;
+};
 export const getDfOrder = async ({ pageNo = 1, perPage = 20 }) => {
   const response = await axiosInstance.get(`delivery-failed-order/`, {
     params: {
