@@ -11,6 +11,20 @@ import {
   updateSingleOrder
 } from "./orderApi";
 
+const ORDER_CACHE_TTL_MS = 60 * 1000;
+
+const getCacheKey = (payload) => JSON.stringify(payload || {});
+
+const shouldFetchFromApi = (cacheEntry, payload) => {
+  if (payload?.force) return true;
+  if (!cacheEntry?.key || !cacheEntry?.fetchedAt) return true;
+
+  const key = getCacheKey(payload);
+  const isFresh = Date.now() - cacheEntry.fetchedAt < ORDER_CACHE_TTL_MS;
+
+  return !(cacheEntry.key === key && isFresh);
+};
+
 const initialState = {
   isError: false,
   orders: [],
@@ -25,6 +39,13 @@ const initialState = {
   errorMessage: "",
   error: "",
   uniqueOrderCount: 0,
+  cacheMeta: {
+    all: null,
+    transit: null,
+    df: null,
+    returnOrder: null,
+    unsettled: null,
+  },
 };
 
 export const create_order = createAsyncThunk(
@@ -87,6 +108,12 @@ export const get_all_order = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { cacheMeta } = getState().order;
+      return shouldFetchFromApi(cacheMeta.all, payload);
+    },
   }
 );
 export const update_single_order = createAsyncThunk(
@@ -121,6 +148,12 @@ export const get_return_order = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { cacheMeta } = getState().order;
+      return shouldFetchFromApi(cacheMeta.returnOrder, payload);
+    },
   }
 );
 export const get_transit_order = createAsyncThunk(
@@ -132,6 +165,12 @@ export const get_transit_order = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { cacheMeta } = getState().order;
+      return shouldFetchFromApi(cacheMeta.transit, payload);
+    },
   }
 );
 export const get_df_order = createAsyncThunk(
@@ -143,6 +182,12 @@ export const get_df_order = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { cacheMeta } = getState().order;
+      return shouldFetchFromApi(cacheMeta.df, payload);
+    },
   }
 );
 export const get_unsettled_order = createAsyncThunk(
@@ -154,6 +199,12 @@ export const get_unsettled_order = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { cacheMeta } = getState().order;
+      return shouldFetchFromApi(cacheMeta.unsettled, payload);
+    },
   }
 );
 
@@ -175,6 +226,13 @@ const orderSlice = createSlice({
       .addCase(create_order.fulfilled, (state, { payload }) => {
         state.isError = false;
         state.isLoading = false;
+        state.cacheMeta = {
+          all: null,
+          transit: null,
+          df: null,
+          returnOrder: null,
+          unsettled: null,
+        };
         if (payload.uniqueOrderCount !== undefined) {
           state.uniqueOrderCount = payload.uniqueOrderCount;
         }
@@ -194,10 +252,14 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = true;
       })
-      .addCase(get_all_order.fulfilled, (state, { payload }) => {
+      .addCase(get_all_order.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-        state.orders = payload;
+        state.orders = action.payload;
+        state.cacheMeta.all = {
+          key: getCacheKey(action.meta.arg),
+          fetchedAt: Date.now(),
+        };
       })
       .addCase(get_all_order.rejected, (state, action) => {
         state.isError = true;
@@ -219,6 +281,13 @@ const orderSlice = createSlice({
         state.isLoading = false;
         state.order = action.payload.updatedOrder;
         state.successMessage = action.payload.message;
+        state.cacheMeta = {
+          all: null,
+          transit: null,
+          df: null,
+          returnOrder: null,
+          unsettled: null,
+        };
       })
       .addCase(update_single_order.rejected, (state, action) => {
         state.isError = true;
@@ -238,6 +307,13 @@ const orderSlice = createSlice({
         state.isLoading = false;
         state.missingOrders = action.payload.missingOrders;
         state.successMessage = action.payload.message;
+        state.cacheMeta = {
+          all: null,
+          transit: null,
+          df: null,
+          returnOrder: null,
+          unsettled: null,
+        };
       })
       .addCase(update_Bulk_order.rejected, (state, action) => {
         state.isError = true;
@@ -252,6 +328,10 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.unsettledOrder = action.payload;
+        state.cacheMeta.unsettled = {
+          key: getCacheKey(action.meta.arg),
+          fetchedAt: Date.now(),
+        };
       })
       .addCase(get_return_order.pending, (state, action) => {
         state.isError = false;
@@ -261,6 +341,10 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.returnOrder = action.payload;
+        state.cacheMeta.returnOrder = {
+          key: getCacheKey(action.meta.arg),
+          fetchedAt: Date.now(),
+        };
       })
       .addCase(get_transit_order.pending, (state, action) => {
         state.isError = false;
@@ -270,6 +354,10 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.transitOrder = action.payload;
+        state.cacheMeta.transit = {
+          key: getCacheKey(action.meta.arg),
+          fetchedAt: Date.now(),
+        };
       })
       .addCase(get_df_order.pending, (state, action) => {
         state.isError = false;
@@ -279,6 +367,10 @@ const orderSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.dfOrder = action.payload;
+        state.cacheMeta.df = {
+          key: getCacheKey(action.meta.arg),
+          fetchedAt: Date.now(),
+        };
       });
   },
 });

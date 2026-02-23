@@ -86,7 +86,7 @@ const Filters = ({
             className="p-2 focus:outline-0 rounded-md border w-3/4"
           >
             <option value="">--select--</option>
-            <option value="Delete">Delete</option>
+            <option value="DELETE">Delete</option>
           </select>
           <button
             onClick={handleBulkAction}

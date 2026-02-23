@@ -64,7 +64,7 @@ const UpdateBulkOrders = () => {
       toast.success(successMessage);
       setTextareaValue("");
       dispatch(messageClear());
-      dispatch(get_status_number());
+      dispatch(get_status_number({ force: true }));
     }
     if (errorMessage) {
       toast.error(errorMessage);

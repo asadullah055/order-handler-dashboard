@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { MdOutlineDirectionsTransitFilled } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import OrderCard from "../components/OrderCard";
-import { get_status_number } from "../features/filter/filterSlice";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   console.log("dashboard");
 
   const {
@@ -21,10 +19,6 @@ const Dashboard = () => {
     totalDelivered,
     allOrder,
   } = useSelector((state) => state.filter);
-
-  useEffect(() => {
-    dispatch(get_status_number());
-  }, [dispatch]);
 
   return (
     <div className="px-5 ">

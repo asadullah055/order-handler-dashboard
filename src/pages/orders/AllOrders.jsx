@@ -26,24 +26,30 @@ const AllOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [deleteConfirmError, setDeleteConfirmError] = useState("");
 
   const dateType = Object.values(dateFilter)[0];
   const startDate = Object.values(dateFilter)[1];
   const endDate = Object.values(dateFilter)[2];
 
-  // Handle Bulk Action
-  const handleBulkAction = async (e) => {
-    e.preventDefault();
+  const runBulkAction = async () => {
+    const normalizedStatus = status.toUpperCase();
     const order = selectedOrders.map((orderNumber) => ({
       orderNumber: orderNumber.trim(),
-      orderStatus: status,
+      orderStatus: normalizedStatus,
     }));
 
     try {
       await dispatch(bulk_history(order)).unwrap();
       dispatch(clearSelectedOrders());
+      setShowDeleteModal(false);
+      setDeleteConfirmText("");
+      setDeleteConfirmError("");
       dispatch(
         get_all_order({
+          force: true,
           perPage,
           pageNo: currentPage,
           orderNumber,
@@ -53,14 +59,37 @@ const AllOrders = () => {
           [dateType]: { startDate, endDate },
         })
       );
-      dispatch(get_status_number());
+      dispatch(get_status_number({ force: true }));
     } catch (error) {
       // Handle any errors (e.g., show an error toast)
       console.error("Error in bulk action:", error);
     }
   };
 
-  // Fetch orders and status numbers when dependencies change
+  // Handle Bulk Action
+  const handleBulkAction = async (e) => {
+    e.preventDefault();
+
+    if (status.toUpperCase() === "DELETE") {
+      setShowDeleteModal(true);
+      setDeleteConfirmText("");
+      setDeleteConfirmError("");
+      return;
+    }
+
+    await runBulkAction();
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteConfirmText.trim().toLowerCase() !== "delete") {
+      setDeleteConfirmError("Please type 'delete' to continue.");
+      return;
+    }
+
+    await runBulkAction();
+  };
+
+  // Fetch orders when dependencies change
   useEffect(() => {
     const filterPayload = {
       perPage,
@@ -76,7 +105,6 @@ const AllOrders = () => {
     };
 
     dispatch(get_all_order(filterPayload));
-    dispatch(get_status_number());
   }, [
     claim,
     currentPage,
@@ -108,6 +136,49 @@ const AllOrders = () => {
           onClose={handleModal}
           order={selectedOrder}
         />
+      )}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 z-[120] flex items-center justify-center p-3">
+          <div className="bg-white w-full max-w-md rounded-md p-4">
+            <h3 className="text-lg font-semibold text-red-600">Confirm Delete</h3>
+            <p className="text-sm mt-2 text-gray-700">
+              To delete selected orders, type <span className="font-semibold">delete</span> and continue.
+            </p>
+            <input
+              type="text"
+              value={deleteConfirmText}
+              onChange={(e) => {
+                setDeleteConfirmText(e.target.value);
+                if (deleteConfirmError) setDeleteConfirmError("");
+              }}
+              className="mt-3 w-full border rounded p-2 focus:outline-gray-300"
+              placeholder="Type delete"
+            />
+            {deleteConfirmError && (
+              <p className="text-red-500 text-sm mt-2">{deleteConfirmError}</p>
+            )}
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDeleteConfirmText("");
+                  setDeleteConfirmError("");
+                }}
+                className="px-3 py-2 rounded border"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteConfirm}
+                className="px-3 py-2 rounded bg-red-600 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Orders Table and Filters */}

@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { totalStatus } from "./filterApi";
 
+const STATUS_CACHE_TTL_MS = 60 * 1000;
+
 const initialState = {
   allOrder: 0,
   totalDF: 0,
@@ -13,6 +15,8 @@ const initialState = {
   totalScraped: 0,
   totalNRY: 0,
   totalDelivered: 0,
+  statusFetchedAt: 0,
+  isStatusLoading: false,
 };
 
 export const get_status_number = createAsyncThunk(
@@ -27,6 +31,21 @@ export const get_status_number = createAsyncThunk(
 
       return rejectWithValue(error.response.data);
     }
+  },
+  {
+    condition: (payload, { getState }) => {
+      const { filter } = getState();
+      const force = Boolean(payload?.force);
+
+      if (force) return true;
+      if (filter.isStatusLoading) return false;
+
+      const isCacheFresh =
+        filter.statusFetchedAt &&
+        Date.now() - filter.statusFetchedAt < STATUS_CACHE_TTL_MS;
+
+      return !isCacheFresh;
+    },
   }
 );
 
@@ -34,18 +53,27 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(get_status_number.fulfilled, (state, { payload }) => {
-      state.allOrder = payload.totalOrders;
-      state.totalReturn = payload.totalReturn;
-      state.totalUnSettled = payload.totalUnSettled;
-      state.totalDF = payload.totalDF;
-      state.totalTransit = payload.totalTransit;
-      state.totalNotDrop = payload.totalNotDrop;
-      state.totalItemLoss = payload.totalItemLoss;
-      state.totalScraped = payload.totalScraped;
-      state.totalNRY = payload.totalNRY;
-      state.totalDelivered = payload.totalDelivered;
-    });
+    builder
+      .addCase(get_status_number.pending, (state) => {
+        state.isStatusLoading = true;
+      })
+      .addCase(get_status_number.fulfilled, (state, { payload }) => {
+        state.allOrder = payload.totalOrders;
+        state.totalReturn = payload.totalReturn;
+        state.totalUnSettled = payload.totalUnSettled;
+        state.totalDF = payload.totalDF;
+        state.totalTransit = payload.totalTransit;
+        state.totalNotDrop = payload.totalNotDrop;
+        state.totalItemLoss = payload.totalItemLoss;
+        state.totalScraped = payload.totalScraped;
+        state.totalNRY = payload.totalNRY;
+        state.totalDelivered = payload.totalDelivered;
+        state.statusFetchedAt = Date.now();
+        state.isStatusLoading = false;
+      })
+      .addCase(get_status_number.rejected, (state) => {
+        state.isStatusLoading = false;
+      });
   },
 });
 export default filterSlice.reducer;
